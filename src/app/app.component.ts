@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 import { QuestionService } from './dynamic-form/question.service';
 import { QuestionBase } from './dynamic-form/question-base';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
