@@ -22,10 +22,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('reva-2');
   });
 
-  it('should render title', () => {
+  it('should render div', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('reva-2 app is running!');
+    expect(compiled.querySelector('div')?.textContent).toContain('Hello, world, I\'m reva-2!');
   });
 });
