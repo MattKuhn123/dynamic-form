@@ -9,15 +9,17 @@ import { Observable } from 'rxjs';
   template: `
     <div>
       <h2>Job Application for Heroes</h2>
-      <app-dynamic-form [questions]="questions$ | async"></app-dynamic-form>
+      <div *ngIf="questions.length > 0">
+        <app-dynamic-form [questions]="questions"></app-dynamic-form>
+      </div>
     </div>
   `,
-  providers:  [QuestionService]
+  providers: [ QuestionService ]
 })
 export class AppComponent {
-  questions$: Observable<QuestionBase<any>[]>;
+  questions: QuestionBase<any>[] = [];
 
-  constructor(service: QuestionService) {
-    this.questions$ = service.getQuestions();
+  constructor(qs: QuestionService) {
+    qs.getQuestions().subscribe(questions =>  this.questions = questions);
   }
 }

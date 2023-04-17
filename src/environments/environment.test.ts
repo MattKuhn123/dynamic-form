@@ -1,1 +1,4 @@
-export const environment = {};
+export const environment = {
+    api: "./assets/data",
+    questions: "/questions.json"
+};
