@@ -9,11 +9,11 @@ export class QuestionService {
 
   constructor(private client: HttpClient) {}
 
-  public getQuestions(): Observable<QuestionBase<string>[]> {
+  public getQuestions(): Observable<QuestionBase<any>[]> {
     return this.client.get(`${environment.api}${environment.questions}`)
       .pipe(
-        map((data: any) => data.questions as QuestionBase<string>[]),
-        map((data: QuestionBase<any>[]) => data.sort((a: QuestionBase<string>, b: QuestionBase<string>) => a.order - b.order)),
+        map((data: any) => data.questions as QuestionBase<any>[]),
+        map((data: QuestionBase<any>[]) => data.sort((a: QuestionBase<any>, b: QuestionBase<any>) => a.order - b.order)),
       );
   }
 }

@@ -10,7 +10,7 @@ import { QuestionControlService } from './question-control.service';
   providers: [ QuestionControlService ]
 })
 export class DynamicFormComponent implements OnInit {
-  @Input() questions: QuestionBase<string>[] = [];
+  @Input() questions: QuestionBase<any>[] = [];
 
   form!: FormGroup;
   payLoad = '';
@@ -18,7 +18,7 @@ export class DynamicFormComponent implements OnInit {
   constructor(private qcs: QuestionControlService) {}
 
   ngOnInit(): void {
-    this.form = this.qcs.toFormGroup(this.questions as QuestionBase<string>[]);
+    this.form = this.qcs.toFormGroup(this.questions as QuestionBase<any>[]);
   }
 
   protected onSubmit(): void {
