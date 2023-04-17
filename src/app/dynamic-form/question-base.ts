@@ -6,7 +6,8 @@ export class QuestionBase<T> {
     order: number;
     controlType: string;
     type: string;
-    options: {key: string, value: string}[];
+    options: { key: string, value: string }[];
+    dependsOn: { key: string, value: string }[];
   
     constructor(options: {
         value?: T;
@@ -16,7 +17,8 @@ export class QuestionBase<T> {
         order?: number;
         controlType?: string;
         type?: string;
-        options?: {key: string, value: string}[];
+        options?: { key: string, value: string }[];
+        dependsOn?: { key: string, value: string }[];
       } = {}) {
       this.value = options.value;
       this.key = options.key || '';
@@ -26,5 +28,6 @@ export class QuestionBase<T> {
       this.controlType = options.controlType || '';
       this.type = options.type || '';
       this.options = options.options || [];
+      this.dependsOn = options.dependsOn || [];
     }
   }

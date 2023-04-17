@@ -43,7 +43,7 @@ describe('DynamicFormComponent', () => {
 
     it('should render the three questions and the submit button with 4 form-rows', () => {
       const formRows = fixture.debugElement.queryAll(By.css('.form-row'));
-      expect(formRows.length).toBe(4);
+      expect(formRows.length).toBe(5);
     });
 
     it('should render the first question as first name as a text box', () => {
@@ -71,5 +71,31 @@ describe('DynamicFormComponent', () => {
       expect(opts[1].nativeElement.innerText.trim()).toBe("Great");
       expect(opts[2].nativeElement.innerText.trim()).toBe("Good");
       expect(opts[3].nativeElement.innerText.trim()).toBe("Unproven");
+    });
+
+    it('should render the third question as Bravery Rating as a select', () => {
+      const question = fixture.debugElement.queryAll(By.css('.form-row'))[2];
+      expect(question.nativeElement.innerText).toContain("Bravery Rating");
+      const inputType = question.query(By.css('select'));
+      expect(inputType).toBeTruthy();
+      
+      const opts = question.query(By.css('select')).queryAll(By.css("option"));
+      expect(opts[0].nativeElement.innerText.trim()).toBe("Solid");
+      expect(opts[1].nativeElement.innerText.trim()).toBe("Great");
+      expect(opts[2].nativeElement.innerText.trim()).toBe("Good");
+      expect(opts[3].nativeElement.innerText.trim()).toBe("Unproven");
+    });
+
+    it('should not render the 4th question, which has a dependsOn clause', () => {
+      const question4 = fixture.debugElement.queryAll(By.css('.form-row'))[3].nativeElement.innerText;
+      expect(question4).toBeFalsy();
+    });
+
+    it('should render the 4th question when the dependsOn clause is satisfied', () => {
+      component.form.controls["brave"].setValue("solid");
+      fixture.detectChanges();
+
+      const question4 = fixture.debugElement.queryAll(By.css('.form-row'))[3].nativeElement.innerText;
+      expect(question4).toBe("Last name");
     });
 });

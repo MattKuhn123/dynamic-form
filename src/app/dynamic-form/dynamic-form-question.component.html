@@ -1,4 +1,4 @@
-<div [formGroup]="form">
+<div *ngIf="!hidden" [formGroup]="form">
   <label [attr.for]="question.key">{{ question.label }}</label>
 
   <div [ngSwitch]="question.controlType">
