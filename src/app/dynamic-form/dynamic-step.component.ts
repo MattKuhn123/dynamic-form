@@ -5,7 +5,7 @@ import { QuestionBase } from './question-base.model';
 import { QuestionControlService } from './question-control.service';
 
 @Component({
-  selector: 'app-dynamic-form',
+  selector: 'app-dynamic-step',
   providers: [ QuestionControlService ],
   template: `
   <div>
@@ -25,7 +25,7 @@ import { QuestionControlService } from './question-control.service';
   </div>
   `,
 })
-export class DynamicFormComponent implements OnInit {
+export class DynamicStepComponent implements OnInit {
   @Input() questions: QuestionBase<any>[] = [];
 
   form!: FormGroup;

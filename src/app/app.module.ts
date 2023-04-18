@@ -6,14 +6,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { AppComponent } from './app.component';
-import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
-import { DynamicFormQuestionComponent } from './dynamic-form/dynamic-form-question.component';
+import { DynamicStepComponent } from './dynamic-form/dynamic-step.component';
+import { DynamicStepQuestionComponent } from './dynamic-form/dynamic-step-question.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DynamicFormComponent,
-    DynamicFormQuestionComponent,
+    DynamicStepComponent,
+    DynamicStepQuestionComponent,
   ],
   imports: [
     BrowserModule,

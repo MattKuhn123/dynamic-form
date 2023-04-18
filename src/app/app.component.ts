@@ -9,7 +9,7 @@ import { QuestionBase } from './dynamic-form/question-base.model';
     <div>
       <h2>Job Application for Heroes</h2>
       <div *ngIf="questions.length > 0">
-        <app-dynamic-form [questions]="questions"></app-dynamic-form>
+        <app-dynamic-step [questions]="questions"></app-dynamic-step>
       </div>
     </div>
   `,

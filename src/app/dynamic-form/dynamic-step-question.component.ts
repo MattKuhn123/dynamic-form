@@ -20,7 +20,7 @@ import { QuestionBase } from './question-base.model';
   </div>
   `
 })
-export class DynamicFormQuestionComponent {
+export class DynamicStepQuestionComponent {
   @Input() question!: QuestionBase<string>;
   @Input() form!: FormGroup;
   get isValid(): boolean { return this.form.controls[this.question.key].valid; }

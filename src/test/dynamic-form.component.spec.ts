@@ -6,22 +6,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from '../app/app.component';
-import { DynamicFormComponent } from '../app/dynamic-form/dynamic-form.component';
-import { DynamicFormQuestionComponent } from '../app/dynamic-form/dynamic-form-question.component';
+import { DynamicStepComponent } from '../app/dynamic-form/dynamic-step.component';
+import { DynamicStepQuestionComponent } from '../app/dynamic-form/dynamic-step-question.component';
 import { QuestionService } from 'src/app/dynamic-form/question.service';
 import { QuestionBase } from 'src/app/dynamic-form/question-base.model';
 import { firstValueFrom } from 'rxjs';
 
 describe('DynamicFormComponent', () => {
-    let component: DynamicFormComponent;
-    let fixture: ComponentFixture<DynamicFormComponent>;
+    let component: DynamicStepComponent;
+    let fixture: ComponentFixture<DynamicStepComponent>;
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [
             AppComponent,
-            DynamicFormComponent,
-            DynamicFormQuestionComponent,
+            DynamicStepComponent,
+            DynamicStepQuestionComponent,
           ],
           imports: [
             BrowserModule,
@@ -32,7 +32,7 @@ describe('DynamicFormComponent', () => {
           providers: [ QuestionService ]
       }).compileComponents();
   
-      fixture = TestBed.createComponent(DynamicFormComponent);
+      fixture = TestBed.createComponent(DynamicStepComponent);
       component = fixture.componentInstance;
 
       const qs = TestBed.inject(QuestionService);

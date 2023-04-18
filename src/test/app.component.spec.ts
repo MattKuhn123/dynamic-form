@@ -6,8 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from '../app/app.component';
-import { DynamicFormComponent } from '../app/dynamic-form/dynamic-form.component';
-import { DynamicFormQuestionComponent } from '../app/dynamic-form/dynamic-form-question.component';
+import { DynamicStepComponent } from '../app/dynamic-form/dynamic-step.component';
+import { DynamicStepQuestionComponent } from '../app/dynamic-form/dynamic-step-question.component';
 import { QuestionService } from 'src/app/dynamic-form/question.service';
 
 describe('DynamicFormComponent', () => {
@@ -18,8 +18,8 @@ describe('DynamicFormComponent', () => {
       await TestBed.configureTestingModule({
         declarations: [
             AppComponent,
-            DynamicFormComponent,
-            DynamicFormQuestionComponent,
+            DynamicStepComponent,
+            DynamicStepQuestionComponent,
           ],
           imports: [
             BrowserModule,
