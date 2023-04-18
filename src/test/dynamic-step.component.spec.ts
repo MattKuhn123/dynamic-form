@@ -5,14 +5,17 @@ import { BrowserModule, By } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { DynamicStepQuestion } from '../app/dynamic-form/dynamic-step-question.model';
+import { StepperService } from '../app/dynamic-form/stepper.service';
 import { AppComponent } from '../app/app.component';
 import { DynamicStepComponent } from '../app/dynamic-form/dynamic-step.component';
 import { DynamicStepQuestionComponent } from '../app/dynamic-form/dynamic-step-question.component';
-import { StepperService } from 'src/app/dynamic-form/stepper.service';
-import { DynamicStepQuestion } from 'src/app/dynamic-form/dynamic-step-question.model';
 import { firstValueFrom } from 'rxjs';
+import { QuestionControlService } from '../app/dynamic-form/question-control.service';
+import { DynamicStepperComponent } from 'src/app/dynamic-form/dynamic-stepper.component';
+import { MatStepperModule } from '@angular/material/stepper';
 
-describe('DynamicFormComponent', () => {
+describe('DynamicStepComponent', () => {
     let component: DynamicStepComponent;
     let fixture: ComponentFixture<DynamicStepComponent>;
 
@@ -21,22 +24,24 @@ describe('DynamicFormComponent', () => {
         declarations: [
             AppComponent,
             DynamicStepComponent,
+            DynamicStepperComponent,
             DynamicStepQuestionComponent,
           ],
           imports: [
             BrowserModule,
             BrowserAnimationsModule,
+            MatStepperModule,
             HttpClientModule,
             ReactiveFormsModule,
           ],
-          providers: [ StepperService ]
+          providers: [ StepperService, QuestionControlService ]
       }).compileComponents();
   
       fixture = TestBed.createComponent(DynamicStepComponent);
       component = fixture.componentInstance;
 
       const ss = TestBed.inject(StepperService);
-      const questions = await firstValueFrom(ss.getSteps()) as DynamicStepQuestion<any>[];
+      const questions = (await firstValueFrom(ss.getSteps()))[0].questions as DynamicStepQuestion<any>[];
       component.questions = questions;
       fixture.detectChanges();
     });
