@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from '../app/app.component';
 import { DynamicStepComponent } from '../app/dynamic-form/dynamic-step.component';
 import { DynamicStepQuestionComponent } from '../app/dynamic-form/dynamic-step-question.component';
-import { QuestionService } from 'src/app/dynamic-form/question.service';
+import { StepperService } from 'src/app/dynamic-form/stepper.service';
 
 describe('DynamicFormComponent', () => {
     let component: AppComponent;
@@ -27,7 +27,7 @@ describe('DynamicFormComponent', () => {
             HttpClientModule,
             ReactiveFormsModule,
           ],
-          providers: [ QuestionService ]
+          providers: [ StepperService ]
       }).compileComponents();
   
       fixture = TestBed.createComponent(AppComponent);

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { QuestionBase } from './question-base.model';
+import { DynamicStepQuestion } from './dynamic-step-question.model';
 
 @Injectable()
 export class QuestionControlService {
-  toFormGroup(questions: QuestionBase<any>[]): FormGroup {
+  toFormGroup(questions: DynamicStepQuestion<any>[]): FormGroup {
     const group: any = {};
 
     questions.forEach(question => {

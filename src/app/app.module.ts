@@ -5,20 +5,25 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
+import { MatStepperModule } from '@angular/material/stepper';
+
 import { AppComponent } from './app.component';
 import { DynamicStepComponent } from './dynamic-form/dynamic-step.component';
 import { DynamicStepQuestionComponent } from './dynamic-form/dynamic-step-question.component';
+import { DynamicStepperComponent } from './dynamic-form/dynamic-stepper.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DynamicStepComponent,
     DynamicStepQuestionComponent,
+    DynamicStepperComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    MatStepperModule,
     ReactiveFormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),

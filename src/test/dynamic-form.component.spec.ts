@@ -8,8 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from '../app/app.component';
 import { DynamicStepComponent } from '../app/dynamic-form/dynamic-step.component';
 import { DynamicStepQuestionComponent } from '../app/dynamic-form/dynamic-step-question.component';
-import { QuestionService } from 'src/app/dynamic-form/question.service';
-import { QuestionBase } from 'src/app/dynamic-form/question-base.model';
+import { StepperService } from 'src/app/dynamic-form/stepper.service';
+import { DynamicStepQuestion } from 'src/app/dynamic-form/dynamic-step-question.model';
 import { firstValueFrom } from 'rxjs';
 
 describe('DynamicFormComponent', () => {
@@ -29,14 +29,14 @@ describe('DynamicFormComponent', () => {
             HttpClientModule,
             ReactiveFormsModule,
           ],
-          providers: [ QuestionService ]
+          providers: [ StepperService ]
       }).compileComponents();
   
       fixture = TestBed.createComponent(DynamicStepComponent);
       component = fixture.componentInstance;
 
-      const qs = TestBed.inject(QuestionService);
-      const questions = await firstValueFrom(qs.getQuestions()) as QuestionBase<any>[];
+      const ss = TestBed.inject(StepperService);
+      const questions = await firstValueFrom(ss.getSteps()) as DynamicStepQuestion<any>[];
       component.questions = questions;
       fixture.detectChanges();
     });
