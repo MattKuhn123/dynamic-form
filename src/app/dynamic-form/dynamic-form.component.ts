@@ -6,8 +6,24 @@ import { QuestionControlService } from './question-control.service';
 
 @Component({
   selector: 'app-dynamic-form',
-  templateUrl: './dynamic-form.component.html',
-  providers: [ QuestionControlService ]
+  providers: [ QuestionControlService ],
+  template: `
+  <div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+      <div *ngFor="let question of questions" class="form-row">
+        <app-question [question]="question" [form]="form"></app-question>
+      </div>
+
+      <div class="form-row">
+        <button type="submit" [disabled]="!form.valid">Save</button>
+      </div>
+    </form>
+
+    <div *ngIf="payLoad" class="form-row">
+      <strong>Saved the following values</strong><br />{{ payLoad }}
+    </div>
+  </div>
+  `,
 })
 export class DynamicFormComponent implements OnInit {
   @Input() questions: QuestionBase<any>[] = [];
