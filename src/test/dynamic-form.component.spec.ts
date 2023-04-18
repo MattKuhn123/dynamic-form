@@ -9,7 +9,7 @@ import { AppComponent } from '../app/app.component';
 import { DynamicFormComponent } from '../app/dynamic-form/dynamic-form.component';
 import { DynamicFormQuestionComponent } from '../app/dynamic-form/dynamic-form-question.component';
 import { QuestionService } from 'src/app/dynamic-form/question.service';
-import { QuestionBase } from 'src/app/dynamic-form/question-base';
+import { QuestionBase } from 'src/app/dynamic-form/question-base.model';
 import { firstValueFrom } from 'rxjs';
 
 describe('DynamicFormComponent', () => {
