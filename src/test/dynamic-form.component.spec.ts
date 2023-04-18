@@ -92,6 +92,10 @@ describe('DynamicFormComponent', () => {
     });
 
     it('should render the 4th question when the dependsOn clause is satisfied', () => {
+      const question4BeforeDependsOnClause = fixture.debugElement.queryAll(By.css('.form-row'))[3].nativeElement.innerText;
+      expect(question4BeforeDependsOnClause).toBe("");
+
+
       component.form.controls["brave"].setValue("solid");
       fixture.detectChanges();
 
