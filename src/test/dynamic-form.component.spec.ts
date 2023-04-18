@@ -86,15 +86,9 @@ describe('DynamicFormComponent', () => {
       expect(opts[3].nativeElement.innerText.trim()).toBe("Unproven");
     });
 
-    it('should not render the 4th question, which has a dependsOn clause', () => {
-      const question4 = fixture.debugElement.queryAll(By.css('.form-row'))[3].nativeElement.innerText;
-      expect(question4).toBeFalsy();
-    });
-
     it('should render the 4th question when the dependsOn clause is satisfied', () => {
       const question4BeforeDependsOnClause = fixture.debugElement.queryAll(By.css('.form-row'))[3].nativeElement.innerText;
-      expect(question4BeforeDependsOnClause).toBe("");
-
+      expect(question4BeforeDependsOnClause).toBeFalsy();
 
       component.form.controls["brave"].setValue("solid");
       fixture.detectChanges();
