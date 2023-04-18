@@ -2,8 +2,8 @@
     "steps":[
       {
         "key": "1",
-        "order": 10,
         "title": "Basic",
+        "dependsOn": [],
         "description": "Basic information",
         "questions": [
           {
@@ -16,15 +16,13 @@
                 { "key": "great", "value": "Great" },
                 { "key": "good", "value": "Good" },
                 { "key": "unproven", "value": "Unproven" }
-              ],
-              "order": 30
+              ]
           },
           {
               "controlType": "textbox",
               "dependsOn": [ ],
               "key": "firstName",
               "label": "First name",
-              "order": 10,
               "required": true,
               "type": "text",
               "value": "Bombasto"
@@ -40,7 +38,6 @@
               ],
               "key": "lastName",
               "label": "Last name",
-              "order": 999,
               "required": false,
               "type": "text",
               "value": "Spitfire"
@@ -50,15 +47,20 @@
               "dependsOn": [ ],
               "key": "emailAddress",
               "label": "Email",
-              "order": 20,
               "type": "email"
           }
         ]
       },
       {
         "key": "2",
-        "order": 20,
         "title": "Basic - 0",
+        "dependsOn": [
+          {
+            "step": 0,
+            "key": "firstName",
+            "value": "Matt"
+          }
+        ],
         "description": "Basic info - 0",
         "questions": [
           {
@@ -71,8 +73,7 @@
                 { "key": "great", "value": "Great" },
                 { "key": "good", "value": "Good" },
                 { "key": "unproven", "value": "Unproven" }
-              ],
-              "order": 30
+              ]
           }
         ]
       }
