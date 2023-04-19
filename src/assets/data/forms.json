@@ -29,8 +29,8 @@
             "controlType":"textbox",
             "dependsOn": [ ],
             "key": "emailAddress",
-            "required": true,
             "label": "Email",
+            "required": true,
             "type": "email"
           }
         ]
