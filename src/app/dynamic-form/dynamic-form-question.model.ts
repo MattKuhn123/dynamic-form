@@ -17,7 +17,7 @@ export class DynamicFormQuestion<T> {
     type?: string;
     options?: { key: string, value: string }[];
     dependsOn?: { key: string, value: string }[];
-    } = {}) {
+  } = {}) {
     this.value = options.value;
     this.key = options.key || '';
     this.label = options.label || '';

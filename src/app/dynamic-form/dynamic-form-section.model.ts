@@ -14,7 +14,7 @@ export class DynamicFormSection {
     questions?: DynamicFormQuestion<any>[];
     title?: string;
     required?: boolean;
-    } = {}) {
+  } = {}) {
     this.description = options.description || "";
     this.dependsOn = options.dependsOn || [];
     this.questions = options.questions || [];
