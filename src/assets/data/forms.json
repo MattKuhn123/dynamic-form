@@ -7,8 +7,8 @@
         {
           "title": "Contact",
           "description": "Contact information",
-          "dependsOn": [ ],
           "required": true,
+          "dependsOn": [ ],
           "questions": [
             {
               "controlType": "textbox",
@@ -42,8 +42,8 @@
         {
           "title": "Love interests",
           "description": "Someone whom a villain could kidnap",
-          "dependsOn": [ ],
           "required": false,
+          "dependsOn": [ ],
           "questions": [
             {
               "controlType": "textbox",
@@ -76,8 +76,8 @@
         {
           "title": "Bravery",
           "description": "Bravery information",
-          "dependsOn": [ ],
           "required": true,
+          "dependsOn": [ ],
           "questions": [
             {
                 "controlType": "dropdown",
@@ -111,8 +111,8 @@
         {
           "title": "Deeds",
           "description": "What have you done?",
-          "dependsOn": [ ],
           "required": true,
+          "dependsOn": [ ],
           "questions": [
             {
               "controlType": "radio",
