@@ -25,12 +25,15 @@ import { DynamicForm } from './dynamic-form.model';
         <div *ngFor="let section of sections; let i = index">
           <mat-step *ngIf="!hidden(section)" formGroupName="{{ i }}" [stepControl]="getFormGroupInArray(i)">
             <ng-template matStepLabel>{{section.title}}</ng-template>
+            <h4>{{section.description}}</h4>
             <div *ngFor="let question of section.questions" class="form-row">
               <app-dynamic-question [question]="question" [form]="getFormGroupInArray(i)"></app-dynamic-question>
             </div>
           </mat-step>
         </div>
       </mat-stepper>
+
+      <!-- <button value="submit" type="submit">Submit</button> -->
     </form>
   </div>
   `,
@@ -65,12 +68,11 @@ export class DynamicFormComponent implements OnInit {
       return false;
     }
 
-    return section.dependsOn.findIndex(depends => this.getFormGroupInArray(depends.step).controls[depends.key].value === depends.value) <= -1;
+    return section.dependsOn.findIndex(dependsOn => this.getFormGroupInArray(dependsOn.section).controls[dependsOn.key].value === dependsOn.value) <= -1;
   }
 
-  protected onSubmit(): boolean {
-    // TODO
-    return true;
+  protected onSubmit(): void {
+    console.log(JSON.stringify(this.formGroup.getRawValue()));
   }
 
   private toFormGroup(questions: DynamicFormQuestion<any>[]): FormGroup {

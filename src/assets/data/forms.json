@@ -100,6 +100,32 @@
               "value": ""
             }
           ]
+        },
+        {
+          "key": "3",
+          "title": "Misdeeds",
+          "description": "What else have you done?",
+          "dependsOn": [
+            {
+              "section": 2,
+              "key": "collateral",
+              "value": true
+            }
+          ],
+          "questions": [
+            {
+              "controlType": "radio",
+              "dependsOn": [ ],
+              "key": "detroyed",
+              "label": "How many buildings have you destroyed?",
+              "options": [
+                { "key": "0", "value": "None" },
+                { "key": "10", "value": "Up to 10" },
+                { "key": "50", "value": "Up to 50" },
+                { "key": "500", "value": "Up to 500" }
+              ]
+            }
+          ]
         }
       ]
     }

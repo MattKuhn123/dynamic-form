@@ -2,14 +2,14 @@ import { DynamicFormQuestion } from "./dynamic-form-question.model";
 
 export class DynamicFormSection {
   description: string;
-  dependsOn: { step: number, key: string, value: string }[];
+  dependsOn: { section: number, key: string, value: string }[];
   key: string;
   questions: DynamicFormQuestion<any>[];
   title: string;
 
   constructor(options: {
     description?: string;
-    dependsOn?: { step: number, key: string, value: string }[];
+    dependsOn?: { section: number, key: string, value: string }[];
     key?: string;
     questions?: DynamicFormQuestion<any>[];
     title?: string;
