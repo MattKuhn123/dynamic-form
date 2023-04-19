@@ -38,6 +38,7 @@
       {
         "title": "Love interests",
         "description": "Someone whom a villain could kidnap",
+        "list": true,
         "required": false,
         "dependsOn": [ ],
         "questions": [

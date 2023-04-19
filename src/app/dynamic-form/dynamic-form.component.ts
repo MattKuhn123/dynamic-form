@@ -26,7 +26,7 @@ import { Observable, map } from 'rxjs';
     <form (ngSubmit)="onPreSubmit()" [formGroup]="formGroup">
       <mat-stepper formArrayName="formArray" [linear]="true" [orientation]="(stepperOrientation | async)!">
         
-        <div *ngFor="let section of sections; let i = index; let first = first; let last = last">
+        <div *ngFor="let section of form.sections; let i = index; let first = first; let last = last">
           <mat-step *ngIf="!hidden(section)" formGroupName="{{ i }}" [stepControl]="getFormGroupInArray(i)" [optional]="!section.required">
             <ng-template matStepLabel>{{section.title}}</ng-template>
             <h4>{{section.description}}</h4>
@@ -55,8 +55,6 @@ export class DynamicFormComponent implements OnInit {
   form!: DynamicForm;
   stepperOrientation: Observable<StepperOrientation>;
 
-  get sections(): DynamicFormSection[] { return this.form.sections }
-
   constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private dialog: MatDialog, private bo: BreakpointObserver) {
     this.stepperOrientation = this.bo
       .observe('(min-width: 800px)')
@@ -67,7 +65,7 @@ export class DynamicFormComponent implements OnInit {
     this.dfSvc.getForms().subscribe(form => {
       this.form = form;
       this.formGroup = this.fb.group({
-        formArray: this.fb.array(this.sections.map(section => this.toFormGroup(section)))
+        formArray: this.fb.array(this.form.sections.map(section => this.toFormGroup(section)))
       });
       
       this.formArray = this.formGroup.get('formArray') as FormArray;
