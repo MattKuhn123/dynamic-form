@@ -1,6 +1,6 @@
 {
-  "name": "reva-2",
-  "short_name": "reva-2",
+  "name": "dynamic-form-renderer",
+  "short_name": "dynamic-form-renderer",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
