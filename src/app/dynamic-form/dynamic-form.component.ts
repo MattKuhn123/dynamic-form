@@ -30,7 +30,7 @@ import { Observable, map } from 'rxjs';
           <mat-step *ngIf="!hidden(section)" formGroupName="{{ i }}" [stepControl]="getFormGroupInArray(i)" [optional]="!section.required">
             <ng-template matStepLabel>{{section.title}}</ng-template>
             <h4>{{section.description}}</h4>
-            <div *ngFor="let question of section.questions" class="form-row">
+            <div *ngFor="let question of section.questions">
               <app-dynamic-question [question]="question" [form]="getFormGroupInArray(i)"></app-dynamic-question>
             </div>
 
