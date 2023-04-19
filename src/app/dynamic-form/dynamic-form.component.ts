@@ -23,7 +23,7 @@ import { Observable, map } from 'rxjs';
       </mat-card-content>
     </mat-card>
 
-    <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+    <form [formGroup]="formGroup">
       <mat-stepper formArrayName="formArray" [linear]="true" [orientation]="(stepperOrientation | async)!">
         
         <div *ngFor="let section of sections; let i = index; let first = first; let last = last">
@@ -95,7 +95,7 @@ export class DynamicFormComponent implements OnInit {
     });
   }
 
-  protected onSubmit(): void {
+  private onSubmit(): void {
     console.log(JSON.stringify(this.formGroup.getRawValue()));
   }
 
