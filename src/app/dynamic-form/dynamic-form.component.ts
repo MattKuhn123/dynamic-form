@@ -107,7 +107,11 @@ export class DynamicFormComponent implements OnInit {
   private toFormGroup(section: DynamicFormSection): FormGroup {
     const group: any = {};
     section.questions.forEach(question => {
-      group[question.key] = question.required ? new FormControl('', Validators.required) : new FormControl('');
+      if (question.required) {
+        group[question.key] = new FormControl('', Validators.required);
+      } else {
+        group[question.key] = new FormControl('');
+      }
     });
     
     return this.fb.group(group);
