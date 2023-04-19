@@ -12,7 +12,7 @@ import { DynamicFormQuestion } from './dynamic-form-question.model';
         <div *ngSwitchCase="'textarea'">
           <mat-form-field appearance="fill">
             <mat-label [attr.for]="question.key">{{ question.label }}</mat-label>
-            <textarea matInput [formControlName]="question.key" [id]="question.key" matInput></textarea>
+            <textarea matInput [formControlName]="question.key" [id]="question.key" matInput>{{ question.value }}</textarea>
           </mat-form-field>
         </div>
 

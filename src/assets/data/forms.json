@@ -34,7 +34,8 @@
             "key": "emailAddress",
             "required": true,
             "label": "Email",
-            "type": "email"
+            "type": "email",
+            "value": ""
           }
         ]
       },
@@ -68,7 +69,9 @@
             "dependsOn": [ ],
             "key": "characterWitness",
             "label": "Letter of recommendation",
-            "type": "file"
+            "required": true,
+            "type": "file",
+            "value": ""
           }
         ]
       },
@@ -94,16 +97,13 @@
           {
             "controlType": "textarea",
             "dependsOn": [
-              {
-                "key": "brave",
-                "value": "solid"
-              }
+              { "key": "brave", "value": "solid" }
             ],
             "key": "explain",
             "label": "Why 'solid'?",
             "required": false,
             "type": "textarea",
-            "value": ""
+            "value": "This only appears if you selected the 'solid' option"
           }
         ]
       },
@@ -138,14 +138,10 @@
       },
       {
         "title": "Misdeeds",
-        "description": "What else have you done?",
+        "description": "This only appears if you have checked 'collateralDamage'.",
         "required": true,
         "dependsOn": [
-          {
-            "section": 3,
-            "key": "collateral",
-            "value": true
-          }
+          { "section": 3, "key": "collateral", "value": true }
         ],
         "questions": [
           {
@@ -172,7 +168,10 @@
             "controlType": "date",
             "dependsOn": [ ],
             "key": "callTime",
-            "label": "When can we contact you?"
+            "label": "When can we contact you?",
+            "required": true,
+            "type": "date",
+            "value": ""
           }
         ]
       }
