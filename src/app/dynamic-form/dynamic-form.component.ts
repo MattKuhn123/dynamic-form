@@ -37,7 +37,7 @@ import { Observable, map } from 'rxjs';
             <div>
               <button *ngIf="!first" mat-button matStepperPrevious type="button">Back</button>
               <button *ngIf="!last" mat-button matStepperNext type="button">Next</button>
-              <button *ngIf="last" mat-button matStepperNext type="button" (click)="onPreSubmit()">Submit</button>
+              <button *ngIf="last" mat-button type="button" (click)="onPreSubmit()">Submit</button>
             </div>
           </mat-step>
         </div>

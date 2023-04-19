@@ -3,7 +3,7 @@
     {
       "title": "Hero application form",
       "description": "Please complete this form to apply for our new 'Hero' position.",
-      "sections":[
+      "sections": [
         {
           "title": "Contact",
           "description": "Contact information",
