@@ -20,10 +20,10 @@ import { DynamicForm } from './dynamic-form.model';
     </mat-card>
 
     <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
-      <mat-stepper formArrayName="formArray">
+      <mat-stepper formArrayName="formArray" [linear]="true">
         
         <div *ngFor="let section of sections; let i = index">
-          <mat-step *ngIf="!hidden(section)" formGroupName="{{ i }}" [stepControl]="getFormGroupInArray(i)">
+          <mat-step *ngIf="!hidden(section)" formGroupName="{{ i }}" [stepControl]="getFormGroupInArray(i)" [optional]="!section.required">
             <ng-template matStepLabel>{{section.title}}</ng-template>
             <h4>{{section.description}}</h4>
             <div *ngFor="let question of section.questions" class="form-row">
@@ -31,8 +31,8 @@ import { DynamicForm } from './dynamic-form.model';
             </div>
 
             <div>
-              <button mat-button matStepperPrevious>Back</button>
-              <button mat-button matStepperNext>Next</button>
+              <button mat-button matStepperPrevious type="button">Back</button>
+              <button mat-button matStepperNext type="button">Next</button>
             </div>
           </mat-step>
         </div>

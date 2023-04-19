@@ -7,8 +7,9 @@
         {
           "key": "0",
           "title": "Contact",
-          "dependsOn": [],
           "description": "Contact information",
+          "dependsOn": [ ],
+          "required": true,
           "questions": [
             {
               "controlType": "textbox",
@@ -17,7 +18,7 @@
               "label": "First name",
               "required": true,
               "type": "text",
-              "value": "Bombasto"
+              "value": ""
                 
             },
             {
@@ -25,9 +26,45 @@
               "dependsOn": [ ],
               "key": "lastName",
               "label": "Last name",
-              "required": false,
+              "required": true,
               "type": "text",
-              "value": "Spitfire"
+              "value": ""
+            },
+            {
+              "controlType":"textbox",
+              "dependsOn": [ ],
+              "key": "emailAddress",
+              "required": true,
+              "label": "Email",
+              "type": "email"
+            }
+          ]
+        },
+        {
+          "key": "1",
+          "title": "Love interests",
+          "description": "Someone whom a villain could kidnap",
+          "dependsOn": [ ],
+          "required": false,
+          "questions": [
+            {
+              "controlType": "textbox",
+              "dependsOn": [ ],
+              "key": "firstName",
+              "label": "First name",
+              "required": true,
+              "type": "text",
+              "value": ""
+                
+            },
+            {
+              "controlType": "textbox",
+              "dependsOn": [ ],
+              "key": "lastName",
+              "label": "Last name",
+              "required": true,
+              "type": "text",
+              "value": ""
             },
             {
               "controlType":"textbox",
@@ -39,10 +76,11 @@
           ]
         },
         {
-          "key": "1",
+          "key": "2",
           "title": "Bravery",
-          "dependsOn": [ ],
           "description": "Bravery information",
+          "dependsOn": [ ],
+          "required": true,
           "questions": [
             {
                 "controlType": "dropdown",
@@ -65,7 +103,7 @@
                 }
               ],
               "key": "explain",
-              "label": "What makes your bravery 'solid'?",
+              "label": "Why 'solid'?",
               "required": false,
               "type": "textarea",
               "value": ""
@@ -73,10 +111,11 @@
           ]
         },
         {
-          "key": "2",
+          "key": "3",
           "title": "Deeds",
           "description": "What have you done?",
           "dependsOn": [ ],
+          "required": true,
           "questions": [
             {
               "controlType": "radio",
@@ -102,12 +141,13 @@
           ]
         },
         {
-          "key": "3",
+          "key": "4",
           "title": "Misdeeds",
           "description": "What else have you done?",
+          "required": false,
           "dependsOn": [
             {
-              "section": 2,
+              "section": 3,
               "key": "collateral",
               "value": true
             }

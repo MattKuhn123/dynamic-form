@@ -44,8 +44,8 @@ import { DynamicFormQuestion } from './dynamic-form-question.model';
           </mat-radio-group>
         </div>
       </div>
-      
-      <mat-error *ngIf="!isValid">{{ question.label }} is required</mat-error>
+
+      <!-- <mat-error *ngIf="!isValid">{{ question.label }} is required</mat-error> -->
     </div>
   `
 })
