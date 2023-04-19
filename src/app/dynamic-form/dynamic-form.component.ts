@@ -105,7 +105,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   private toFormGroup(section: DynamicFormSection): FormGroup {
-    const group: any = {};
+    const group: any = { };
     section.questions.forEach(question => {
       if (question.required) {
         group[question.key] = new FormControl('', Validators.required);
