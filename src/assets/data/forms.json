@@ -48,21 +48,21 @@
           {
             "controlType": "textbox",
             "dependsOn": [ ],
-            "key": "firstName",
+            "key": "loveFirstName",
             "label": "First name",
             "required": true,
             "type": "text",
-            "value": ""
+            "value": "Lady"
               
           },
           {
             "controlType": "textbox",
             "dependsOn": [ ],
-            "key": "lastName",
+            "key": "loveLastName",
             "label": "Last name",
             "required": true,
             "type": "text",
-            "value": ""
+            "value": "Luck"
           },
           {
             "controlType":"file",
@@ -84,7 +84,7 @@
           {
               "controlType": "dropdown",
               "dependsOn": [ ],
-              "key": "brave",
+              "key": "bravery",
               "label": "Bravery Rating",
               "required": true,
               "options": [
@@ -97,9 +97,9 @@
           {
             "controlType": "textarea",
             "dependsOn": [
-              { "key": "brave", "value": "solid" }
+              { "key": "bravery", "value": "solid" }
             ],
-            "key": "explain",
+            "key": "braveryExplanation",
             "label": "Why 'solid'?",
             "required": false,
             "type": "textarea",
@@ -109,14 +109,14 @@
       },
       {
         "title": "Deeds",
-        "description": "What have you done?",
+        "description": "What deeds have you done?",
         "required": true,
         "dependsOn": [ ],
         "questions": [
           {
             "controlType": "radio",
             "dependsOn": [ ],
-            "key": "saved",
+            "key": "quantitySaved",
             "label": "How many citizens have you saved?",
             "options": [
               { "key": "0", "value": "None" },
@@ -128,7 +128,7 @@
           {
             "controlType": "checkbox",
             "dependsOn": [ ],
-            "key": "collateral",
+            "key": "collateralDamage",
             "label": "Have you ever caused collateral damage?",
             "required": false,
             "type": "checkbox",
@@ -141,13 +141,13 @@
         "description": "This only appears if you have checked 'collateralDamage'.",
         "required": true,
         "dependsOn": [
-          { "section": 3, "key": "collateral", "value": true }
+          { "section": 3, "key": "collateralDamage", "value": true }
         ],
         "questions": [
           {
             "controlType": "radio",
             "dependsOn": [ ],
-            "key": "detroyed",
+            "key": "buildingsDestroyed",
             "label": "How many buildings have you destroyed?",
             "options": [
               { "key": "0", "value": "None" },

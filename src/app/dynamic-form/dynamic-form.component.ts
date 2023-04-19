@@ -96,7 +96,14 @@ export class DynamicFormComponent implements OnInit {
   }
 
   private onSubmit(): void {
-    console.log(JSON.stringify(this.formGroup.getRawValue()));
+    const value: any = { };
+    this.formArray.getRawValue().forEach(formGroup => {
+      Object.keys(formGroup).forEach(key => {
+        value[key] = formGroup[key];
+      })
+    });
+    
+    console.log(JSON.stringify(value));
   }
 
   private toFormGroup(questions: DynamicFormQuestion<any>[]): FormGroup {
