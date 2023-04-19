@@ -1,14 +1,48 @@
 {
   "forms": [
     {
-      "title": "Dynamic form 1",
-      "description": "The first dynamic form created among the created dynamic forms.",
+      "title": "Hero application form",
+      "description": "Please complete this form to apply for our new 'Hero' position.",
       "sections":[
         {
-          "key": "1",
-          "title": "Basic",
+          "key": "0",
+          "title": "Contact",
           "dependsOn": [],
-          "description": "Basic information",
+          "description": "Contact information",
+          "questions": [
+            {
+              "controlType": "textbox",
+              "dependsOn": [ ],
+              "key": "firstName",
+              "label": "First name",
+              "required": true,
+              "type": "text",
+              "value": "Bombasto"
+                
+            },
+            {
+              "controlType": "textbox",
+              "dependsOn": [ ],
+              "key": "lastName",
+              "label": "Last name",
+              "required": false,
+              "type": "text",
+              "value": "Spitfire"
+            },
+            {
+              "controlType":"textbox",
+              "dependsOn": [ ],
+              "key": "emailAddress",
+              "label": "Email",
+              "type": "email"
+            }
+          ]
+        },
+        {
+          "key": "1",
+          "title": "Bravery",
+          "dependsOn": [ ],
+          "description": "Bravery information",
           "questions": [
             {
                 "controlType": "dropdown",
@@ -23,61 +57,47 @@
                 ]
             },
             {
-                "controlType": "textbox",
-                "dependsOn": [ ],
-                "key": "firstName",
-                "label": "First name",
-                "required": true,
-                "type": "text",
-                "value": "Bombasto"
-                
-            },
-            {
-                "controlType": "textbox",
-                "dependsOn": [
-                  {
-                    "key": "brave",
-                    "value": "solid"
-                  }
-                ],
-                "key": "lastName",
-                "label": "Last name",
-                "required": false,
-                "type": "text",
-                "value": "Spitfire"
-            },
-            {
-                "controlType":"textbox",
-                "dependsOn": [ ],
-                "key": "emailAddress",
-                "label": "Email",
-                "type": "email"
+              "controlType": "textarea",
+              "dependsOn": [
+                {
+                  "key": "brave",
+                  "value": "solid"
+                }
+              ],
+              "key": "explain",
+              "label": "What makes your bravery 'solid'?",
+              "required": false,
+              "type": "textarea",
+              "value": ""
             }
           ]
         },
         {
           "key": "2",
-          "title": "Basic - 0",
-          "dependsOn": [
-            {
-              "step": 0,
-              "key": "firstName",
-              "value": "Matt"
-            }
-          ],
-          "description": "Basic info - 0",
+          "title": "Deeds",
+          "description": "What have you done?",
+          "dependsOn": [ ],
           "questions": [
             {
-                "controlType": "dropdown",
-                "dependsOn": [ ],
-                "key": "brave",
-                "label": "Bravery Rating",
-                "options": [
-                  { "key": "solid", "value": "Solid" },
-                  { "key": "great", "value": "Great" },
-                  { "key": "good", "value": "Good" },
-                  { "key": "unproven", "value": "Unproven" }
-                ]
+              "controlType": "radio",
+              "dependsOn": [ ],
+              "key": "saved",
+              "label": "How many citizens have you saved?",
+              "options": [
+                { "key": "0", "value": "None" },
+                { "key": "10", "value": "Up to 10" },
+                { "key": "50", "value": "Up to 50" },
+                { "key": "500", "value": "Up to 500" }
+              ]
+            },
+            {
+              "controlType": "checkbox",
+              "dependsOn": [ ],
+              "key": "collateral",
+              "label": "Have you ever caused collateral damage?",
+              "required": false,
+              "type": "checkbox",
+              "value": ""
             }
           ]
         }

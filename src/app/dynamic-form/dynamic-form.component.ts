@@ -21,8 +21,10 @@ import { DynamicForm } from './dynamic-form.model';
 
     <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
       <mat-stepper formArrayName="formArray">
+        
         <div *ngFor="let section of sections; let i = index">
           <mat-step *ngIf="!hidden(section)" formGroupName="{{ i }}" [stepControl]="getFormGroupInArray(i)">
+            <ng-template matStepLabel>{{section.title}}</ng-template>
             <div *ngFor="let question of section.questions" class="form-row">
               <app-dynamic-question [question]="question" [form]="getFormGroupInArray(i)"></app-dynamic-question>
             </div>
