@@ -84,6 +84,7 @@
                 "dependsOn": [ ],
                 "key": "brave",
                 "label": "Bravery Rating",
+                "required": true,
                 "options": [
                   { "key": "solid", "value": "Solid" },
                   { "key": "great", "value": "Great" },

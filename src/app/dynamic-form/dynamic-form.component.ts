@@ -5,6 +5,7 @@ import { DynamicFormSection } from './dynamic-form-section.model';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicFormQuestion } from './dynamic-form-question.model';
 import { DynamicForm } from './dynamic-form.model';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -33,7 +34,7 @@ import { DynamicForm } from './dynamic-form.model';
             <div>
               <button *ngIf="!first" mat-button matStepperPrevious type="button">Back</button>
               <button *ngIf="!last" mat-button matStepperNext type="button">Next</button>
-              <button *ngIf="last" mat-button matStepperNext type="submit">Submit</button>
+              <button *ngIf="last" mat-button matStepperNext type="button" (click)="onPreSubmit()">Submit</button>
             </div>
           </mat-step>
         </div>
@@ -52,7 +53,7 @@ export class DynamicFormComponent implements OnInit {
 
   get sections(): DynamicFormSection[] { return this.form.sections }
 
-  constructor(private dynamicFormService: DynamicFormService, private formBuilder: FormBuilder) { }
+  constructor(private dynamicFormService: DynamicFormService, private formBuilder: FormBuilder, private dialog: MatDialog) { }
   
   ngOnInit(): void {
     this.dynamicFormService.getForms().subscribe(forms => {
@@ -77,6 +78,15 @@ export class DynamicFormComponent implements OnInit {
     return section.dependsOn.findIndex(dependsOn => this.getFormGroupInArray(dependsOn.section).controls[dependsOn.key].value === dependsOn.value) <= -1;
   }
 
+  protected onPreSubmit(): void {
+    const dialogRef = this.dialog.open(PreSubmitDialog);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.onSubmit();
+      }
+    });
+  }
+
   protected onSubmit(): void {
     console.log(JSON.stringify(this.formGroup.getRawValue()));
   }
@@ -90,3 +100,18 @@ export class DynamicFormComponent implements OnInit {
     return new FormGroup(group);
   }
 }
+
+@Component({
+  selector: 'dialog-data-example-dialog',
+  template: `
+  <h1 mat-dialog-title>Are you sure?</h1>
+  <div mat-dialog-content>
+    <p>Are you sure your application is complete?</p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">No</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Submit</button>
+  </div>
+  `
+})
+export class PreSubmitDialog { }

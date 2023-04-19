@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -18,13 +19,14 @@ import { MatStepperModule } from '@angular/material/stepper';
 
 import { AppComponent } from './app.component';
 import { DynamicFormQuestionComponent } from './dynamic-form/dynamic-form-question.component';
-import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { DynamicFormComponent, PreSubmitDialog } from './dynamic-form/dynamic-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DynamicFormQuestionComponent,
     DynamicFormComponent,
+    PreSubmitDialog,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +35,7 @@ import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
+    MatDialogModule,
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
