@@ -6,6 +6,9 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { DynamicFormQuestion } from './dynamic-form-question.model';
 import { DynamicForm } from './dynamic-form.model';
 import { MatDialog } from '@angular/material/dialog';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import { StepperOrientation } from '@angular/cdk/stepper';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -21,7 +24,7 @@ import { MatDialog } from '@angular/material/dialog';
     </mat-card>
 
     <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
-      <mat-stepper formArrayName="formArray" [linear]="true">
+      <mat-stepper formArrayName="formArray" [linear]="true" [orientation]="(stepperOrientation | async)!">
         
         <div *ngFor="let section of sections; let i = index; let first = first; let last = last">
           <mat-step *ngIf="!hidden(section)" formGroupName="{{ i }}" [stepControl]="getFormGroupInArray(i)" [optional]="!section.required">
@@ -50,10 +53,15 @@ export class DynamicFormComponent implements OnInit {
   formArray!: FormArray;
   formGroup!: FormGroup;
   form!: DynamicForm;
+  stepperOrientation: Observable<StepperOrientation>;
 
   get sections(): DynamicFormSection[] { return this.form.sections }
 
-  constructor(private dynamicFormService: DynamicFormService, private formBuilder: FormBuilder, private dialog: MatDialog) { }
+  constructor(private dynamicFormService: DynamicFormService, private formBuilder: FormBuilder, private dialog: MatDialog, private breakpointObserver: BreakpointObserver) {
+    this.stepperOrientation = this.breakpointObserver
+      .observe('(min-width: 800px)')
+      .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
+  }
   
   ngOnInit(): void {
     this.dynamicFormService.getForms().subscribe(forms => {
