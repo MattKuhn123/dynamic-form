@@ -112,7 +112,7 @@ export class DynamicFormComponent implements OnInit {
       group[question.key] = question.required ? new FormControl('', Validators.required) : new FormControl('');
     });
     
-    return new FormGroup(group);
+    return this.fb.group(group);
   }
 }
 
