@@ -62,7 +62,7 @@ export class DynamicFormComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.dfSvc.getForms().subscribe(form => {
+    this.dfSvc.getForm().subscribe(form => {
       this.form = form;
       this.formGroup = this.fb.group({
         formArray: this.fb.array(this.form.sections.map(section => this.toFormGroup(section)))
