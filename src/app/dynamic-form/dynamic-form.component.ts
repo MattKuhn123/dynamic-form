@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { DynamicFormService } from './dynamic-form.service';
 import { DynamicFormSection } from './dynamic-form-section.model';
@@ -24,7 +24,7 @@ import { DynamicFormQuestion } from './dynamic-form-question.model';
   `,
   providers: [ DynamicFormService ]
 })
-export class DynamicFormComponent {
+export class DynamicFormComponent implements OnInit {
   formArray!: FormArray;
   formGroup!: FormGroup;
   sections!: DynamicFormSection[];
@@ -33,7 +33,7 @@ export class DynamicFormComponent {
   
   ngOnInit(): void {
     this.dynamicFormService.getForms().subscribe(forms => {
-      let form = forms[0];
+      const form = forms[0];
       this.sections = form.sections;
       this.formGroup = this.formBuilder.group({
         formArray: this.formBuilder.array(form.sections.map(step => this.toFormGroup(step.questions)))
@@ -55,8 +55,9 @@ export class DynamicFormComponent {
     return section.dependsOn.findIndex(depends => this.getFormGroupInArray(depends.step).controls[depends.key].value === depends.value) <= -1;
   }
 
-  protected onSubmit(): void {
-
+  protected onSubmit(): boolean {
+    // TODO
+    return true;
   }
 
   private toFormGroup(questions: DynamicFormQuestion<any>[]): FormGroup {

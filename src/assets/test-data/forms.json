@@ -1,0 +1,87 @@
+{
+  "forms": [
+    {
+      "title": "Dynamic form 1",
+      "description": "The first dynamic form among the created dynamic forms.",
+      "sections":[
+        {
+          "key": "1",
+          "title": "Basic",
+          "dependsOn": [],
+          "description": "Basic information",
+          "questions": [
+            {
+                "controlType": "dropdown",
+                "dependsOn": [ ],
+                "key": "brave",
+                "label": "Bravery Rating",
+                "options": [
+                  { "key": "solid", "value": "Solid" },
+                  { "key": "great", "value": "Great" },
+                  { "key": "good", "value": "Good" },
+                  { "key": "unproven", "value": "Unproven" }
+                ]
+            },
+            {
+                "controlType": "textbox",
+                "dependsOn": [ ],
+                "key": "firstName",
+                "label": "First name",
+                "required": true,
+                "type": "text",
+                "value": "Bombasto"
+                
+            },
+            {
+                "controlType": "textbox",
+                "dependsOn": [
+                  {
+                    "key": "brave",
+                    "value": "solid"
+                  }
+                ],
+                "key": "lastName",
+                "label": "Last name",
+                "required": false,
+                "type": "text",
+                "value": "Spitfire"
+            },
+            {
+                "controlType":"textbox",
+                "dependsOn": [ ],
+                "key": "emailAddress",
+                "label": "Email",
+                "type": "email"
+            }
+          ]
+        },
+        {
+          "key": "2",
+          "title": "Basic - 0",
+          "dependsOn": [
+            {
+              "step": 0,
+              "key": "firstName",
+              "value": "Matt"
+            }
+          ],
+          "description": "Basic info - 0",
+          "questions": [
+            {
+                "controlType": "dropdown",
+                "dependsOn": [ ],
+                "key": "brave",
+                "label": "Bravery Rating",
+                "options": [
+                  { "key": "solid", "value": "Solid" },
+                  { "key": "great", "value": "Great" },
+                  { "key": "good", "value": "Good" },
+                  { "key": "unproven", "value": "Unproven" }
+                ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
