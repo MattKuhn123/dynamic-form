@@ -20,4 +20,4 @@ export class DynamicFormSection {
     this.questions = options.questions || [];
     this.title = options.title || "";
   }
-  }
+}
