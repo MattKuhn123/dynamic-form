@@ -67,7 +67,7 @@ export class DynamicFormComponent implements OnInit {
     this.dfSvc.getForms().subscribe(form => {
       this.form = form;
       this.formGroup = this.fb.group({
-        formArray: this.fb.array(this.sections.map(section => this.toFormGroup(section.questions)))
+        formArray: this.fb.array(this.sections.map(section => this.toFormGroup(section)))
       });
       
       this.formArray = this.formGroup.get('formArray') as FormArray;
@@ -106,9 +106,9 @@ export class DynamicFormComponent implements OnInit {
     console.log(JSON.stringify(value));
   }
 
-  private toFormGroup(questions: DynamicFormQuestion[]): FormGroup {
+  private toFormGroup(section: DynamicFormSection): FormGroup {
     const group: any = {};
-    questions.forEach(question => {
+    section.questions.forEach(question => {
       group[question.key] = question.required ? new FormControl('', Validators.required) : new FormControl('');
     });
     
