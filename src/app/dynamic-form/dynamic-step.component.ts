@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 
-import { StepperService } from './stepper.service';
+import { DynamicFormService } from './dynamic-form.service';
 import { DynamicStep } from './dynamic-step.model';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicStepQuestion } from './dynamic-step-question.model';
 
 @Component({
-  selector: 'app-dynamic-stepper',
-  template: `<div *ngIf="steps">
+  selector: 'app-dynamic-step',
+  template: `
+  <div *ngIf="steps">
     <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
       <mat-stepper formArrayName="formArray">
-        <p>ok</p>
         <div *ngFor="let step of steps; let i = index">
           <mat-step *ngIf="!hidden(step)" formGroupName="{{ i }}" [stepControl]="getFormGroupInArray(i)">
             <div *ngFor="let question of step.questions" class="form-row">
@@ -19,22 +19,23 @@ import { DynamicStepQuestion } from './dynamic-step-question.model';
           </mat-step>
         </div>
       </mat-stepper>
-  </form>
-  </div>`,
-  providers: [ StepperService ]
+    </form>
+  </div>
+  `,
+  providers: [ DynamicFormService ]
 })
-export class DynamicStepperComponent {
+export class DynamicStepComponent {
   formArray!: FormArray;
   formGroup!: FormGroup;
   steps!: DynamicStep[];
 
-  constructor(private qs: StepperService, private fb: FormBuilder) { }
+  constructor(private dynamicFormService: DynamicFormService, private formBuilder: FormBuilder) { }
   
   ngOnInit(): void {
-    this.qs.getSteps().subscribe(steps => {
+    this.dynamicFormService.getSteps().subscribe(steps => {
       this.steps = steps;
-      this.formGroup = this.fb.group({
-        formArray: this.fb.array(steps.map(step => this.toFormGroup(step.questions)))
+      this.formGroup = this.formBuilder.group({
+        formArray: this.formBuilder.array(steps.map(step => this.toFormGroup(step.questions)))
       });
       
       this.formArray = this.formGroup.get('formArray') as FormArray;

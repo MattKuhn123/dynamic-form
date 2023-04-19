@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { DynamicStep } from './dynamic-step.model';
 
 @Injectable()
-export class StepperService {
+export class DynamicFormService {
   constructor(private client: HttpClient) { }
 
   public getSteps(): Observable<DynamicStep[]> {

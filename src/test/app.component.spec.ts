@@ -5,10 +5,10 @@ import { BrowserModule, By } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { StepperService } from '../app/dynamic-form/stepper.service';
+import { DynamicFormService } from '../app/dynamic-form/dynamic-form.service';
 import { AppComponent } from '../app/app.component';
 import { DynamicStepQuestionComponent } from '../app/dynamic-form/dynamic-step-question.component';
-import { DynamicStepperComponent } from 'src/app/dynamic-form/dynamic-stepper.component';
+import { DynamicStepComponent } from 'src/app/dynamic-form/dynamic-step.component';
 import { MatStepperModule } from '@angular/material/stepper';
 
 describe('AppComponent', () => {
@@ -19,7 +19,7 @@ describe('AppComponent', () => {
       await TestBed.configureTestingModule({
         declarations: [
           AppComponent,
-          DynamicStepperComponent,
+          DynamicStepComponent,
           DynamicStepQuestionComponent,
         ],
         imports: [
@@ -29,7 +29,7 @@ describe('AppComponent', () => {
           HttpClientModule,
           ReactiveFormsModule,
         ],
-        providers: [ StepperService ]
+        providers: [ DynamicFormService ]
       }).compileComponents();
   
       fixture = TestBed.createComponent(AppComponent);

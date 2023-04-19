@@ -9,13 +9,13 @@ import { MatStepperModule } from '@angular/material/stepper';
 
 import { AppComponent } from './app.component';
 import { DynamicStepQuestionComponent } from './dynamic-form/dynamic-step-question.component';
-import { DynamicStepperComponent } from './dynamic-form/dynamic-stepper.component';
+import { DynamicStepComponent } from './dynamic-form/dynamic-step.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DynamicStepQuestionComponent,
-    DynamicStepperComponent,
+    DynamicStepComponent,
   ],
   imports: [
     BrowserModule,
