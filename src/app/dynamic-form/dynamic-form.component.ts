@@ -106,10 +106,10 @@ export class DynamicFormComponent implements OnInit {
     console.log(JSON.stringify(value));
   }
 
-  private toFormGroup(questions: DynamicFormQuestion<any>[]): FormGroup {
+  private toFormGroup(questions: DynamicFormQuestion[]): FormGroup {
     const group: any = {};
     questions.forEach(question => {
-      group[question.key] = question.required ? new FormControl(question.value || '', Validators.required) : new FormControl(question.value || '');
+      group[question.key] = question.required ? new FormControl('', Validators.required) : new FormControl('');
     });
     
     return new FormGroup(group);

@@ -3,7 +3,7 @@ import { DynamicFormQuestion } from "./dynamic-form-question.model";
 export class DynamicFormSection {
   description: string;
   dependsOn: { section: number, key: string, value: string }[];
-  questions: DynamicFormQuestion<any>[];
+  questions: DynamicFormQuestion[];
   title: string;
   required: boolean;
 
@@ -11,7 +11,7 @@ export class DynamicFormSection {
     description?: string;
     dependsOn?: { section: number, key: string, value: string }[];
     key?: string;
-    questions?: DynamicFormQuestion<any>[];
+    questions?: DynamicFormQuestion[];
     title?: string;
     required?: boolean;
   } = {}) {

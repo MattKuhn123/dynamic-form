@@ -15,8 +15,7 @@
             "key": "firstName",
             "label": "First name",
             "required": true,
-            "type": "text",
-            "value": ""
+            "type": "text"
               
           },
           {
@@ -25,8 +24,7 @@
             "key": "lastName",
             "label": "Last name",
             "required": true,
-            "type": "text",
-            "value": ""
+            "type": "text"
           },
           {
             "controlType":"textbox",
@@ -34,8 +32,7 @@
             "key": "emailAddress",
             "required": true,
             "label": "Email",
-            "type": "email",
-            "value": ""
+            "type": "email"
           }
         ]
       },
@@ -51,8 +48,7 @@
             "key": "loveFirstName",
             "label": "First name",
             "required": true,
-            "type": "text",
-            "value": "Lady"
+            "type": "text"
               
           },
           {
@@ -61,8 +57,7 @@
             "key": "loveLastName",
             "label": "Last name",
             "required": true,
-            "type": "text",
-            "value": "Luck"
+            "type": "text"
           },
           {
             "controlType":"file",
@@ -70,8 +65,7 @@
             "key": "characterWitness",
             "label": "Letter of recommendation",
             "required": true,
-            "type": "file",
-            "value": ""
+            "type": "file"
           }
         ]
       },
@@ -102,8 +96,7 @@
             "key": "braveryExplanation",
             "label": "Why 'solid'?",
             "required": false,
-            "type": "textarea",
-            "value": "This only appears if you selected the 'solid' option"
+            "type": "textarea"
           }
         ]
       },
@@ -131,8 +124,7 @@
             "key": "collateralDamage",
             "label": "Have you ever caused collateral damage?",
             "required": false,
-            "type": "checkbox",
-            "value": ""
+            "type": "checkbox"
           }
         ]
       },
@@ -170,8 +162,7 @@
             "key": "callTime",
             "label": "When can we contact you?",
             "required": true,
-            "type": "date",
-            "value": ""
+            "type": "date"
           }
         ]
       }

@@ -1,5 +1,4 @@
-export class DynamicFormQuestion<T> {
-  value: T|undefined;
+export class DynamicFormQuestion {
   key: string;
   label: string;
   required: boolean;
@@ -9,7 +8,6 @@ export class DynamicFormQuestion<T> {
   dependsOn: { key: string, value: string }[];
   
   constructor(options: {
-    value?: T;
     key?: string;
     label?: string;
     required?: boolean;
@@ -18,7 +16,6 @@ export class DynamicFormQuestion<T> {
     options?: { key: string, value: string }[];
     dependsOn?: { key: string, value: string }[];
   } = {}) {
-    this.value = options.value;
     this.key = options.key || '';
     this.label = options.label || '';
     this.required = !!options.required;

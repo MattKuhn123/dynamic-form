@@ -12,7 +12,7 @@ import { DynamicFormQuestion } from './dynamic-form-question.model';
         <div *ngSwitchCase="'textarea'">
           <mat-form-field appearance="fill">
             <mat-label [attr.for]="question.key">{{ question.label }}</mat-label>
-            <textarea matInput [formControlName]="question.key" [id]="question.key" matInput>{{ question.value }}</textarea>
+            <textarea matInput [formControlName]="question.key" [id]="question.key" matInput></textarea>
           </mat-form-field>
         </div>
 
@@ -67,7 +67,7 @@ import { DynamicFormQuestion } from './dynamic-form-question.model';
   `
 })
 export class DynamicFormQuestionComponent {
-  @Input() question!: DynamicFormQuestion<string>;
+  @Input() question!: DynamicFormQuestion;
   @Input() form!: FormGroup;
   get isValid(): boolean { return this.form.controls[this.question.key].valid; }
   get hidden(): boolean { return this.question.dependsOn.findIndex(question => this.form.controls[question.key].value !== question.value) > -1; }
