@@ -1,183 +1,181 @@
 {
-  "forms": [
-    {
-      "title": "Hero application form",
-      "description": "Please complete this form to apply for our new 'Hero' position.",
-      "sections": [
-        {
-          "title": "Contact",
-          "description": "Contact information",
-          "required": true,
-          "dependsOn": [ ],
-          "questions": [
-            {
-              "controlType": "textbox",
+  "form": {
+    "title": "Hero application form",
+    "description": "Please complete this form to apply for our new 'Hero' position.",
+    "sections": [
+      {
+        "title": "Contact",
+        "description": "Contact information",
+        "required": true,
+        "dependsOn": [ ],
+        "questions": [
+          {
+            "controlType": "textbox",
+            "dependsOn": [ ],
+            "key": "firstName",
+            "label": "First name",
+            "required": true,
+            "type": "text",
+            "value": ""
+              
+          },
+          {
+            "controlType": "textbox",
+            "dependsOn": [ ],
+            "key": "lastName",
+            "label": "Last name",
+            "required": true,
+            "type": "text",
+            "value": ""
+          },
+          {
+            "controlType":"textbox",
+            "dependsOn": [ ],
+            "key": "emailAddress",
+            "required": true,
+            "label": "Email",
+            "type": "email"
+          }
+        ]
+      },
+      {
+        "title": "Love interests",
+        "description": "Someone whom a villain could kidnap",
+        "required": false,
+        "dependsOn": [ ],
+        "questions": [
+          {
+            "controlType": "textbox",
+            "dependsOn": [ ],
+            "key": "firstName",
+            "label": "First name",
+            "required": true,
+            "type": "text",
+            "value": ""
+              
+          },
+          {
+            "controlType": "textbox",
+            "dependsOn": [ ],
+            "key": "lastName",
+            "label": "Last name",
+            "required": true,
+            "type": "text",
+            "value": ""
+          },
+          {
+            "controlType":"file",
+            "dependsOn": [ ],
+            "key": "characterWitness",
+            "label": "Letter of recommendation",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "title": "Bravery",
+        "description": "Bravery information",
+        "required": true,
+        "dependsOn": [ ],
+        "questions": [
+          {
+              "controlType": "dropdown",
               "dependsOn": [ ],
-              "key": "firstName",
-              "label": "First name",
+              "key": "brave",
+              "label": "Bravery Rating",
               "required": true,
-              "type": "text",
-              "value": ""
-                
-            },
-            {
-              "controlType": "textbox",
-              "dependsOn": [ ],
-              "key": "lastName",
-              "label": "Last name",
-              "required": true,
-              "type": "text",
-              "value": ""
-            },
-            {
-              "controlType":"textbox",
-              "dependsOn": [ ],
-              "key": "emailAddress",
-              "required": true,
-              "label": "Email",
-              "type": "email"
-            }
-          ]
-        },
-        {
-          "title": "Love interests",
-          "description": "Someone whom a villain could kidnap",
-          "required": false,
-          "dependsOn": [ ],
-          "questions": [
-            {
-              "controlType": "textbox",
-              "dependsOn": [ ],
-              "key": "firstName",
-              "label": "First name",
-              "required": true,
-              "type": "text",
-              "value": ""
-                
-            },
-            {
-              "controlType": "textbox",
-              "dependsOn": [ ],
-              "key": "lastName",
-              "label": "Last name",
-              "required": true,
-              "type": "text",
-              "value": ""
-            },
-            {
-              "controlType":"file",
-              "dependsOn": [ ],
-              "key": "characterWitness",
-              "label": "Letter of recommendation",
-              "type": "file"
-            }
-          ]
-        },
-        {
-          "title": "Bravery",
-          "description": "Bravery information",
-          "required": true,
-          "dependsOn": [ ],
-          "questions": [
-            {
-                "controlType": "dropdown",
-                "dependsOn": [ ],
+              "options": [
+                { "key": "solid", "value": "Solid" },
+                { "key": "great", "value": "Great" },
+                { "key": "good", "value": "Good" },
+                { "key": "unproven", "value": "Unproven" }
+              ]
+          },
+          {
+            "controlType": "textarea",
+            "dependsOn": [
+              {
                 "key": "brave",
-                "label": "Bravery Rating",
-                "required": true,
-                "options": [
-                  { "key": "solid", "value": "Solid" },
-                  { "key": "great", "value": "Great" },
-                  { "key": "good", "value": "Good" },
-                  { "key": "unproven", "value": "Unproven" }
-                ]
-            },
-            {
-              "controlType": "textarea",
-              "dependsOn": [
-                {
-                  "key": "brave",
-                  "value": "solid"
-                }
-              ],
-              "key": "explain",
-              "label": "Why 'solid'?",
-              "required": false,
-              "type": "textarea",
-              "value": ""
-            }
-          ]
-        },
-        {
-          "title": "Deeds",
-          "description": "What have you done?",
-          "required": true,
-          "dependsOn": [ ],
-          "questions": [
-            {
-              "controlType": "radio",
-              "dependsOn": [ ],
-              "key": "saved",
-              "label": "How many citizens have you saved?",
-              "options": [
-                { "key": "0", "value": "None" },
-                { "key": "10", "value": "Up to 10" },
-                { "key": "50", "value": "Up to 50" },
-                { "key": "500", "value": "Up to 500" }
-              ]
-            },
-            {
-              "controlType": "checkbox",
-              "dependsOn": [ ],
-              "key": "collateral",
-              "label": "Have you ever caused collateral damage?",
-              "required": false,
-              "type": "checkbox",
-              "value": ""
-            }
-          ]
-        },
-        {
-          "title": "Misdeeds",
-          "description": "What else have you done?",
-          "required": true,
-          "dependsOn": [
-            {
-              "section": 3,
-              "key": "collateral",
-              "value": true
-            }
-          ],
-          "questions": [
-            {
-              "controlType": "radio",
-              "dependsOn": [ ],
-              "key": "detroyed",
-              "label": "How many buildings have you destroyed?",
-              "options": [
-                { "key": "0", "value": "None" },
-                { "key": "10", "value": "Up to 10" },
-                { "key": "50", "value": "Up to 50" },
-                { "key": "500", "value": "Up to 500" }
-              ]
-            }
-          ]
-        },
-        {
-          "title": "Follow-up",
-          "description": "Schedule a time to follow-up with us.",
-          "required": true,
-          "dependsOn": [ ],
-          "questions": [
-            {
-              "controlType": "date",
-              "dependsOn": [ ],
-              "key": "callTime",
-              "label": "When can we contact you?"
-            }
-          ]
-        }
-      ]
-    }
-  ]
+                "value": "solid"
+              }
+            ],
+            "key": "explain",
+            "label": "Why 'solid'?",
+            "required": false,
+            "type": "textarea",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "title": "Deeds",
+        "description": "What have you done?",
+        "required": true,
+        "dependsOn": [ ],
+        "questions": [
+          {
+            "controlType": "radio",
+            "dependsOn": [ ],
+            "key": "saved",
+            "label": "How many citizens have you saved?",
+            "options": [
+              { "key": "0", "value": "None" },
+              { "key": "10", "value": "Up to 10" },
+              { "key": "50", "value": "Up to 50" },
+              { "key": "500", "value": "Up to 500" }
+            ]
+          },
+          {
+            "controlType": "checkbox",
+            "dependsOn": [ ],
+            "key": "collateral",
+            "label": "Have you ever caused collateral damage?",
+            "required": false,
+            "type": "checkbox",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "title": "Misdeeds",
+        "description": "What else have you done?",
+        "required": true,
+        "dependsOn": [
+          {
+            "section": 3,
+            "key": "collateral",
+            "value": true
+          }
+        ],
+        "questions": [
+          {
+            "controlType": "radio",
+            "dependsOn": [ ],
+            "key": "detroyed",
+            "label": "How many buildings have you destroyed?",
+            "options": [
+              { "key": "0", "value": "None" },
+              { "key": "10", "value": "Up to 10" },
+              { "key": "50", "value": "Up to 50" },
+              { "key": "500", "value": "Up to 500" }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Follow-up",
+        "description": "Schedule a time to follow-up with us.",
+        "required": true,
+        "dependsOn": [ ],
+        "questions": [
+          {
+            "controlType": "date",
+            "dependsOn": [ ],
+            "key": "callTime",
+            "label": "When can we contact you?"
+          }
+        ]
+      }
+    ]
+  }
 }

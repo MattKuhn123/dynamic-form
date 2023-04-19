@@ -8,7 +8,7 @@ import { DynamicForm } from './dynamic-form.model';
 export class DynamicFormService {
   constructor(private client: HttpClient) { }
 
-  public getForms(): Observable<DynamicForm[]> {
-    return this.client.get(`${environment.api}${environment.forms}`).pipe(map((data: any) => data.forms as DynamicForm[]));
+  public getForms(): Observable<DynamicForm> {
+    return this.client.get(`${environment.api}${environment.forms}`).pipe(map((data: any) => data.form as DynamicForm));
   }
 }
