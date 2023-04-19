@@ -1,4 +1,4 @@
 export const environment = {
     api: "./assets/data",
-    steps: "/steps.json"
+    forms: "/forms.json"
 };

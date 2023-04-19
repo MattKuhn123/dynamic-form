@@ -1,4 +1,4 @@
-export class DynamicStepQuestion<T> {
+export class DynamicFormQuestion<T> {
     value: T|undefined;
     key: string;
     label: string;

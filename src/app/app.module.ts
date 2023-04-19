@@ -8,14 +8,14 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { MatStepperModule } from '@angular/material/stepper';
 
 import { AppComponent } from './app.component';
-import { DynamicStepQuestionComponent } from './dynamic-form/dynamic-step-question.component';
-import { DynamicStepComponent } from './dynamic-form/dynamic-step.component';
+import { DynamicFormQuestionComponent } from './dynamic-form/dynamic-form-question.component';
+import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DynamicStepQuestionComponent,
-    DynamicStepComponent,
+    DynamicFormQuestionComponent,
+    DynamicFormComponent,
   ],
   imports: [
     BrowserModule,

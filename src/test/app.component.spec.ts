@@ -7,8 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DynamicFormService } from '../app/dynamic-form/dynamic-form.service';
 import { AppComponent } from '../app/app.component';
-import { DynamicStepQuestionComponent } from '../app/dynamic-form/dynamic-step-question.component';
-import { DynamicStepComponent } from 'src/app/dynamic-form/dynamic-step.component';
+import { DynamicFormQuestionComponent } from '../app/dynamic-form/dynamic-form-question.component';
+import { DynamicFormComponent } from 'src/app/dynamic-form/dynamic-form.component';
 import { MatStepperModule } from '@angular/material/stepper';
 
 describe('AppComponent', () => {
@@ -19,8 +19,8 @@ describe('AppComponent', () => {
       await TestBed.configureTestingModule({
         declarations: [
           AppComponent,
-          DynamicStepComponent,
-          DynamicStepQuestionComponent,
+          DynamicFormComponent,
+          DynamicFormQuestionComponent,
         ],
         imports: [
           BrowserModule,

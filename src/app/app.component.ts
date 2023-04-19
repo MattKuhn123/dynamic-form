@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   template: `
     <div style="padding: 5px">
-      <app-dynamic-step></app-dynamic-step>
+      <app-dynamic-form></app-dynamic-form>
     <div>
   `,
 })

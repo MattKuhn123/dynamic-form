@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { DynamicStepQuestion } from './dynamic-step-question.model';
+import { DynamicFormQuestion } from './dynamic-form-question.model';
 
 @Component({
-  selector: 'app-question',
+  selector: 'app-dynamic-question',
   template: `
     <div *ngIf="!hidden" [formGroup]="form">
       <label [attr.for]="question.key">{{ question.label }}</label>
@@ -20,8 +20,8 @@ import { DynamicStepQuestion } from './dynamic-step-question.model';
     </div>
   `
 })
-export class DynamicStepQuestionComponent {
-  @Input() question!: DynamicStepQuestion<string>;
+export class DynamicFormQuestionComponent {
+  @Input() question!: DynamicFormQuestion<string>;
   @Input() form!: FormGroup;
   get isValid(): boolean { return this.form.controls[this.question.key].valid; }
   get hidden(): boolean { return this.question.dependsOn.findIndex(question => this.form.controls[question.key].value !== question.value) > -1; }
