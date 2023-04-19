@@ -16,7 +16,6 @@
             "label": "First name",
             "required": true,
             "type": "text"
-              
           },
           {
             "controlType": "textbox",
@@ -49,7 +48,6 @@
             "label": "First name",
             "required": true,
             "type": "text"
-              
           },
           {
             "controlType": "textbox",
