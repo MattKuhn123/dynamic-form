@@ -29,6 +29,11 @@ import { DynamicForm } from './dynamic-form.model';
             <div *ngFor="let question of section.questions" class="form-row">
               <app-dynamic-question [question]="question" [form]="getFormGroupInArray(i)"></app-dynamic-question>
             </div>
+
+            <div>
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button matStepperNext>Next</button>
+            </div>
           </mat-step>
         </div>
       </mat-stepper>
