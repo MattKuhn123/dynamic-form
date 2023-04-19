@@ -57,17 +57,17 @@ export class DynamicFormComponent implements OnInit {
 
   get sections(): DynamicFormSection[] { return this.form.sections }
 
-  constructor(private dynamicFormService: DynamicFormService, private formBuilder: FormBuilder, private dialog: MatDialog, private breakpointObserver: BreakpointObserver) {
-    this.stepperOrientation = this.breakpointObserver
+  constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private dialog: MatDialog, private bo: BreakpointObserver) {
+    this.stepperOrientation = this.bo
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
   }
   
   ngOnInit(): void {
-    this.dynamicFormService.getForms().subscribe(forms => {
+    this.dfSvc.getForms().subscribe(forms => {
       this.form = forms[0];
-      this.formGroup = this.formBuilder.group({
-        formArray: this.formBuilder.array(this.sections.map(section => this.toFormGroup(section.questions)))
+      this.formGroup = this.fb.group({
+        formArray: this.fb.array(this.sections.map(section => this.toFormGroup(section.questions)))
       });
       
       this.formArray = this.formGroup.get('formArray') as FormArray;
