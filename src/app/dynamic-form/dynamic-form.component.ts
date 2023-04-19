@@ -6,7 +6,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { DynamicFormQuestion } from './dynamic-form-question.model';
 import { DynamicForm } from './dynamic-form.model';
 import { MatDialog } from '@angular/material/dialog';
-import {BreakpointObserver} from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { StepperOrientation } from '@angular/cdk/stepper';
 import { Observable, map } from 'rxjs';
 
@@ -23,7 +23,7 @@ import { Observable, map } from 'rxjs';
       </mat-card-content>
     </mat-card>
 
-    <form [formGroup]="formGroup">
+    <form (ngSubmit)="onPreSubmit()" [formGroup]="formGroup">
       <mat-stepper formArrayName="formArray" [linear]="true" [orientation]="(stepperOrientation | async)!">
         
         <div *ngFor="let section of sections; let i = index; let first = first; let last = last">
@@ -36,8 +36,8 @@ import { Observable, map } from 'rxjs';
 
             <div>
               <button *ngIf="!first" mat-button matStepperPrevious type="button">Back</button>
-              <button *ngIf="!last" mat-button matStepperNext type="button">Next</button>
-              <button *ngIf="last" mat-button type="button" (click)="onPreSubmit()">Submit</button>
+              <button *ngIf="!last" [disabled]="!getFormGroupInArray(i).valid" mat-button matStepperNext type="button">Next</button>
+              <button *ngIf="last" [disabled]="!getFormGroupInArray(i).valid" mat-button type="submit">Submit</button>
             </div>
           </mat-step>
         </div>
