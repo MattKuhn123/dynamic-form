@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
+import { MatCardModule } from '@angular/material/card';
 import { MatStepperModule } from '@angular/material/stepper';
 
 import { AppComponent } from './app.component';
@@ -21,6 +22,7 @@ import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    MatCardModule,
     MatStepperModule,
     ReactiveFormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {

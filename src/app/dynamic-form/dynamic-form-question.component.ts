@@ -10,7 +10,7 @@ import { DynamicFormQuestion } from './dynamic-form-question.model';
       <label [attr.for]="question.key">{{ question.label }}</label>
       <div [ngSwitch]="question.controlType">
         <input *ngSwitchCase="'textbox'" [formControlName]="question.key" [id]="question.key" [type]="question.type" />
-        <select [id]="question.key" *ngSwitchCase="'dropdown'" [formControlName]="question.key">
+        <select *ngSwitchCase="'dropdown'" [id]="question.key" [formControlName]="question.key">
           <option *ngFor="let opt of question.options" [value]="opt.key"> {{ opt.value }} </option>
         </select>
       </div>

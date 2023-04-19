@@ -4,11 +4,21 @@ import { DynamicFormService } from './dynamic-form.service';
 import { DynamicFormSection } from './dynamic-form-section.model';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicFormQuestion } from './dynamic-form-question.model';
+import { DynamicForm } from './dynamic-form.model';
 
 @Component({
   selector: 'app-dynamic-form',
   template: `
-  <div *ngIf="sections">
+  <div *ngIf="form">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ form.title }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p> {{ form.description }} </p>
+      </mat-card-content>
+    </mat-card>
+
     <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
       <mat-stepper formArrayName="formArray">
         <div *ngFor="let section of sections; let i = index">
@@ -27,16 +37,17 @@ import { DynamicFormQuestion } from './dynamic-form-question.model';
 export class DynamicFormComponent implements OnInit {
   formArray!: FormArray;
   formGroup!: FormGroup;
-  sections!: DynamicFormSection[];
+  form!: DynamicForm;
+
+  get sections(): DynamicFormSection[] { return this.form.sections }
 
   constructor(private dynamicFormService: DynamicFormService, private formBuilder: FormBuilder) { }
   
   ngOnInit(): void {
     this.dynamicFormService.getForms().subscribe(forms => {
-      const form = forms[0];
-      this.sections = form.sections;
+      this.form = forms[0];
       this.formGroup = this.formBuilder.group({
-        formArray: this.formBuilder.array(form.sections.map(step => this.toFormGroup(step.questions)))
+        formArray: this.formBuilder.array(this.sections.map(section => this.toFormGroup(section.questions)))
       });
       
       this.formArray = this.formGroup.get('formArray') as FormArray;

@@ -2,7 +2,7 @@
   "forms": [
     {
       "title": "Dynamic form 1",
-      "description": "The first dynamic form among the created dynamic forms.",
+      "description": "The first dynamic form created among the created dynamic forms.",
       "sections":[
         {
           "key": "1",
