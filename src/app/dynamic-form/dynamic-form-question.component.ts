@@ -43,6 +43,23 @@ import { DynamicFormQuestion } from './dynamic-form-question.model';
             <mat-radio-button *ngFor="let opt of question.options" [value]="opt.key"> {{ opt.value }} </mat-radio-button>
           </mat-radio-group>
         </div>
+
+        <div *ngSwitchCase="'date'">
+          <mat-form-field appearance="fill">
+            <mat-label>{{ question.label }}</mat-label>
+            <input [id]="question.key" [formControlName]="question.key" matInput [matDatepicker]="picker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div *ngSwitchCase="'file'">
+          <button type="button" mat-raised-button (click)="fileInput.click()">{{ question.label }}</button>
+          <input [formControlName]="question.key" hidden (change)="onFileSelected(question.key)" #fileInput type="file" [id]="question.key">
+          <p *ngIf="fileName">{{ fileName }}</p>
+        </div>
+
       </div>
 
       <!-- <mat-error *ngIf="!isValid">{{ question.label }} is required</mat-error> -->
@@ -54,4 +71,18 @@ export class DynamicFormQuestionComponent {
   @Input() form!: FormGroup;
   get isValid(): boolean { return this.form.controls[this.question.key].valid; }
   get hidden(): boolean { return this.question.dependsOn.findIndex(question => this.form.controls[question.key].value !== question.value) > -1; }
+
+  protected fileName: string = "";
+
+  protected onFileSelected(id: string): void {
+    const inputNode: any = document.querySelector(`#${id}`);
+    if (typeof (FileReader) === 'undefined') {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e: any) => { console.log(e.target.result); };
+    reader.readAsArrayBuffer(inputNode.files[0]);
+    this.fileName = inputNode.files[0].name;
+  }
 }

@@ -5,7 +5,6 @@
       "description": "Please complete this form to apply for our new 'Hero' position.",
       "sections":[
         {
-          "key": "0",
           "title": "Contact",
           "description": "Contact information",
           "dependsOn": [ ],
@@ -41,7 +40,6 @@
           ]
         },
         {
-          "key": "1",
           "title": "Love interests",
           "description": "Someone whom a villain could kidnap",
           "dependsOn": [ ],
@@ -67,16 +65,15 @@
               "value": ""
             },
             {
-              "controlType":"textbox",
+              "controlType":"file",
               "dependsOn": [ ],
-              "key": "emailAddress",
-              "label": "Email",
-              "type": "email"
+              "key": "characterWitness",
+              "label": "Letter of recommendation",
+              "type": "file"
             }
           ]
         },
         {
-          "key": "2",
           "title": "Bravery",
           "description": "Bravery information",
           "dependsOn": [ ],
@@ -111,7 +108,6 @@
           ]
         },
         {
-          "key": "3",
           "title": "Deeds",
           "description": "What have you done?",
           "dependsOn": [ ],
@@ -141,10 +137,9 @@
           ]
         },
         {
-          "key": "4",
           "title": "Misdeeds",
           "description": "What else have you done?",
-          "required": false,
+          "required": true,
           "dependsOn": [
             {
               "section": 3,
@@ -164,6 +159,20 @@
                 { "key": "50", "value": "Up to 50" },
                 { "key": "500", "value": "Up to 500" }
               ]
+            }
+          ]
+        },
+        {
+          "title": "Follow-up",
+          "description": "Schedule a time to follow-up with us.",
+          "required": true,
+          "dependsOn": [ ],
+          "questions": [
+            {
+              "controlType": "date",
+              "dependsOn": [ ],
+              "key": "callTime",
+              "label": "When can we contact you?"
             }
           ]
         }
