@@ -1,24 +1,24 @@
 import { DynamicFormQuestion } from "./dynamic-form-question.model";
 
 export class DynamicFormSection {
-  description: string;
   dependsOn: { section: number, key: string, value: string }[];
+  description: string;
   questions: DynamicFormQuestion[];
-  title: string;
   required: boolean;
+  title: string;
 
   constructor(options: {
-    description?: string;
     dependsOn?: { section: number, key: string, value: string }[];
+    description?: string;
     key?: string;
     questions?: DynamicFormQuestion[];
-    title?: string;
     required?: boolean;
+    title?: string;
   } = {}) {
-    this.description = options.description || "";
     this.dependsOn = options.dependsOn || [];
+    this.description = options.description || "";
     this.questions = options.questions || [];
-    this.title = options.title || "";
     this.required = !!options.required;
+    this.title = options.title || "";
   }
 }
