@@ -57,8 +57,6 @@ import { DynamicFormQuestion } from './dynamic-form-question.model';
           </mat-step>
         </div>
       </mat-stepper>
-
-      <!-- <button value="submit" type="submit">Submit</button> -->
     </form>
   </div>
   `,
