@@ -67,6 +67,11 @@ export class DynamicFormComponent implements OnInit {
   formGroup!: FormGroup;
   form!: DynamicForm;
   stepperOrientation: Observable<StepperOrientation>;
+  
+  protected getFormGroupInArray(index: number): FormGroup { return (this.formArray.at(index) as FormArray).at(0) as FormGroup; }
+  protected getFormArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
+  protected getCtrlFormGroupInArray(ctrlIdx:number, sctnIdx: number): FormGroup { return (this.formArray.at(sctnIdx) as FormArray).at(ctrlIdx) as FormGroup; }
+  protected getFormArrayInArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
 
   constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private dialog: MatDialog, private bo: BreakpointObserver) {
     this.stepperOrientation = this.bo
@@ -87,21 +92,6 @@ export class DynamicFormComponent implements OnInit {
     });
   }
 
-  protected getFormGroupInArray(index: number): FormGroup {
-    return (this.formArray.at(index) as FormArray).at(0) as FormGroup;
-  }
-
-  protected getFormArray(index: number): FormArray {
-    return this.formArray.at(index) as FormArray;
-  }
-
-  protected getCtrlFormGroupInArray(ctrlIdx:number, sctnIdx: number): FormGroup {
-    return (this.formArray.at(sctnIdx) as FormArray).at(ctrlIdx) as FormGroup;
-  }
-
-  protected getFormArrayInArray(index: number): FormArray {
-    return this.formArray.at(index) as FormArray;
-  }
 
   protected hidden(section: DynamicFormSection): boolean {
     if (section.dependsOn.length === 0) {

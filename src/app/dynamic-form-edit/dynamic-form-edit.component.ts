@@ -213,10 +213,11 @@ export class DynamicFormEditComponent implements OnInit {
   fg!: FormGroup;
   get stringified(): string { return JSON.stringify(this.fg.getRawValue(), null, 4) };
   get sections(): FormArray { return this.fg.get("sections") as FormArray; }
-  getSectionsDependsOn(idx: number): FormArray { return ((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("dependsOn") as FormArray; }
-  getSectionsQuestions(idx: number): FormArray { return ((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray; }
-  getSectionsQuestionsDependsOn(idx: number, nextIdx: number): FormArray { return ((((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray).at(nextIdx) as FormGroup).get("dependsOn") as FormArray; }
-  getSectionsQuestionsOptions(idx: number, nextIdx: number): FormArray { return ((((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray).at(nextIdx) as FormGroup).get("options") as FormArray; }
+  
+  protected getSectionsDependsOn(idx: number): FormArray { return ((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("dependsOn") as FormArray; }
+  protected getSectionsQuestions(idx: number): FormArray { return ((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray; }
+  protected getSectionsQuestionsDependsOn(idx: number, nextIdx: number): FormArray { return ((((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray).at(nextIdx) as FormGroup).get("dependsOn") as FormArray; }
+  protected getSectionsQuestionsOptions(idx: number, nextIdx: number): FormArray { return ((((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray).at(nextIdx) as FormGroup).get("options") as FormArray; }
 
   constructor(private dfSvc: DynamicFormService, private fb: FormBuilder) { }
 
