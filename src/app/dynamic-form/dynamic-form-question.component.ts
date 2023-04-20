@@ -55,7 +55,7 @@ import { DynamicFormQuestion } from './dynamic-form-question.model';
         </div>
 
         <div *ngSwitchCase="'file'">
-          <button type="button" mat-raised-button (click)="fileInput.click()">{{ question.label }}</button>
+          <button type="button" mat-button (click)="fileInput.click()">{{ question.label }}</button>
           <input [formControlName]="question.key" hidden (change)="onFileSelected(question.key)" #fileInput type="file" [id]="question.key">
           <p *ngIf="fileName">{{ fileName }}</p>
         </div>

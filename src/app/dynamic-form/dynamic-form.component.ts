@@ -3,12 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { DynamicFormService } from './dynamic-form.service';
 import { DynamicFormSection } from './dynamic-form-section.model';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DynamicFormQuestion } from './dynamic-form-question.model';
 import { DynamicForm } from './dynamic-form.model';
 import { MatDialog } from '@angular/material/dialog';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { StepperOrientation } from '@angular/cdk/stepper';
 import { Observable, map } from 'rxjs';
+import { DynamicFormQuestion } from './dynamic-form-question.model';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -26,19 +26,34 @@ import { Observable, map } from 'rxjs';
     <form (ngSubmit)="onPreSubmit()" [formGroup]="formGroup">
       <mat-stepper formArrayName="formArray" [linear]="true" [orientation]="(stepperOrientation | async)!">
         
-        <div *ngFor="let section of form.sections; let i = index; let first = first; let last = last">
-          <mat-step *ngIf="!hidden(section)" formGroupName="{{ i }}" [stepControl]="getFormGroupInArray(i)" [optional]="!section.required">
+        <div *ngFor="let section of form.sections; let sctnIdx = index; let first = first; let last = last">
+          <mat-step *ngIf="!hidden(section)" formGroupName="{{ sctnIdx }}" [stepControl]="getFormGroupInArray(sctnIdx)" [optional]="!section.required">
             <ng-template matStepLabel>{{section.title}}</ng-template>
-            <h4>{{section.description}}</h4>
-            <div *ngFor="let question of section.questions">
-              <app-dynamic-question [question]="question" [form]="getFormGroupInArray(i)"></app-dynamic-question>
-            </div>
 
-            <div>
-              <button *ngIf="!first" mat-button matStepperPrevious type="button">Back</button>
-              <button *ngIf="!last" [disabled]="!getFormGroupInArray(i).valid" mat-button matStepperNext type="button">Next</button>
-              <button *ngIf="last" [disabled]="!getFormGroupInArray(i).valid" mat-button type="submit">Submit</button>
-            </div>
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>
+                  {{section.description}}
+                </mat-card-title>
+              </mat-card-header>
+              
+              <mat-card-content>
+                <div *ngFor="let control of getFormArray(sctnIdx).controls; let ctrlIdx = index; let lastControl = last">
+                  <div *ngFor="let question of section.questions; let qstnIdx = index">
+                    <app-dynamic-question [question]="question" [form]="getCtrlFormGroupInArray(ctrlIdx, sctnIdx)"></app-dynamic-question>
+                  </div>
+                  <mat-divider [inset]="true" *ngIf="!lastControl"></mat-divider>
+                </div>
+              </mat-card-content>
+
+              <mat-card-actions align="start">
+                <button type="button" mat-button *ngIf="section.list" (click)="onClickAdd(sctnIdx)">Add Another</button>
+                <button type="button" mat-button *ngIf="section.list"  [disabled]="getFormArray(sctnIdx).controls.length <= 1"(click)="onClickRemove(sctnIdx)">Remove Last</button>
+                <button type="button" mat-button *ngIf="!first" matStepperPrevious>Back</button>
+                <button type="button" mat-button color="primary" *ngIf="!last" [disabled]="!getFormGroupInArray(sctnIdx).valid && section.required" matStepperNext>Next</button>
+                <button type="submit" mat-raised-button color="primary" *ngIf="last" [disabled]="!getFormGroupInArray(sctnIdx).valid">Submit</button>
+              </mat-card-actions>
+            </mat-card>
           </mat-step>
         </div>
       </mat-stepper>
@@ -64,16 +79,30 @@ export class DynamicFormComponent implements OnInit {
   ngOnInit(): void {
     this.dfSvc.getForm().subscribe(form => {
       this.form = form;
+      const formArrays: FormArray[] = this.form.sections.map(section => this.fb.array([this.questionsToFormGroup(section.questions)]));
+      const formArrayOfArrays: FormArray = this.fb.array(formArrays);
       this.formGroup = this.fb.group({
-        formArray: this.fb.array(this.form.sections.map(section => this.toFormGroup(section)))
+        formArray: formArrayOfArrays
       });
-      
+
       this.formArray = this.formGroup.get('formArray') as FormArray;
     });
   }
 
   protected getFormGroupInArray(index: number): FormGroup {
-    return this.formArray.at(index) as FormGroup;
+    return (this.formArray.at(index) as FormArray).at(0) as FormGroup;
+  }
+
+  protected getFormArray(index: number): FormArray {
+    return this.formArray.at(index) as FormArray;
+  }
+
+  protected getCtrlFormGroupInArray(ctrlIdx:number, sctnIdx: number): FormGroup {
+    return (this.formArray.at(sctnIdx) as FormArray).at(ctrlIdx) as FormGroup;
+  }
+
+  protected getFormArrayInArray(index: number): FormArray {
+    return this.formArray.at(index) as FormArray;
   }
 
   protected hidden(section: DynamicFormSection): boolean {
@@ -82,6 +111,15 @@ export class DynamicFormComponent implements OnInit {
     }
 
     return section.dependsOn.findIndex(dependsOn => this.getFormGroupInArray(dependsOn.section).controls[dependsOn.key].value === dependsOn.value) <= -1;
+  }
+
+  protected onClickAdd(sctnIdx: number): void {
+    const newGroup = this.questionsToFormGroup(this.form.sections[sctnIdx].questions);
+    this.getFormArrayInArray(sctnIdx).push(newGroup);
+  }
+
+  protected onClickRemove(sctnIdx: number): void {
+    this.getFormArrayInArray(sctnIdx).removeAt(this.getFormArrayInArray(sctnIdx).length - 1);
   }
 
   protected onPreSubmit(): void {
@@ -94,19 +132,12 @@ export class DynamicFormComponent implements OnInit {
   }
 
   private onSubmit(): void {
-    const value: any = { };
-    this.formArray.getRawValue().forEach(formGroup => {
-      Object.keys(formGroup).forEach(key => {
-        value[key] = formGroup[key];
-      })
-    });
-    
-    console.log(JSON.stringify(value));
+    console.log(JSON.stringify(this.formArray.getRawValue()));
   }
 
-  private toFormGroup(section: DynamicFormSection): FormGroup {
+  private questionsToFormGroup(questions: DynamicFormQuestion[]): FormGroup {
     const group: any = { };
-    section.questions.forEach(question => {
+    questions.forEach(question => {
       if (question.required) {
         group[question.key] = new FormControl('', Validators.required);
       } else {
