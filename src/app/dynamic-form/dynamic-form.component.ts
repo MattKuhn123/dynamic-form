@@ -68,8 +68,8 @@ export class DynamicFormComponent implements OnInit {
   form!: DynamicForm;
   stepperOrientation: Observable<StepperOrientation>;
 
-  protected getFormGroupInArray(index: number): FormGroup { return (this.formArray.at(index) as FormArray).at(0) as FormGroup; }
   protected getFormArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
+  protected getFormGroupInArray(index: number): FormGroup { return (this.formArray.at(index) as FormArray).at(0) as FormGroup; }
   protected getCtrlFormGroupInArray(ctrlIdx:number, sctnIdx: number): FormGroup { return (this.formArray.at(sctnIdx) as FormArray).at(ctrlIdx) as FormGroup; }
   protected getFormArrayInArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
 

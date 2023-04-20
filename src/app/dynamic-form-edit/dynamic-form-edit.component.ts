@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicFormService } from '../shared/dynamic-form.service';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { DynamicFormQuestion } from '../dynamic-form/dynamic-form-question.model';
 
 @Component({
   selector: 'app-dynamic-form-edit',
@@ -144,9 +145,14 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
         
                               <div *ngFor="let questionDependsOn of getSectionsQuestionsDependsOn(i, qi).controls; let qdoi = index">
                                 <div [formGroupName]="qdoi">
+                                  <!-- HERE -->
                                   <mat-form-field appearance="fill">
                                     <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qi}}-key'">Question</mat-label>
-                                    <input matInput [formControlName]="'key'" [id]="'question-dependsOn-{{i}}-{{doi}}-key'" [type]="'text'" />
+                                    <mat-select [id]="'question-dependsOn-{{i}}-{{doi}}-key'" [formControlName]="'key'">
+                                      <mat-option *ngFor="let dependableQuestion of getSectionsQuestionsKeys(i) " [value]="dependableQuestion">
+                                        {{ dependableQuestion }}
+                                      </mat-option>
+                                    </mat-select>
                                   </mat-form-field>
         
                                   <mat-form-field appearance="fill">
@@ -158,7 +164,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
                             </mat-card-content>
                           </mat-card>
 
-                          <mat-card formArrayName="options">
+                          <mat-card formArrayName="options" *ngIf="getSectionsQuestionsOptionable(i, qi)">
                             <mat-card-header>
                               <mat-card-title>Question Options</mat-card-title>
                               <mat-card-subtitle>Options available to select for this question.</mat-card-subtitle>
@@ -216,8 +222,11 @@ export class DynamicFormEditComponent implements OnInit {
   
   protected getSectionsDependsOn(idx: number): FormArray { return ((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("dependsOn") as FormArray; }
   protected getSectionsQuestions(idx: number): FormArray { return ((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray; }
+  protected getSectionsQuestionsKeys(idx: number): string[] { return Object.values(this.getSectionsQuestions(idx).getRawValue()).map(question => question.key); }
   protected getSectionsQuestionsDependsOn(idx: number, nextIdx: number): FormArray { return ((((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray).at(nextIdx) as FormGroup).get("dependsOn") as FormArray; }
   protected getSectionsQuestionsOptions(idx: number, nextIdx: number): FormArray { return ((((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray).at(nextIdx) as FormGroup).get("options") as FormArray; }
+  protected getSectionsQuestionsCtrlType(idx: number, nextIdx: number): string { return (((((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray).at(nextIdx) as FormGroup).get("controlType") as FormControl).value; }
+  protected getSectionsQuestionsOptionable(idx: number, nextIdx: number): boolean { return ["radio", "dropdown"].findIndex(ctrlType => ctrlType === this.getSectionsQuestionsCtrlType(idx, nextIdx)) > -1; }
 
   constructor(private dfSvc: DynamicFormService, private fb: FormBuilder) { }
 
@@ -264,7 +273,7 @@ export class DynamicFormEditComponent implements OnInit {
         }) || [])
       });
 
-      console.log(this.fg);
+      console.log(this.getSectionsQuestionsKeys(2));
     });
   }
 }
