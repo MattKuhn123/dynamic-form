@@ -6,6 +6,7 @@
       {
         "title": "Contact",
         "description": "Contact information",
+        "list": false,
         "required": true,
         "dependsOn": [ ],
         "questions": [
@@ -14,6 +15,7 @@
             "dependsOn": [ ],
             "key": "firstName",
             "label": "First name",
+            "options": [ ],
             "required": true,
             "type": "text"
           },
@@ -22,6 +24,7 @@
             "dependsOn": [ ],
             "key": "lastName",
             "label": "Last name",
+            "options": [ ],
             "required": true,
             "type": "text"
           },
@@ -30,6 +33,7 @@
             "dependsOn": [ ],
             "key": "emailAddress",
             "label": "Email",
+            "options": [ ],
             "required": true,
             "type": "email"
           }
@@ -47,6 +51,7 @@
             "dependsOn": [ ],
             "key": "loveFirstName",
             "label": "First name",
+            "options": [ ],
             "required": true,
             "type": "text"
           },
@@ -55,6 +60,7 @@
             "dependsOn": [ ],
             "key": "loveLastName",
             "label": "Last name",
+            "options": [ ],
             "required": true,
             "type": "text"
           },
@@ -63,6 +69,7 @@
             "dependsOn": [ ],
             "key": "characterWitness",
             "label": "Letter of recommendation",
+            "options": [ ],
             "required": true,
             "type": "file"
           }
@@ -71,6 +78,7 @@
       {
         "title": "Bravery",
         "description": "Bravery information",
+        "list": false,
         "required": true,
         "dependsOn": [ ],
         "questions": [
@@ -79,13 +87,13 @@
               "dependsOn": [ ],
               "key": "bravery",
               "label": "Bravery Rating",
-              "required": true,
               "options": [
                 { "key": "solid", "value": "Solid" },
                 { "key": "great", "value": "Great" },
                 { "key": "good", "value": "Good" },
                 { "key": "unproven", "value": "Unproven" }
-              ]
+              ],
+              "required": true
           },
           {
             "controlType": "textarea",
@@ -94,6 +102,7 @@
             ],
             "key": "braveryExplanation",
             "label": "Why 'solid'?",
+            "options": [ ],
             "required": false,
             "type": "textarea"
           }
@@ -102,6 +111,7 @@
       {
         "title": "Deeds",
         "description": "What deeds have you done?",
+        "list": false,
         "required": true,
         "dependsOn": [ ],
         "questions": [
@@ -122,6 +132,7 @@
             "dependsOn": [ ],
             "key": "collateralDamage",
             "label": "Have you ever caused collateral damage?",
+            "options": [ ],
             "required": false,
             "type": "checkbox"
           }
@@ -130,6 +141,7 @@
       {
         "title": "Misdeeds",
         "description": "This only appears if you have checked 'collateralDamage'.",
+        "list": false,
         "required": true,
         "dependsOn": [
           { "section": 3, "key": "collateralDamage", "value": true }
@@ -145,13 +157,15 @@
               { "key": "10", "value": "Up to 10" },
               { "key": "50", "value": "Up to 50" },
               { "key": "500", "value": "Up to 500" }
-            ]
+            ],
+            "required": false
           }
         ]
       },
       {
         "title": "Follow-up",
         "description": "Schedule a time to follow-up with us.",
+        "list": false,
         "required": true,
         "dependsOn": [ ],
         "questions": [
@@ -160,6 +174,7 @@
             "dependsOn": [ ],
             "key": "callTime",
             "label": "When can we contact you?",
+            "options": [ ],
             "required": true,
             "type": "date"
           }

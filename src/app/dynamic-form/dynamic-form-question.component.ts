@@ -33,8 +33,9 @@ import { DynamicFormQuestion } from './dynamic-form-question.model';
         </div>
 
         <div *ngSwitchCase="'checkbox'">
-          <mat-label [attr.for]="question.key">{{ question.label }}</mat-label><br />
-          <mat-checkbox [formControlName]="question.key" [id]="question.key"></mat-checkbox>
+          <mat-label [attr.for]="question.key">{{ question.label }}
+            <mat-checkbox [formControlName]="question.key" [id]="question.key"></mat-checkbox>
+          </mat-label>
         </div>
 
         <div *ngSwitchCase="'radio'">
@@ -59,10 +60,7 @@ import { DynamicFormQuestion } from './dynamic-form-question.model';
           <input [formControlName]="question.key" hidden (change)="onFileSelected(question.key)" #fileInput type="file" [id]="question.key">
           <p *ngIf="fileName">{{ fileName }}</p>
         </div>
-
       </div>
-
-      <!-- <mat-error *ngIf="!isValid">{{ question.label }} is required</mat-error> -->
     </div>
   `
 })

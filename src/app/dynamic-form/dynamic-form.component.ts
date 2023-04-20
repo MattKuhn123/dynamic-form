@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DynamicFormService } from './dynamic-form.service';
+import { DynamicFormService } from '../shared/dynamic-form.service';
 import { DynamicFormSection } from './dynamic-form-section.model';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicForm } from './dynamic-form.model';

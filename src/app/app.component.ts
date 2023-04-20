@@ -14,6 +14,7 @@ import { Component } from '@angular/core';
       </p>
     </mat-card-content>
     <mat-card-actions>
+      <button mat-button [routerLink]="['/edit']">Edit</button>
       <button mat-button [routerLink]="['/view']">View</button>
     </mat-card-actions>
   </mat-card>
