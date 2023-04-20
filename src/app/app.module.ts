@@ -1,5 +1,6 @@
 import { NgModule, isDevMode } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router'
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,6 +22,10 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { AppComponent } from './app.component';
 import { DynamicFormQuestionComponent } from './dynamic-form/dynamic-form-question.component';
 import { DynamicFormComponent, PreSubmitDialog } from './dynamic-form/dynamic-form.component';
+
+export const appRoute: Routes = [
+  { path: 'view', component: DynamicFormComponent },
+]
 
 @NgModule({
   declarations: [
@@ -46,10 +51,9 @@ import { DynamicFormComponent, PreSubmitDialog } from './dynamic-form/dynamic-fo
     MatSelectModule,
     MatStepperModule,
     ReactiveFormsModule,
+    RouterModule.forRoot(appRoute),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
   ],
