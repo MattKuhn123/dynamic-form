@@ -65,33 +65,41 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                   <mat-card-subtitle>Conditions that determine whether this section will be displayed.</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content formArrayName="dependsOn">
-                  <div *ngIf="getSectionsDependsOn(i).controls.length === 0">
+                  <div *ngIf="getSectionDependsOnList(i).controls.length === 0">
                     <em>This section will always be displayed.</em>
                   </div>
   
-                  <div *ngFor="let dependsOn of getSectionsDependsOn(i).controls; let doi = index">
+                  <div *ngFor="let dependsOn of getSectionDependsOnList(i).controls; let doi = index">
                     <div [formGroupName]="doi">
                       <mat-form-field appearance="fill">
                         <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-section'">Section index</mat-label>
-                        <mat-select [id]="'dependsOn-{{i}}-{{doi}}-section'" [formControlName]="'section'">
-                          <mat-option *ngFor="let index of sectionIndiciesArray" [value]="index-1">{{index}}</mat-option>
+                        <mat-select id="dependsOn-{{i}}-{{doi}}-section" [formControlName]="'section'">
+                          <mat-option *ngFor="let index of getSectionsForSectionDependsOn()" [value]="index-1">{{index}}</mat-option>
                         </mat-select>
                       </mat-form-field>
 
-                      <!-- <mat-form-field appearance="fill">
-                        <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-section'">Section index</mat-label>
-                        <input matInput [formControlName]="'section'" [id]="'dependsOn-{{i}}-{{doi}}-section'" [type]="'number'" />
-                      </mat-form-field> -->
-  
                       <mat-form-field appearance="fill">
                         <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-key'">Question</mat-label>
-                        <input matInput [formControlName]="'key'" [id]="'dependsOn-{{i}}-{{doi}}-key'" [type]="'text'" />
+                        <mat-select [id]="'dependsOn-{{i}}-{{doi}}-key'" [formControlName]="'key'">
+                          <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(getSectionDependsOnSection(i, doi).value)" [value]="dependableQuestion">
+                            {{ dependableQuestion }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                      <mat-form-field appearance="fill">
+                        <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-key'">Value</mat-label>
+                        <mat-select [id]="'dependsOn-{{i}}-{{doi}}-value'" [formControlName]="'value'">
+                          <mat-option *ngFor="let option of getValuesForDependsOn(getSectionDependsOnSection(i, doi).value, getSectionDependsOnQuestion(i, doi).value)" [value]="option.key">
+                            {{ option.value }}
+                          </mat-option>
+                        </mat-select>
                       </mat-form-field>
   
-                      <mat-form-field appearance="fill">
+                      <!-- <mat-form-field appearance="fill">
                         <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-value'">Value</mat-label>
                         <input matInput [formControlName]="'value'" [id]="'dependsOn-{{i}}-{{doi}}-value'" [type]="'text'" />
-                      </mat-form-field>
+                      </mat-form-field> -->
                     </div>
                   </div>
                 </mat-card-content>
@@ -100,11 +108,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
               <mat-card>
                 <mat-card-header>
                   <mat-card-title>Section Questions</mat-card-title>
-                  <mat-card-subtitle>Questions that section displays.</mat-card-subtitle>
+                  <mat-card-subtitle>Questions this section displays.</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
                   <mat-accordion formArrayName="questions">
-                    <mat-expansion-panel *ngFor="let question of getSectionsQuestions(i).controls; let qi = index" [formGroupName]="qi">
+                    <mat-expansion-panel *ngFor="let question of getQuestions(i).controls; let qi = index" [formGroupName]="qi">
                       <mat-expansion-panel-header>
                         <mat-panel-title>
                         Question {{ qi+1 }}
@@ -145,16 +153,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                               <mat-card-subtitle>Conditions that determine whether this question will be displayed.</mat-card-subtitle>
                             </mat-card-header>
                             <mat-card-content>
-                              <div *ngIf="getSectionsQuestionsDependsOn(i, qi).controls.length === 0">
+                              <div *ngIf="getQuestionDependsOnList(i, qi).controls.length === 0">
                                 <em>This question will always be displayed.</em>
                               </div>
         
-                              <div *ngFor="let questionDependsOn of getSectionsQuestionsDependsOn(i, qi).controls; let qdoi = index">
+                              <div *ngFor="let questionDependsOn of getQuestionDependsOnList(i, qi).controls; let qdoi = index">
                                 <div [formGroupName]="qdoi">
                                   <mat-form-field appearance="fill">
                                     <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-key'">Question</mat-label>
                                     <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-key'" [formControlName]="'key'">
-                                      <mat-option *ngFor="let dependableQuestion of getSectionsQuestionsOptionableKeys(i) " [value]="dependableQuestion">
+                                      <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(i) " [value]="dependableQuestion">
                                         {{ dependableQuestion }}
                                       </mat-option>
                                     </mat-select>
@@ -163,7 +171,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                                   <mat-form-field appearance="fill">
                                     <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-value'">Value</mat-label>
                                     <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-value'" [formControlName]="'value'">
-                                      <mat-option *ngFor="let option of getSectionsQuestionsOptionsValues(i, 'question-dependsOn-{{i}}-{{qdoi}}-key')" [value]="option.key">
+                                      <mat-option *ngFor="let option of getValuesForDependsOn(i, getQuestionDependsOnQuestion(i, qi, qdoi).value)" [value]="option.key">
                                         {{ option.value }}
                                       </mat-option>
                                     </mat-select>
@@ -180,11 +188,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                             </mat-card-header>
 
                             <mat-card-content>
-                              <div *ngIf="getSectionsQuestionsOptions(i, qi).controls.length === 0">
+                              <div *ngIf="getQuestionOptions(i, qi).controls.length === 0">
                                 <em>This question has no options.</em>
                               </div>
         
-                              <div *ngFor="let questionOptions of getSectionsQuestionsOptions(i, qi).controls; let qoi = index">
+                              <div *ngFor="let questionOptions of getQuestionOptions(i, qi).controls; let qoi = index">
                                 <div [formGroupName]="qoi">
                                   <mat-form-field appearance="fill">
                                     <mat-label [attr.for]="'question-option-{{i}}-{{qi}}-key'">Value</mat-label>
@@ -228,37 +236,46 @@ export class DynamicFormEditComponent implements OnInit {
   fg!: FormGroup;
   get stringified(): string { return JSON.stringify(this.fg.getRawValue(), null, 4) };
   get sections(): FormArray { return this.fg.get("sections") as FormArray; }
-
-  protected get sectionIndiciesArray(): number[] { return Object.keys(((this.fg.get("sections") as FormArray).value as number[])).map(key => +key + 1); }
-
-  protected getSectionsDependsOn(idx: number): FormArray { return ((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("dependsOn") as FormArray; }
-  protected getSectionsQuestions(idx: number): FormArray { return ((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray; }
-  protected getSectionsQuestionsDependsOn(idx: number, nextIdx: number): FormArray { return ((((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray).at(nextIdx) as FormGroup).get("dependsOn") as FormArray; }
-  protected getSectionsQuestionsOptions(idx: number, nextIdx: number): FormArray { return ((((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray).at(nextIdx) as FormGroup).get("options") as FormArray; }
-  protected getSectionsQuestionsCtrlType(idx: number, nextIdx: number): string { return (((((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray).at(nextIdx) as FormGroup).get("controlType") as FormControl).value; }
   
-  protected getSectionsQuestionsOptionableKeys(idx: number): string[] { return Object.values(this.getSectionsQuestions(idx).getRawValue()).filter(question => ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === question.controlType) > -1).map(question => question.key); }
-  protected getSectionsQuestionsOptionable(idx: number, nextIdx: number): boolean { return ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === this.getSectionsQuestionsCtrlType(idx, nextIdx)) > -1; }
-  protected getSectionsQuestionsOptionsValues(idx: number, idOfSelectedQuestion: string): any[] {
-    const selectedValue: string = document.getElementById(idOfSelectedQuestion)?.innerText ?? "";
+  protected getSection(secIdx: number): FormGroup { return (this.sections.at(secIdx) as FormGroup) }
+  protected getSectionDependsOnList(secIdx: number): FormArray { return (this.getSection(secIdx)).get("dependsOn") as FormArray; }
+  protected getSectionDependsOnItem(secIdx: number, dpdsIdx: number): FormGroup { return this.getSectionDependsOnList(secIdx).at(dpdsIdx) as FormGroup; }
+  protected getSectionDependsOnSection(secIdx: number, dpdsIdx: number): FormControl { return this.getSectionDependsOnItem(secIdx, dpdsIdx).get("section") as FormControl; }
+  protected getSectionDependsOnQuestion(secIdx: number, dpdsIdx: number): FormControl { return this.getSectionDependsOnItem(secIdx, dpdsIdx).get("key") as FormControl; }
+  protected getSectionDependsOnValue(secIdx: number, dpdsIdx: number): FormControl { return this.getSectionDependsOnItem(secIdx, dpdsIdx).get("value") as FormControl; }
+  
+  protected getQuestions(secIdx: number): FormArray { return (this.getSection(secIdx)).get("questions") as FormArray; }
+  protected getQuestion(secIdx: number, qIdx: number): FormGroup { return this.getQuestions(secIdx).at(qIdx) as FormGroup }
+  protected getQuestionCtrlType(secIdx: number, qIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("controlType") as FormControl); }
+  
+  protected getQuestionOptions(secIdx: number, qIdx: number): FormArray { return this.getQuestion(secIdx, qIdx).get("options") as FormArray }
+  protected getQuestionOption(secIdx: number, qIdx: number, optIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("options") as FormArray).at(optIdx) as FormControl }
+  
+  protected getQuestionDependsOnList(secIdx: number, qIdx: number): FormArray { return this.getQuestion(secIdx, qIdx).get("dependsOn") as FormArray; }
+  protected getQuestionDependsOnItem(secIdx: number, qIdx: number, dpdsIdx: number): FormControl { return this.getQuestionDependsOnList(secIdx, qIdx).at(dpdsIdx) as FormControl; }
+  protected getQuestionDependsOnQuestion(secIdx: number, qIdx: number, dpdsIdx: number): FormControl { return this.getQuestionDependsOnItem(secIdx, qIdx, dpdsIdx).get("key") as FormControl; }
+  protected getQuestionDependsOnValue(secIdx: number, qIdx: number, dpdsIdx: number): FormControl { return this.getQuestionDependsOnItem(secIdx, qIdx, dpdsIdx).get("value") as FormControl; }
 
-    if (!selectedValue) {
-      return [];
-    }
+  protected getSectionsForSectionDependsOn(): number[] {
+    return Object.keys((this.sections.value as any[])).map(key => +key + 1);
+  }
 
-    const selectedIndex: number = (this.getSectionsQuestions(idx).value as DynamicFormQuestion[]).findIndex(question => question.key === selectedValue);
-    if (selectedIndex < 0) {
-      return [];
-    }
+  protected getQuestionsForDependsOn(secIdx: number): string[] {
+    return Object.values(this.getQuestions(secIdx).getRawValue()).filter(question => ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === question.controlType) > -1).map(question => question.key);
+  }
 
-    switch (this.getSectionsQuestionsCtrlType(idx, selectedIndex)) {
-      case "checkbox":
-        return ["true", "false"];
-      case "radio":
-      case "dropdown":
-      default:
-        return this.getSectionsQuestionsOptions(idx, selectedIndex).value;
-    }
+  protected getValuesForDependsOn(secIdx: number, qKey: string): { key: string, value: string }[] {
+    const qIdx: number = this.getIndexOfQuestionInSection(secIdx, qKey);
+    return this.getQuestionOptions(secIdx, qIdx).value;
+  }
+
+  protected getIndexOfQuestionInSection(secIdx: number, qKey: string): number {
+    const questions = (this.getQuestions(secIdx).value as DynamicFormQuestion[]);
+    return questions.findIndex(question => question.key === qKey);
+  }
+  
+  protected getSectionsQuestionsOptionable(secIdx: number, qIdx: number): boolean {
+    return ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === this.getQuestionCtrlType(secIdx, qIdx).value) > -1;
   }
 
   constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private snackBar: MatSnackBar) { }

@@ -132,7 +132,10 @@
             "dependsOn": [ ],
             "key": "collateralDamage",
             "label": "Have you ever caused collateral damage?",
-            "options": [ ],
+            "options": [
+              { "key": "true", "value": "true" },
+              { "key": "false", "value": "false" }
+            ],
             "required": false,
             "type": "checkbox"
           }
@@ -144,7 +147,7 @@
         "list": false,
         "required": true,
         "dependsOn": [
-          { "section": 3, "key": "collateralDamage", "value": true }
+          { "section": 3, "key": "collateralDamage", "value": "true" }
         ],
         "questions": [
           {
