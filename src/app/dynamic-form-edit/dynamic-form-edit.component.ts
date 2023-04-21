@@ -176,7 +176,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                             </mat-card-content>
                           </mat-card>
 
-                          <mat-card formArrayName="options" *ngIf="getSectionsQuestionsOptionable(i, qi)">
+                          <mat-card formArrayName="options" *ngIf="isQuestionOptionable(i, qi)">
                             <mat-card-header>
                               <mat-card-title>Question Options</mat-card-title>
                               <mat-card-subtitle>Options available to select for this question.</mat-card-subtitle>
@@ -265,7 +265,7 @@ export class DynamicFormEditComponent implements OnInit {
   }
 
   
-  protected getSectionsQuestionsOptionable(secIdx: number, qIdx: number): boolean {
+  protected isQuestionOptionable(secIdx: number, qIdx: number): boolean {
     return ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === this.getQuestionCtrlType(secIdx, qIdx).value) > -1;
   }
 
