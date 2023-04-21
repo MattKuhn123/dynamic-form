@@ -73,8 +73,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                     <div [formGroupName]="doi">
                       <mat-form-field appearance="fill">
                         <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-section'">Section index</mat-label>
-                        <input matInput [formControlName]="'section'" [id]="'dependsOn-{{i}}-{{doi}}-section'" [type]="'number'" />
+                        <mat-select [id]="'dependsOn-{{i}}-{{doi}}-section'" [formControlName]="'section'">
+                          <mat-option *ngFor="let index of sectionIndiciesArray" [value]="index-1">{{index}}</mat-option>
+                        </mat-select>
                       </mat-form-field>
+
+                      <!-- <mat-form-field appearance="fill">
+                        <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-section'">Section index</mat-label>
+                        <input matInput [formControlName]="'section'" [id]="'dependsOn-{{i}}-{{doi}}-section'" [type]="'number'" />
+                      </mat-form-field> -->
   
                       <mat-form-field appearance="fill">
                         <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-key'">Question</mat-label>
@@ -222,7 +229,8 @@ export class DynamicFormEditComponent implements OnInit {
   get stringified(): string { return JSON.stringify(this.fg.getRawValue(), null, 4) };
   get sections(): FormArray { return this.fg.get("sections") as FormArray; }
 
-  
+  protected get sectionIndiciesArray(): number[] { return Object.keys(((this.fg.get("sections") as FormArray).value as number[])).map(key => +key + 1); }
+
   protected getSectionsDependsOn(idx: number): FormArray { return ((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("dependsOn") as FormArray; }
   protected getSectionsQuestions(idx: number): FormArray { return ((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray; }
   protected getSectionsQuestionsDependsOn(idx: number, nextIdx: number): FormArray { return ((((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray).at(nextIdx) as FormGroup).get("dependsOn") as FormArray; }
