@@ -40,7 +40,7 @@ import { DynamicFormQuestion } from './dynamic-form-question.model';
 
         <div *ngSwitchCase="'radio'">
           <mat-label [attr.for]="question.key">{{ question.label }}</mat-label><br />
-          <mat-radio-group [id]="question.key">
+          <mat-radio-group [id]="question.key" [formControlName]="question.key">
             <mat-radio-button *ngFor="let opt of question.options" [value]="opt.key"> {{ opt.value }} </mat-radio-button>
           </mat-radio-group>
         </div>

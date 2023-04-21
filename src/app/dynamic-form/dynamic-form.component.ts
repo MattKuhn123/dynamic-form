@@ -60,6 +60,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
       </mat-stepper>
     </form>
   </div>
+
+  <mat-card>
+    <mat-card-content>
+      <pre *ngIf="formGroup"> {{ stringified }} </pre>
+    </mat-card-content>
+  </mat-card>
   `,
 })
 export class DynamicFormComponent implements OnInit {
@@ -67,6 +73,7 @@ export class DynamicFormComponent implements OnInit {
   formGroup!: FormGroup;
   form!: DynamicForm;
   stepperOrientation: Observable<StepperOrientation>;
+  protected get stringified(): string { return JSON.stringify(this.formGroup.getRawValue(), null, 2) };
 
   protected getFormArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
   protected getFormGroupInArray(index: number): FormGroup { return (this.formArray.at(index) as FormArray).at(0) as FormGroup; }
@@ -120,7 +127,6 @@ export class DynamicFormComponent implements OnInit {
 
   private onSubmit(): void {
     this.snackBar.open("Submitted!", "OK");
-    console.log(JSON.stringify(this.formArray.getRawValue()));
   }
 
   private questionsToFormGroup(questions: DynamicFormQuestion[]): FormGroup {
