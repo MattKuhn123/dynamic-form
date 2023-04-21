@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styles: [
     'mat-card-content { display: flex; flex-direction: column; }', 
     'mat-card { margin-top: 5px; }',
-    'footer { position: fixed; bottom: 0; background-color: white; text-align: center; width: 100%; }',
+    'footer { position: fixed; bottom: 10px; text-align: center; width: 100%; }',
   ],
   template: `
     <form *ngIf="fg" [formGroup]="fg">
@@ -205,9 +205,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     </form>
 
     <mat-card>
-      <mat-card-header>
-        <mat-card-title>Serialized form</mat-card-title>
-      </mat-card-header>
       <mat-card-content>
         <pre *ngIf="fg"> {{ stringified }} </pre>
       </mat-card-content>
@@ -304,7 +301,7 @@ export class DynamicFormEditComponent implements OnInit {
   }
 
   protected onClickSave(): void {
-    this.snackBar.open("Saved!", "OK");
     this.dfSvc.setForm(this.fg.getRawValue());
+    this.snackBar.open("Saved!", "OK");
   }
 }

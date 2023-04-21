@@ -140,7 +140,7 @@
       },
       {
         "title": "Misdeeds",
-        "description": "This only appears if you have checked 'collateralDamage'.",
+        "description": "What collateral damage have you caused?",
         "list": false,
         "required": true,
         "dependsOn": [
