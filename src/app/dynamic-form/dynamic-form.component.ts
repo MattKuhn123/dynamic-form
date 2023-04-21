@@ -60,7 +60,6 @@ import { DynamicFormQuestion } from './dynamic-form-question.model';
     </form>
   </div>
   `,
-  providers: [ DynamicFormService ]
 })
 export class DynamicFormComponent implements OnInit {
   formArray!: FormArray;

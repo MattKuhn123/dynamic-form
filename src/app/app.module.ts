@@ -20,6 +20,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AppComponent } from './app.component';
 import { DynamicFormQuestionComponent } from './dynamic-form/dynamic-form-question.component';
@@ -57,6 +58,7 @@ export const appRoute: Routes = [
     MatRadioModule,
     MatSelectModule,
     MatStepperModule,
+    MatToolbarModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoute),
     ServiceWorkerModule.register('ngsw-worker.js', {

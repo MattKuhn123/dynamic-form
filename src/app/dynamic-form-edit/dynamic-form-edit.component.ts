@@ -12,9 +12,6 @@ import { DynamicFormQuestion } from '../dynamic-form/dynamic-form-question.model
   template: `
     <form *ngIf="fg" [formGroup]="fg">
       <mat-card>
-        <mat-card-header>
-          <mat-card-title>Edit form</mat-card-title>
-        </mat-card-header>
         <mat-card-content>
           <mat-form-field appearance="fill">
             <mat-label [attr.for]="'title'">Title</mat-label>
@@ -94,7 +91,7 @@ import { DynamicFormQuestion } from '../dynamic-form/dynamic-form-question.model
               <mat-card>
                 <mat-card-header>
                   <mat-card-title>Section Questions</mat-card-title>
-                  <mat-card-subtitle>Questions displayed in this section</mat-card-subtitle>
+                  <mat-card-subtitle>Questions that section displays.</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
                   <mat-accordion formArrayName="questions">
@@ -145,19 +142,22 @@ import { DynamicFormQuestion } from '../dynamic-form/dynamic-form-question.model
         
                               <div *ngFor="let questionDependsOn of getSectionsQuestionsDependsOn(i, qi).controls; let qdoi = index">
                                 <div [formGroupName]="qdoi">
-                                  <!-- HERE -->
                                   <mat-form-field appearance="fill">
-                                    <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qi}}-key'">Question</mat-label>
-                                    <mat-select [id]="'question-dependsOn-{{i}}-{{doi}}-key'" [formControlName]="'key'">
-                                      <mat-option *ngFor="let dependableQuestion of getSectionsQuestionsKeys(i) " [value]="dependableQuestion">
+                                    <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-key'">Question</mat-label>
+                                    <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-key'" [formControlName]="'key'">
+                                      <mat-option *ngFor="let dependableQuestion of getSectionsQuestionsOptionableKeys(i) " [value]="dependableQuestion">
                                         {{ dependableQuestion }}
                                       </mat-option>
                                     </mat-select>
                                   </mat-form-field>
-        
+
                                   <mat-form-field appearance="fill">
-                                    <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qi}}-value'">Value</mat-label>
-                                    <input matInput [formControlName]="'value'" [id]="'question-dependsOn-{{i}}-{{doi}}-value'" [type]="'text'" />
+                                    <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-value'">Value</mat-label>
+                                    <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-value'" [formControlName]="'value'">
+                                      <mat-option *ngFor="let option of getSectionsQuestionsOptionsValues(i, 'question-dependsOn-{{i}}-{{qdoi}}-key')" [value]="option.key">
+                                        {{ option.value }}
+                                      </mat-option>
+                                    </mat-select>
                                   </mat-form-field>
                                 </div>
                               </div>
@@ -208,25 +208,49 @@ import { DynamicFormQuestion } from '../dynamic-form/dynamic-form-question.model
       </mat-card-header>
       <mat-card-content>
         <p>Your form has been serialized to JSON below. The process for saving it is still under construction. Please save it yourself by copy/pasting it into a file.</p>
-        <button mat-raised-button *ngIf="fg" [cdkCopyToClipboard]="stringified">Copy to clipboard</button>
+        <button mat-raised-button *ngIf="fg" [cdkCopyToClipboard]="stringified" (click)="onClickCopy()">Copy to clipboard</button>
+        <p *ngIf="copied"> copied! </p>
         <pre *ngIf="fg"> {{ stringified }} </pre>
       </mat-card-content>
     </mat-card>
   `,
-  providers: [ DynamicFormService ]
 })
 export class DynamicFormEditComponent implements OnInit {
   fg!: FormGroup;
+  copied: boolean = false;
   get stringified(): string { return JSON.stringify(this.fg.getRawValue(), null, 4) };
   get sections(): FormArray { return this.fg.get("sections") as FormArray; }
+
   
   protected getSectionsDependsOn(idx: number): FormArray { return ((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("dependsOn") as FormArray; }
   protected getSectionsQuestions(idx: number): FormArray { return ((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray; }
-  protected getSectionsQuestionsKeys(idx: number): string[] { return Object.values(this.getSectionsQuestions(idx).getRawValue()).map(question => question.key); }
   protected getSectionsQuestionsDependsOn(idx: number, nextIdx: number): FormArray { return ((((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray).at(nextIdx) as FormGroup).get("dependsOn") as FormArray; }
   protected getSectionsQuestionsOptions(idx: number, nextIdx: number): FormArray { return ((((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray).at(nextIdx) as FormGroup).get("options") as FormArray; }
   protected getSectionsQuestionsCtrlType(idx: number, nextIdx: number): string { return (((((this.fg.get("sections") as FormArray).at(idx) as FormGroup).get("questions") as FormArray).at(nextIdx) as FormGroup).get("controlType") as FormControl).value; }
-  protected getSectionsQuestionsOptionable(idx: number, nextIdx: number): boolean { return ["radio", "dropdown"].findIndex(ctrlType => ctrlType === this.getSectionsQuestionsCtrlType(idx, nextIdx)) > -1; }
+  
+  protected getSectionsQuestionsOptionableKeys(idx: number): string[] { return Object.values(this.getSectionsQuestions(idx).getRawValue()).filter(question => ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === question.controlType) > -1).map(question => question.key); }
+  protected getSectionsQuestionsOptionable(idx: number, nextIdx: number): boolean { return ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === this.getSectionsQuestionsCtrlType(idx, nextIdx)) > -1; }
+  protected getSectionsQuestionsOptionsValues(idx: number, idOfSelectedQuestion: string): any[] {
+    const selectedValue: string = document.getElementById(idOfSelectedQuestion)?.innerText ?? "";
+
+    if (!selectedValue) {
+      return [];
+    }
+
+    const selectedIndex: number = (this.getSectionsQuestions(idx).value as DynamicFormQuestion[]).findIndex(question => question.key === selectedValue);
+    if (selectedIndex < 0) {
+      return [];
+    }
+
+    switch (this.getSectionsQuestionsCtrlType(idx, selectedIndex)) {
+      case "checkbox":
+        return ["true", "false"];
+      case "radio":
+      case "dropdown":
+      default:
+        return this.getSectionsQuestionsOptions(idx, selectedIndex).value;
+    }
+  }
 
   constructor(private dfSvc: DynamicFormService, private fb: FormBuilder) { }
 
@@ -273,7 +297,15 @@ export class DynamicFormEditComponent implements OnInit {
         }) || [])
       });
 
-      console.log(this.getSectionsQuestionsKeys(2));
+      this.fg.valueChanges.subscribe(x => {
+        this.copied = false;
+      });
     });
+  }
+
+  protected onClickCopy(): void {
+    this.copied = true;
+    console.log("clicked copy");
+    this.dfSvc.setForm(this.fg.getRawValue());
   }
 }
