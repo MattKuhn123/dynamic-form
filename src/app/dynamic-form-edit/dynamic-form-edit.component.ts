@@ -95,11 +95,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
-  
-                      <!-- <mat-form-field appearance="fill">
-                        <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-value'">Value</mat-label>
-                        <input matInput [formControlName]="'value'" [id]="'dependsOn-{{i}}-{{doi}}-value'" [type]="'text'" />
-                      </mat-form-field> -->
                     </div>
                   </div>
                 </mat-card-content>
@@ -269,13 +264,14 @@ export class DynamicFormEditComponent implements OnInit {
     return this.getQuestionOptions(secIdx, qIdx).value;
   }
 
-  protected getIndexOfQuestionInSection(secIdx: number, qKey: string): number {
-    const questions = (this.getQuestions(secIdx).value as DynamicFormQuestion[]);
-    return questions.findIndex(question => question.key === qKey);
-  }
   
   protected getSectionsQuestionsOptionable(secIdx: number, qIdx: number): boolean {
     return ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === this.getQuestionCtrlType(secIdx, qIdx).value) > -1;
+  }
+
+  private getIndexOfQuestionInSection(secIdx: number, qKey: string): number {
+    const questions = (this.getQuestions(secIdx).value as DynamicFormQuestion[]);
+    return questions.findIndex(question => question.key === qKey);
   }
 
   constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private snackBar: MatSnackBar) { }

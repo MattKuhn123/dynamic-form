@@ -9,6 +9,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { StepperOrientation } from '@angular/cdk/stepper';
 import { Observable, map } from 'rxjs';
 import { DynamicFormQuestion } from './dynamic-form-question.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -72,7 +73,7 @@ export class DynamicFormComponent implements OnInit {
   protected getCtrlFormGroupInArray(ctrlIdx:number, sctnIdx: number): FormGroup { return (this.formArray.at(sctnIdx) as FormArray).at(ctrlIdx) as FormGroup; }
   protected getFormArrayInArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
 
-  constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private dialog: MatDialog, private bo: BreakpointObserver) {
+  constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private dialog: MatDialog, private snackBar: MatSnackBar, private bo: BreakpointObserver) {
     this.stepperOrientation = this.bo
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
@@ -118,6 +119,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   private onSubmit(): void {
+    this.snackBar.open("Submitted!", "OK");
     console.log(JSON.stringify(this.formArray.getRawValue()));
   }
 
