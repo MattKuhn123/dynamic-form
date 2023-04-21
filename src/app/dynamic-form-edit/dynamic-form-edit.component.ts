@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { DynamicFormService } from '../shared/dynamic-form.service';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DynamicFormQuestion } from '../dynamic-form/dynamic-form-question.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dynamic-form-edit',
   styles: [
     'mat-card-content { display: flex; flex-direction: column; }', 
     'mat-card { margin-top: 5px; }',
+    'footer { position: fixed; bottom: 0; background-color: white; text-align: center; width: 100%; }',
   ],
   template: `
     <form *ngIf="fg" [formGroup]="fg">
@@ -207,17 +209,19 @@ import { DynamicFormQuestion } from '../dynamic-form/dynamic-form-question.model
         <mat-card-title>Serialized form</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>Your form has been serialized to JSON below. The process for saving it is still under construction. Please save it yourself by copy/pasting it into a file.</p>
-        <button mat-raised-button *ngIf="fg" [cdkCopyToClipboard]="stringified" (click)="onClickCopy()">Copy to clipboard</button>
-        <p *ngIf="copied"> copied! </p>
         <pre *ngIf="fg"> {{ stringified }} </pre>
       </mat-card-content>
     </mat-card>
+    
+    <mat-sidenav-container>
+      <footer>
+        <button mat-raised-button color="primary" *ngIf="fg" [cdkCopyToClipboard]="stringified" (click)="onClickSave()">Save</button>
+      </footer>
+    </mat-sidenav-container>
   `,
 })
 export class DynamicFormEditComponent implements OnInit {
   fg!: FormGroup;
-  copied: boolean = false;
   get stringified(): string { return JSON.stringify(this.fg.getRawValue(), null, 4) };
   get sections(): FormArray { return this.fg.get("sections") as FormArray; }
 
@@ -252,7 +256,7 @@ export class DynamicFormEditComponent implements OnInit {
     }
   }
 
-  constructor(private dfSvc: DynamicFormService, private fb: FormBuilder) { }
+  constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.dfSvc.getForm().subscribe(form => {
@@ -296,16 +300,11 @@ export class DynamicFormEditComponent implements OnInit {
           })
         }) || [])
       });
-
-      this.fg.valueChanges.subscribe(x => {
-        this.copied = false;
-      });
     });
   }
 
-  protected onClickCopy(): void {
-    this.copied = true;
-    console.log("clicked copy");
+  protected onClickSave(): void {
+    this.snackBar.open("Copied!", "close");
     this.dfSvc.setForm(this.fg.getRawValue());
   }
 }

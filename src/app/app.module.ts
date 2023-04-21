@@ -19,6 +19,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
@@ -57,6 +59,8 @@ export const appRoute: Routes = [
     MatNativeDateModule,
     MatRadioModule,
     MatSelectModule,
+    MatSidenavModule,
+    MatSnackBarModule,
     MatStepperModule,
     MatToolbarModule,
     ReactiveFormsModule,
