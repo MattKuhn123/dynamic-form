@@ -304,7 +304,7 @@ export class DynamicFormEditComponent implements OnInit {
   }
 
   protected onClickSave(): void {
-    this.snackBar.open("Copied!", "close");
+    this.snackBar.open("Saved!", "OK");
     this.dfSvc.setForm(this.fg.getRawValue());
   }
 }
