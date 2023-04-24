@@ -128,16 +128,16 @@
             ]
           },
           {
-            "controlType": "checkbox",
+            "controlType": "dropdown",
             "dependsOn": [ ],
             "key": "collateralDamage",
             "label": "Have you ever caused collateral damage?",
             "options": [
-              { "key": true, "value": true },
-              { "key": false, "value": false }
+              { "key": "yes", "value": "yes" },
+              { "key": "no", "value": "no" }
             ],
             "required": false,
-            "type": "checkbox"
+            "type": ""
           }
         ]
       },
@@ -147,7 +147,7 @@
         "list": false,
         "required": true,
         "dependsOn": [
-          { "section": 3, "key": "collateralDamage", "value": true }
+          { "section": 3, "key": "collateralDamage", "value": "yes" }
         ],
         "questions": [
           {

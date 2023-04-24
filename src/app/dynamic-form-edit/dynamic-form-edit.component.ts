@@ -131,7 +131,6 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                               <mat-option [value]="'textarea'">textarea</mat-option>
                               <mat-option [value]="'textbox'">textbox</mat-option>
                               <mat-option [value]="'dropdown'">dropdown</mat-option>
-                              <mat-option [value]="'checkbox'">checkbox</mat-option>
                               <mat-option [value]="'radio'">radio</mat-option>
                               <mat-option [value]="'date'">date</mat-option>
                               <mat-option [value]="'file'">file</mat-option>
@@ -264,7 +263,7 @@ export class DynamicFormEditComponent implements OnInit {
   protected getQuestion(secIdx: number, qIdx: number): FormGroup { return this.getQuestions(secIdx).at(qIdx) as FormGroup }
   protected getQuestionCtrlType(secIdx: number, qIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("controlType") as FormControl); }
   
-  protected getQuestionOptions(secIdx: number, qIdx: number): FormArray { return this.getQuestion(secIdx, qIdx).get("options") as FormArray }
+  protected getQuestionOptions(secIdx: number, qIdx: number): FormArray { return this.getQuestion(secIdx, qIdx).get("options") as FormArray; }
   protected getQuestionOption(secIdx: number, qIdx: number, optIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("options") as FormArray).at(optIdx) as FormControl }
   
   protected getQuestionDependsOnList(secIdx: number, qIdx: number): FormArray { return this.getQuestion(secIdx, qIdx).get("dependsOn") as FormArray; }
@@ -272,28 +271,12 @@ export class DynamicFormEditComponent implements OnInit {
   protected getQuestionDependsOnQuestion(secIdx: number, qIdx: number, dpdsIdx: number): FormControl { return this.getQuestionDependsOnItem(secIdx, qIdx, dpdsIdx).get("key") as FormControl; }
   protected getQuestionDependsOnValue(secIdx: number, qIdx: number, dpdsIdx: number): FormControl { return this.getQuestionDependsOnItem(secIdx, qIdx, dpdsIdx).get("value") as FormControl; }
 
-  protected getSectionsForSectionDependsOn(): number[] {
-    return Object.keys((this.sections.value as any[])).map(key => +key + 1);
-  }
-
-  protected getQuestionsForDependsOn(secIdx: number): string[] {
-    return Object.values(this.getQuestions(secIdx).getRawValue()).filter(question => ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === question.controlType) > -1).map(question => question.key);
-  }
-
-  protected getValuesForDependsOn(secIdx: number, qKey: string): { key: string, value: string }[] {
-    const qIdx: number = this.getIndexOfQuestionInSection(secIdx, qKey);
-    return this.getQuestionOptions(secIdx, qIdx).value;
-  }
-
+  protected getSectionsForSectionDependsOn(): number[] { return Object.keys((this.sections.value as any[])).map(key => +key + 1); }
+  protected getQuestionsForDependsOn(secIdx: number): string[] { return Object.values(this.getQuestions(secIdx).getRawValue()).filter(question => ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === question.controlType) > -1).map(question => question.key); }
   
-  protected isQuestionOptionable(secIdx: number, qIdx: number): boolean {
-    return ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === this.getQuestionCtrlType(secIdx, qIdx).value) > -1;
-  }
-
-  private getIndexOfQuestionInSection(secIdx: number, qKey: string): number {
-    const questions = (this.getQuestions(secIdx).value as DynamicFormQuestion[]);
-    return questions.findIndex(question => question.key === qKey);
-  }
+  protected getValuesForDependsOn(secIdx: number, qKey: string): { key: string, value: string }[] { return this.getQuestionOptions(secIdx, this.getIndexOfQuestionInSection(secIdx, qKey)).value; }
+  protected isQuestionOptionable(secIdx: number, qIdx: number): boolean { return ["radio", "dropdown"].findIndex(ctrlType => ctrlType === this.getQuestionCtrlType(secIdx, qIdx).value) > -1; }
+  private getIndexOfQuestionInSection(secIdx: number, qKey: string): number { return (this.getQuestions(secIdx).value as DynamicFormQuestion[]).findIndex(question => question.key === qKey); }
 
   constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private snackBar: MatSnackBar) { }
 
@@ -345,7 +328,7 @@ export class DynamicFormEditComponent implements OnInit {
     });
   }
 
-  private questionOptionToGroup(option: {key: string, value: string}): FormGroup {
+  private questionOptionToGroup(option: { key: string, value: string }): FormGroup {
     return this.fb.group({
       key: option.key,
       value: option.value

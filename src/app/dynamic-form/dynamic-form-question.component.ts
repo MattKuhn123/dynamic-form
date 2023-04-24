@@ -32,12 +32,6 @@ import { DynamicFormQuestion } from './dynamic-form-question.model';
           </mat-form-field>
         </div>
 
-        <div *ngSwitchCase="'checkbox'">
-          <mat-label [attr.for]="question.key">{{ question.label }}
-            <mat-checkbox [formControlName]="question.key" [id]="question.key"></mat-checkbox>
-          </mat-label>
-        </div>
-
         <div *ngSwitchCase="'radio'">
           <mat-label [attr.for]="question.key">{{ question.label }}</mat-label><br />
           <mat-radio-group [id]="question.key" [formControlName]="question.key">
