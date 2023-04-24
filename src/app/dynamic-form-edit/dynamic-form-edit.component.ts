@@ -97,6 +97,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                       </mat-form-field>
                     </div>
                   </div>
+
+                  <!-- TODO add/remove section dependency -->
+                  <mat-card-actions>
+                    <button type="button" (click)="onClickTodo()" mat-flat-button color="primary">Add</button>
+                    <button type="button" (click)="onClickTodo()" mat-flat-button color="accent">Remove</button>
+                  </mat-card-actions>
+
                 </mat-card-content>
               </mat-card>
 
@@ -174,6 +181,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                                 </div>
                               </div>
                             </mat-card-content>
+
+                            <!-- TODO add/remove question dependency -->
+                            <mat-card-actions>
+                              <button type="button" (click)="onClickTodo()" mat-flat-button color="primary">Add</button>
+                              <button type="button" (click)="onClickTodo()" mat-flat-button color="accent">Remove</button>
+                            </mat-card-actions>
                           </mat-card>
 
                           <mat-card formArrayName="options" *ngIf="isQuestionOptionable(i, qi)">
@@ -207,10 +220,21 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                     </mat-expansion-panel>
                   </mat-accordion>
                 </mat-card-content>
+
+                <!-- TODO add/remove question -->
+                <mat-card-actions>
+                  <button type="button" (click)="onClickTodo()" mat-flat-button color="primary">Add</button>
+                  <button type="button" (click)="onClickTodo()" mat-flat-button color="accent">Remove</button>
+                </mat-card-actions>
               </mat-card>
             </mat-expansion-panel>
           </mat-accordion>
         </mat-card-content>
+        <!-- TODO add/remove sections -->
+        <mat-card-actions>
+          <button type="button" (click)="onClickTodo()" mat-flat-button color="primary">Add</button>
+          <button type="button" (click)="onClickTodo()" mat-flat-button color="accent">Remove</button>
+        </mat-card-actions>
       </mat-card>
     </form>
 
@@ -324,5 +348,9 @@ export class DynamicFormEditComponent implements OnInit {
   protected onClickSave(): void {
     this.dfSvc.setForm(this.fg.getRawValue());
     this.snackBar.open("Saved!", "OK");
+  }
+
+  protected onClickTodo(): void {
+    this.snackBar.open("This feature is still under construction.", "Darn!");
   }
 }
