@@ -98,13 +98,10 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                       </mat-form-field>
                     </div>
                   </div>
-
-                  <!-- TODO add/remove section dependency -->
                   <mat-card-actions>
                     <button type="button" (click)="onClickAddSectionDependency(i)" mat-flat-button color="primary">Add</button>
                     <button type="button" (click)="onClickRemoveSectionDependency(i)" mat-flat-button color="accent">Remove</button>
                   </mat-card-actions>
-
                 </mat-card-content>
               </mat-card>
 
@@ -182,8 +179,6 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                                 </div>
                               </div>
                             </mat-card-content>
-
-                            <!-- TODO add/remove question dependency -->
                             <mat-card-actions>
                               <button type="button" (click)="onClickAddQuestionDependency(i, qi)" mat-flat-button color="primary">Add</button>
                               <button type="button" (click)="onClickRemoveQuestionDependency(i, qi)" mat-flat-button color="accent">Remove</button>
@@ -215,14 +210,16 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                                 </div>
                               </div>
                             </mat-card-content>
+                            <mat-card-actions>
+                              <button type="button" (click)="onClickAddQuestionOption(i, qi)" mat-flat-button color="primary">Add</button>
+                              <button type="button" (click)="onClickRemoveQuestionOption(i, qi)" mat-flat-button color="accent">Remove</button>
+                            </mat-card-actions>
                           </mat-card>
                         </mat-card-content>
                       </mat-card>
                     </mat-expansion-panel>
                   </mat-accordion>
                 </mat-card-content>
-
-                <!-- TODO add/remove question -->
                 <mat-card-actions>
                   <button type="button" (click)="onClickAddQuestion(i)" mat-flat-button color="primary">Add</button>
                   <button type="button" (click)="onClickRemoveQuestion(i)" mat-flat-button color="accent">Remove</button>
@@ -231,7 +228,6 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
             </mat-expansion-panel>
           </mat-accordion>
         </mat-card-content>
-        <!-- TODO add/remove sections -->
         <mat-card-actions>
           <button type="button" (click)="onClickAddSection()" mat-flat-button color="primary">Add</button>
           <button type="button" (click)="onClickRemoveSection()" mat-flat-button color="accent">Remove</button>
@@ -336,12 +332,7 @@ export class DynamicFormEditComponent implements OnInit {
       dependsOn: this.fb.array(question.dependsOn.map(depends => this.questionDependsOnToGroup(depends))),
       key: this.fb.control(question.key || ""),
       label: this.fb.control(question.label || ""),
-      options: this.fb.array(question.options.map(option => {
-        return this.fb.group({
-          key: option.key,
-          value: option.value
-        });
-      }) || []),
+      options: this.fb.array(question.options.map(option => this.questionOptionToGroup(option)) || []),
       required: this.fb.control(question.required || ""),
       type: this.fb.control(question.type || ""),
     })
@@ -351,6 +342,13 @@ export class DynamicFormEditComponent implements OnInit {
     return this.fb.group({
       key: this.fb.control(depends.key || ""),
       value: this.fb.control(depends.value || ""),
+    });
+  }
+
+  private questionOptionToGroup(option: {key: string, value: string}): FormGroup {
+    return this.fb.group({
+      key: option.key,
+      value: option.value
     });
   }
 
@@ -370,4 +368,7 @@ export class DynamicFormEditComponent implements OnInit {
 
   protected onClickAddQuestionDependency(secIdx: number, qIdx: number) { this.getQuestionDependsOnList(secIdx, qIdx).push(this.questionDependsOnToGroup({key: "", value: ""})); }
   protected onClickRemoveQuestionDependency(secIdx: number, qIdx: number) { this.getQuestionDependsOnList(secIdx, qIdx).removeAt(this.getQuestionDependsOnList(secIdx, qIdx).length - 1); }
+
+  protected onClickAddQuestionOption(secIdx: number, qIdx: number) { this.getQuestionOptions(secIdx, qIdx).push(this.questionOptionToGroup({key: "", value: ""})); }
+  protected onClickRemoveQuestionOption(secIdx: number, qIdx: number) { this.getQuestionOptions(secIdx, qIdx).removeAt(this.getQuestionOptions(secIdx, qIdx).length - 1); }
 }
