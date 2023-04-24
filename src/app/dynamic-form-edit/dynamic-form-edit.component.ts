@@ -3,6 +3,7 @@ import { DynamicFormService } from '../shared/dynamic-form.service';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DynamicFormQuestion } from '../dynamic-form/dynamic-form-question.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
 
 @Component({
   selector: 'app-dynamic-form-edit',
@@ -29,7 +30,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
             <mat-expansion-panel *ngFor="let section of sections.controls; let i = index" [formGroupName]="i">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Section {{ i+1 }}
+                  Section {{ i+1 }}: {{ sections.at(i).get("title")?.getRawValue() }}
                 </mat-panel-title>
               </mat-expansion-panel-header>
 
@@ -49,7 +50,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                     <textarea matInput [formControlName]="'description'" [id]="'section-{{i}}-description'" [type]="'text'"></textarea>
                   </mat-form-field>
 
-                  <mat-label [attr.for]="'section-{{i}}-required'">Section required:
+                  <mat-label [attr.for]="'section-{{i}}-required'">Section is required:
                     <mat-checkbox [formControlName]="'required'" [id]="'section-{{i}}-required'"></mat-checkbox>
                   </mat-label>
 
@@ -100,8 +101,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
                   <!-- TODO add/remove section dependency -->
                   <mat-card-actions>
-                    <button type="button" (click)="onClickTodo()" mat-flat-button color="primary">Add</button>
-                    <button type="button" (click)="onClickTodo()" mat-flat-button color="accent">Remove</button>
+                    <button type="button" (click)="onClickAddSectionDependency(i)" mat-flat-button color="primary">Add</button>
+                    <button type="button" (click)="onClickRemoveSectionDependency(i)" mat-flat-button color="accent">Remove</button>
                   </mat-card-actions>
 
                 </mat-card-content>
@@ -117,7 +118,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                     <mat-expansion-panel *ngFor="let question of getQuestions(i).controls; let qi = index" [formGroupName]="qi">
                       <mat-expansion-panel-header>
                         <mat-panel-title>
-                        Question {{ qi+1 }}
+                        Question {{ qi+1 }}: {{ getQuestion(i, qi).get("label")?.getRawValue() }}
                         </mat-panel-title>
                       </mat-expansion-panel-header>
                       <mat-card>
@@ -184,8 +185,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
                             <!-- TODO add/remove question dependency -->
                             <mat-card-actions>
-                              <button type="button" (click)="onClickTodo()" mat-flat-button color="primary">Add</button>
-                              <button type="button" (click)="onClickTodo()" mat-flat-button color="accent">Remove</button>
+                              <button type="button" (click)="onClickAddQuestionDependency(i, qi)" mat-flat-button color="primary">Add</button>
+                              <button type="button" (click)="onClickRemoveQuestionDependency(i, qi)" mat-flat-button color="accent">Remove</button>
                             </mat-card-actions>
                           </mat-card>
 
@@ -223,8 +224,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
                 <!-- TODO add/remove question -->
                 <mat-card-actions>
-                  <button type="button" (click)="onClickTodo()" mat-flat-button color="primary">Add</button>
-                  <button type="button" (click)="onClickTodo()" mat-flat-button color="accent">Remove</button>
+                  <button type="button" (click)="onClickAddQuestion(i)" mat-flat-button color="primary">Add</button>
+                  <button type="button" (click)="onClickRemoveQuestion(i)" mat-flat-button color="accent">Remove</button>
                 </mat-card-actions>
               </mat-card>
             </mat-expansion-panel>
@@ -232,8 +233,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
         </mat-card-content>
         <!-- TODO add/remove sections -->
         <mat-card-actions>
-          <button type="button" (click)="onClickTodo()" mat-flat-button color="primary">Add</button>
-          <button type="button" (click)="onClickTodo()" mat-flat-button color="accent">Remove</button>
+          <button type="button" (click)="onClickAddSection()" mat-flat-button color="primary">Add</button>
+          <button type="button" (click)="onClickRemoveSection()" mat-flat-button color="accent">Remove</button>
         </mat-card-actions>
       </mat-card>
     </form>
@@ -305,43 +306,51 @@ export class DynamicFormEditComponent implements OnInit {
       this.fg = this.fb.group({
         title: this.fb.control(form.title || ""),
         description: this.fb.control(form.description || ""),
-        sections: this.fb.array(form.sections.map(section => {
-          return this.fb.group({
-            title: this.fb.control(section.title || ""),
-            description: this.fb.control(section.description || ""),
-            list: this.fb.control(section.list || false),
-            required: this.fb.control(section.required || false),
-            dependsOn: this.fb.array(section.dependsOn.map(depends => {
-              return this.fb.group({
-                key: this.fb.control(depends.key || ""),
-                section: this.fb.control(depends.section || 0),
-                value: this.fb.control(depends.value || ""),
-              })
-            })),
-            questions: this.fb.array(section.questions.map(question => {
-              return this.fb.group({
-                controlType: this.fb.control(question.controlType || ""),
-                dependsOn: this.fb.array(question.dependsOn.map(depends => {
-                  return this.fb.group({
-                    key: this.fb.control(depends.key || ""),
-                    value: this.fb.control(depends.value || ""),
-                  });
-                })),
-                key: this.fb.control(question.key || ""),
-                label: this.fb.control(question.label || ""),
-                options: this.fb.array(question.options.map(option => {
-                  return this.fb.group({
-                    key: option.key,
-                    value: option.value
-                  });
-                }) || []),
-                required: this.fb.control(question.required || ""),
-                type: this.fb.control(question.type || ""),
-              })
-            }))
-          })
-        }) || [])
+        sections: this.fb.array(form.sections.map(section => this.sectionToGroup(section)) || [])
       });
+    });
+  }
+
+  private sectionToGroup(section: DynamicFormSection): FormGroup {
+    return this.fb.group({
+      title: this.fb.control(section.title || ""),
+      description: this.fb.control(section.description || ""),
+      list: this.fb.control(section.list || false),
+      required: this.fb.control(section.required || false),
+      dependsOn: this.fb.array(section.dependsOn.map((depends: any) => this.sectionDependsOnToGroup(depends))),
+      questions: this.fb.array(section.questions.map(question => this.questionToGroup(question)))
+    });
+  }
+
+  private sectionDependsOnToGroup(depends: { key: string, section: string, value: string }): FormGroup {
+    return this.fb.group({
+      key: this.fb.control(depends.key || ""),
+      section: this.fb.control(depends.section || 0),
+      value: this.fb.control(depends.value || ""),
+    })
+  }
+
+  private questionToGroup(question: DynamicFormQuestion): FormGroup {
+    return this.fb.group({
+      controlType: this.fb.control(question.controlType || ""),
+      dependsOn: this.fb.array(question.dependsOn.map(depends => this.questionDependsOnToGroup(depends))),
+      key: this.fb.control(question.key || ""),
+      label: this.fb.control(question.label || ""),
+      options: this.fb.array(question.options.map(option => {
+        return this.fb.group({
+          key: option.key,
+          value: option.value
+        });
+      }) || []),
+      required: this.fb.control(question.required || ""),
+      type: this.fb.control(question.type || ""),
+    })
+  }
+
+  private questionDependsOnToGroup(depends: { key: string, value: string }): FormGroup {
+    return this.fb.group({
+      key: this.fb.control(depends.key || ""),
+      value: this.fb.control(depends.value || ""),
     });
   }
 
@@ -350,7 +359,15 @@ export class DynamicFormEditComponent implements OnInit {
     this.snackBar.open("Saved!", "OK");
   }
 
-  protected onClickTodo(): void {
-    this.snackBar.open("This feature is still under construction.", "Darn!");
-  }
+  protected onClickAddSection(): void { this.sections.push(this.sectionToGroup(new DynamicFormSection())); }
+  protected onClickRemoveSection(): void { this.sections.removeAt(this.sections.length - 1); }
+
+  protected onClickAddSectionDependency(secIdx: number): void { this.getSectionDependsOnList(secIdx).push(this.sectionDependsOnToGroup({key: "", section: "", value: ""})); }
+  protected onClickRemoveSectionDependency(secIdx: number): void { this.getSectionDependsOnList(secIdx).removeAt(this.getSectionDependsOnList(secIdx).length - 1); }
+
+  protected onClickAddQuestion(secIdx: number) { this.getQuestions(secIdx).push(this.questionToGroup(new DynamicFormQuestion())); }
+  protected onClickRemoveQuestion(secIdx: number) { this.getQuestions(secIdx).removeAt(this.getQuestions(secIdx).length - 1); }
+
+  protected onClickAddQuestionDependency(secIdx: number, qIdx: number) { this.getQuestionDependsOnList(secIdx, qIdx).push(this.questionDependsOnToGroup({key: "", value: ""})); }
+  protected onClickRemoveQuestionDependency(secIdx: number, qIdx: number) { this.getQuestionDependsOnList(secIdx, qIdx).removeAt(this.getQuestionDependsOnList(secIdx, qIdx).length - 1); }
 }
