@@ -16,6 +16,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -56,6 +57,7 @@ export const appRoute: Routes = [
     MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
     MatNativeDateModule,
     MatRadioModule,
     MatSelectModule,
