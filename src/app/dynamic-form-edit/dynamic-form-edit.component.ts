@@ -41,10 +41,6 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                     <mat-icon>extension</mat-icon>
                   </button>
 
-                  <button mat-icon-button color="accent" matTooltip="not required" *ngIf="!getSectionRequired(i).getRawValue()">
-                    <mat-icon>extension_off</mat-icon>
-                  </button>
-
                   <button mat-icon-button color="primary" matTooltip="depends on" *ngIf="getSectionDependsOnList(i).length > 0">
                     <mat-icon [matBadge]="getSectionDependsOnList(i).length" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
                   </button>
@@ -132,10 +128,6 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                         <mat-panel-description>
                           <button mat-icon-button color="primary" matTooltip="required" *ngIf="getQuestionRequired(i, qi).getRawValue()">
                             <mat-icon>extension</mat-icon>
-                          </button>
-
-                          <button mat-icon-button color="accent" matTooltip="not required" *ngIf="!getQuestionRequired(i, qi).getRawValue()">
-                            <mat-icon>extension_off</mat-icon>
                           </button>
 
                           <button mat-icon-button color="primary" matTooltip="depends on" *ngIf="getQuestionDependsOnList(i, qi).length > 0">
