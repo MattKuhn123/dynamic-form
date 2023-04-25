@@ -169,39 +169,37 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                         </mat-step>
   
                         <mat-step label="Question Depends On">
-                          <mat-card>
-                            <mat-card-content>
-                              <em *ngIf="getQuestionDependsOnList(i, qi).controls.length === 0">Depends on nothing, will always be displayed.</em>
-                              <div formArrayName="dependsOn">
-                                <div *ngFor="let questionDependsOn of getQuestionDependsOnList(i, qi).controls; let qdoi = index">
-                                  <div [formGroupName]="qdoi">
-                                    <mat-form-field appearance="fill">
-                                      <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-key'">Question</mat-label>
-                                      <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-key'" [formControlName]="'key'">
-                                        <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(i) " [value]="dependableQuestion">
-                                          {{ dependableQuestion }}
-                                        </mat-option>
-                                      </mat-select>
-                                    </mat-form-field>
-        
-                                    <mat-form-field appearance="fill">
-                                      <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-value'">Value</mat-label>
-                                      <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-value'" [formControlName]="'value'">
-                                        <mat-option *ngFor="let option of getValuesForDependsOn(i, getQuestionDependsOnQuestion(i, qi, qdoi).value)" [value]="option.key">
-                                          {{ option.value }}
-                                        </mat-option>
-                                      </mat-select>
-                                    </mat-form-field>
-        
-                                    <button mat-mini-fab color="warn" (click)="onClickRemoveQuestionDependency(i, qi, qdoi)">
-                                      <mat-icon>delete</mat-icon>
-                                    </button>
-                                  </div>
+                          <mat-card-content>
+                            <em *ngIf="getQuestionDependsOnList(i, qi).controls.length === 0">This question will always be displayed.</em>
+                            <div formArrayName="dependsOn">
+                              <div *ngFor="let questionDependsOn of getQuestionDependsOnList(i, qi).controls; let qdoi = index">
+                                <div [formGroupName]="qdoi">
+                                  <mat-form-field appearance="fill">
+                                    <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-key'">Question</mat-label>
+                                    <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-key'" [formControlName]="'key'">
+                                      <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(i) " [value]="dependableQuestion">
+                                        {{ dependableQuestion }}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+      
+                                  <mat-form-field appearance="fill">
+                                    <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-value'">Value</mat-label>
+                                    <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-value'" [formControlName]="'value'">
+                                      <mat-option *ngFor="let option of getValuesForDependsOn(i, getQuestionDependsOnQuestion(i, qi, qdoi).value)" [value]="option.key">
+                                        {{ option.value }}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+      
+                                  <button mat-mini-fab color="warn" (click)="onClickRemoveQuestionDependency(i, qi, qdoi)">
+                                    <mat-icon>delete</mat-icon>
+                                  </button>
                                 </div>
-                                <button type="button" (click)="onClickAddQuestionDependency(i, qi)" mat-stroked-button color="primary">Add</button>
                               </div>
-                            </mat-card-content>
-                          </mat-card>
+                              <button type="button" (click)="onClickAddQuestionDependency(i, qi)" mat-stroked-button color="primary">Add</button>
+                            </div>
+                          </mat-card-content>
                         </mat-step>
   
                         <mat-step label="Options" formArrayName="options" *ngIf="isQuestionOptionable(i, qi)">
