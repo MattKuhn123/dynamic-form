@@ -247,7 +247,7 @@ import { createUniqueValidator } from '../shared/unique-value.validator';
                       <mat-form-field>
                         <mat-label attr.for="dependsOn-{{i}}-{{doi}}-key">Question</mat-label>
                         <mat-select id="dependsOn-{{i}}-{{doi}}-key" formControlName="key">
-                          <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(getSectionDependsOnSection(i, doi).value)" [value]="dependableQuestion.key">
+                          <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(getSectionDependsOnSection(i, doi).getRawValue())" [value]="dependableQuestion.key">
                             {{ dependableQuestion.label }}
                           </mat-option>
                         </mat-select>
@@ -256,7 +256,7 @@ import { createUniqueValidator } from '../shared/unique-value.validator';
                       <mat-form-field>
                         <mat-label attr.for="dependsOn-{{i}}-{{doi}}-key">Value</mat-label>
                         <mat-select id="dependsOn-{{i}}-{{doi}}-value" formControlName="value">
-                          <mat-option *ngFor="let option of getValuesForDependsOn(getSectionDependsOnSection(i, doi).value, getSectionDependsOnQuestion(i, doi).value)" [value]="option.key">
+                          <mat-option *ngFor="let option of getValuesForDependsOn(getSectionDependsOnSection(i, doi).getRawValue(), getSectionDependsOnQuestion(i, doi).getRawValue())" [value]="option.key">
                             {{ option.value }}
                           </mat-option>
                         </mat-select>
@@ -325,9 +325,9 @@ export class DynamicFormEditComponent implements OnInit {
   protected getQuestionDependsOnValue(secIdx: number, qIdx: number, dpdsIdx: number): FormControl { return this.getQuestionDependsOnItem(secIdx, qIdx, dpdsIdx).get("value") as FormControl; }
   
   protected getSectionsForSectionDependsOn(): string[] {
-    const sections: DynamicFormSection[] = this.sections.value as DynamicFormSection[];
-    const titles : string[] = sections.map(section => section.key);
-    return titles
+    const sections: DynamicFormSection[] = this.sections.getRawValue() as DynamicFormSection[];
+    const keys: string[] = sections.map(section => section.key);
+    return keys;
   }
   protected getQuestionsForDependsOn(secTitle: string): DynamicFormQuestion[] {
     const secIdx = this.getIndexOfSection(secTitle);
@@ -343,7 +343,7 @@ export class DynamicFormEditComponent implements OnInit {
   protected isQuestionOptionable(secIdx: number, qIdx: number): boolean { return ["radio", "dropdown"].findIndex(ctrlType => ctrlType === this.getQuestionCtrlType(secIdx, qIdx).value) > -1; }
   
   private getIndexOfQuestionInSection(secIdx: number, qKey: string): number { return (this.getQuestions(secIdx).value as DynamicFormQuestion[]).findIndex(question => question.key === qKey); }
-  private getIndexOfSection(sKey: string): number { return (this.sections.value as DynamicFormSection[]).findIndex(section => section.key === sKey); }
+  private getIndexOfSection(sKey: string): number { return (this.sections.getRawValue() as DynamicFormSection[]).findIndex(section => section.key === sKey); }
 
   constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private dialog: MatDialog, private snackBar: MatSnackBar) { }
 
