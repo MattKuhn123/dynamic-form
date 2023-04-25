@@ -8,7 +8,6 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
 @Component({
   selector: 'app-dynamic-form-edit',
   styles: [
-    'mat-card-content { display: flex; flex-direction: column; }', 
     'mat-panel-description { display: flex; gap: 5px; flex-wrap: wrap; }',
     'footer { position: fixed; bottom: 10px; text-align: center; width: 100%; }',
   ],
@@ -16,16 +15,18 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
     <form *ngIf="fg" [formGroup]="fg">
       <mat-card>
         <mat-card-content>
-          <mat-form-field appearance="fill">
-            <mat-label [attr.for]="'title'">Title</mat-label>
-            <input matInput [formControlName]="'title'" [id]="'title'" [type]="'text'" />
-          </mat-form-field>
-
-          <mat-form-field appearance="fill">
-            <mat-label [attr.for]="'description'">Description</mat-label>
-            <textarea matInput [formControlName]="'description'" [id]="'description'" [type]="'text'"></textarea>
-          </mat-form-field>
-
+          <div>
+            <mat-form-field>
+              <mat-label [attr.for]="'title'">Title</mat-label>
+              <input matInput [formControlName]="'title'" [id]="'title'" [type]="'text'" />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label [attr.for]="'description'">Description</mat-label>
+              <textarea matInput [formControlName]="'description'" [id]="'description'" [type]="'text'"></textarea>
+            </mat-form-field>
+          </div>
           <mat-accordion formArrayName="sections">
             <mat-expansion-panel *ngFor="let section of sections.controls; let i = index" [formGroupName]="i" #secPanel>
               <mat-expansion-panel-header>
@@ -36,15 +37,12 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                   <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="questions">
                     <mat-icon [matBadge]="getQuestions(i).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">question_answer</mat-icon>
                   </button>
-
                   <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="required" *ngIf="getSectionRequired(i).getRawValue()">
-                    <mat-icon>extension</mat-icon>
+                    <mat-icon>priority_high</mat-icon>
                   </button>
-
-                  <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="depends on" *ngIf="getSectionDependsOnList(i).length > 0">
+                  <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="conditions" *ngIf="getSectionDependsOnList(i).length > 0">
                     <mat-icon [matBadge]="getSectionDependsOnList(i).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
                   </button>
-
                   <button mat-icon-button [color]="secPanel.expanded ? 'warn' : 'none'" matTooltip="delete" (click)="onClickRemoveSection(i)">
                     <mat-icon>delete</mat-icon>
                   </button>
@@ -52,70 +50,38 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
               </mat-expansion-panel-header>
 
               <mat-stepper orientation="vertical">
+                <!-- SECTION PROPERTIES -->
+                <!-- SECTION PROPERTIES -->
                 <mat-step>
                   <ng-template matStepLabel>Section Properties</ng-template>
-                  <mat-card-content>
-                    <mat-form-field appearance="fill">
+                  <div>
+                    <mat-form-field>
                       <mat-label [attr.for]="'section-{{i}}-title'">Title</mat-label>
                       <input matInput [formControlName]="'title'" [id]="'section-{{i}}-title'" [type]="'text'" />
                     </mat-form-field>
-  
-                    <mat-form-field appearance="fill">
+                  </div>
+                  <div>
+                    <mat-label [attr.for]="'section-{{i}}-required'">
+                      <mat-checkbox [formControlName]="'required'" [id]="'section-{{i}}-required'"></mat-checkbox>
+                      Section is required
+                    </mat-label>
+                  </div>
+                  <div>
+                    <mat-label [attr.for]="'section-{{i}}-list'">
+                      <mat-checkbox [formControlName]="'list'" [id]="'section-{{i}}-list'"></mat-checkbox>
+                      Section is list
+                    </mat-label>
+                  </div>
+                  <div>
+                    <mat-form-field>
                       <mat-label [attr.for]="'section-{{i}}-description'">Description</mat-label>
                       <textarea matInput [formControlName]="'description'" [id]="'section-{{i}}-description'" [type]="'text'"></textarea>
                     </mat-form-field>
-  
-                    <mat-label [attr.for]="'section-{{i}}-required'">Section is required:
-                      <mat-checkbox [formControlName]="'required'" [id]="'section-{{i}}-required'"></mat-checkbox>
-                    </mat-label>
-  
-                    <mat-label [attr.for]="'section-{{i}}-list'">Section is list:
-                      <mat-checkbox [formControlName]="'list'" [id]="'section-{{i}}-list'"></mat-checkbox>
-                    </mat-label>
-                  </mat-card-content>
+                  </div>
                 </mat-step>
                 
-                <mat-step formArrayName="dependsOn">
-                  <ng-template matStepLabel>Section Depends On</ng-template>
-                  <div *ngIf="getSectionDependsOnList(i).controls.length === 0">
-                    <em>This section will always be displayed.</em>
-                  </div>
-    
-                  <div *ngFor="let dependsOn of getSectionDependsOnList(i).controls; let doi = index">
-                    <div [formGroupName]="doi">
-                      <mat-form-field appearance="fill">
-                        <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-section'">Section</mat-label>
-                        <mat-select id="dependsOn-{{i}}-{{doi}}-section" [formControlName]="'section'">
-                          <mat-option *ngFor="let title of getSectionsForSectionDependsOn()" [value]="title">{{title}}</mat-option>
-                        </mat-select>
-                      </mat-form-field>
-
-                      <mat-form-field appearance="fill">
-                        <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-key'">Question</mat-label>
-                        <mat-select [id]="'dependsOn-{{i}}-{{doi}}-key'" [formControlName]="'key'">
-                          <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(getSectionDependsOnSection(i, doi).value)" [value]="dependableQuestion.key">
-                            {{ dependableQuestion.label }}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-
-                      <mat-form-field appearance="fill">
-                        <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-key'">Value</mat-label>
-                        <mat-select [id]="'dependsOn-{{i}}-{{doi}}-value'" [formControlName]="'value'">
-                          <mat-option *ngFor="let option of getValuesForDependsOn(getSectionDependsOnSection(i, doi).value, getSectionDependsOnQuestion(i, doi).value)" [value]="option.key">
-                            {{ option.value }}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-  
-                      <button mat-mini-fab color="warn" (click)="onClickRemoveSectionDependency(i, doi)">
-                        <mat-icon>delete</mat-icon>
-                      </button>
-                    </div>
-                  </div>
-                  <button type="button" (click)="onClickAddSectionDependency(i)" mat-stroked-button color="primary">Add</button>
-                </mat-step>
-
+                <!-- SECTION QUESTIONS -->
+                <!-- SECTION QUESTIONS -->
                 <mat-step>
                   <ng-template matStepLabel>Section Questions</ng-template>
                   <mat-accordion formArrayName="questions">
@@ -127,10 +93,10 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
 
                         <mat-panel-description>
                           <button mat-icon-button [color]="qtnPanel.expanded ? 'primary' : 'none'" matTooltip="required" *ngIf="getQuestionRequired(i, qi).getRawValue()">
-                            <mat-icon>extension</mat-icon>
+                            <mat-icon>priority_high</mat-icon>
                           </button>
 
-                          <button mat-icon-button [color]="qtnPanel.expanded ? 'primary' : 'none'" matTooltip="depends on" *ngIf="getQuestionDependsOnList(i, qi).length > 0">
+                          <button mat-icon-button [color]="qtnPanel.expanded ? 'primary' : 'none'" matTooltip="conditions" *ngIf="getQuestionDependsOnList(i, qi).length > 0">
                             <mat-icon [matBadge]="getQuestionDependsOnList(i, qi).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
                           </button>
 
@@ -140,14 +106,18 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                         </mat-panel-description>
                       </mat-expansion-panel-header>
   
-                      <mat-stepper orientation="vertical">
+                      <mat-stepper orientation="vertical" #qtnStepper>
+                        <!-- QUESTION PROPERTIES -->
+                        <!-- QUESTION PROPERTIES -->
                         <mat-step label="Question Properties">
-                          <mat-card-content>
-                            <mat-form-field appearance="fill">
+                          <div>
+                            <mat-form-field>
                               <mat-label [attr.for]="'question-{{i}}-{{qi}}-key'">Key</mat-label>
                               <input matInput [formControlName]="'key'" [id]="'question-{{i}}-{{doi}}-key'" [type]="'text'" />
                             </mat-form-field>
-                            <mat-form-field appearance="fill">
+                          </div>
+                          <div>
+                            <mat-form-field>
                               <mat-label [attr.for]="'question-{{i}}-{{qi}}-controlType'">Control type</mat-label>
                               <mat-select [id]="'question-{{i}}-{{doi}}-controlType'" [formControlName]="'controlType'">
                                 <mat-option [value]="'textarea'">textarea</mat-option>
@@ -158,50 +128,23 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                                 <mat-option [value]="'file'">file</mat-option>
                               </mat-select>
                             </mat-form-field>
-                            <mat-form-field appearance="fill">
+                          </div>
+                          <div>
+                            <mat-form-field>
                               <mat-label [attr.for]="'question-{{i}}-{{qi}}-label'">Label</mat-label>
                               <input matInput [formControlName]="'label'" [id]="'question-{{i}}-{{doi}}-label'" [type]="'text'" />
                             </mat-form-field>
-                            <mat-label [attr.for]="'question-{{i}}-required'">Required:
+                          </div>
+                          <div>
+                            <mat-label [attr.for]="'question-{{i}}-required'">
                               <mat-checkbox [formControlName]="'required'" [id]="'question-{{i}}-required'"></mat-checkbox>
+                              Required
                             </mat-label>
-                          </mat-card-content>
+                          </div>
                         </mat-step>
   
-                        <mat-step label="Question Depends On">
-                          <mat-card-content>
-                            <em *ngIf="getQuestionDependsOnList(i, qi).controls.length === 0">This question will always be displayed.</em>
-                            <div formArrayName="dependsOn">
-                              <div *ngFor="let questionDependsOn of getQuestionDependsOnList(i, qi).controls; let qdoi = index">
-                                <div [formGroupName]="qdoi">
-                                  <mat-form-field appearance="fill">
-                                    <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-key'">Question</mat-label>
-                                    <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-key'" [formControlName]="'key'">
-                                      <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(getSectionTitle(i).getRawValue())" [value]="dependableQuestion.key">
-                                        {{ dependableQuestion.label }}
-                                      </mat-option>
-                                    </mat-select>
-                                  </mat-form-field>
-      
-                                  <mat-form-field appearance="fill">
-                                    <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-value'">Value</mat-label>
-                                    <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-value'" [formControlName]="'value'">
-                                      <mat-option *ngFor="let option of getValuesForDependsOn(getSectionTitle(i).getRawValue(), getQuestionDependsOnQuestion(i, qi, qdoi).value)" [value]="option.key">
-                                        {{ option.value }}
-                                      </mat-option>
-                                    </mat-select>
-                                  </mat-form-field>
-      
-                                  <button mat-mini-fab color="warn" (click)="onClickRemoveQuestionDependency(i, qi, qdoi)">
-                                    <mat-icon>delete</mat-icon>
-                                  </button>
-                                </div>
-                              </div>
-                              <button type="button" (click)="onClickAddQuestionDependency(i, qi)" mat-stroked-button color="primary">Add</button>
-                            </div>
-                          </mat-card-content>
-                        </mat-step>
-  
+                        <!-- QUESTION OPTIONS -->
+                        <!-- QUESTION OPTIONS -->
                         <mat-step label="Question Options" formArrayName="options" *ngIf="isQuestionOptionable(i, qi)">
                           <div *ngIf="getQuestionOptions(i, qi).controls.length === 0">
                             <em>This question has no options.</em>
@@ -209,25 +152,122 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
     
                           <div *ngFor="let questionOptions of getQuestionOptions(i, qi).controls; let qoi = index">
                             <div [formGroupName]="qoi">
-                              <mat-form-field appearance="fill">
+                              <mat-form-field>
                                 <mat-label [attr.for]="'question-option-{{i}}-{{qi}}-key'">Value</mat-label>
                                 <input matInput [formControlName]="'key'" [id]="'question-option-{{i}}-{{qoi}}-key'" [type]="'text'" />
                               </mat-form-field>
-                              <mat-form-field appearance="fill">
+                              <mat-form-field>
                                 <mat-label [attr.for]="'question-option-{{i}}-{{qi}}-value'">Label</mat-label>
                                 <input matInput [formControlName]="'value'" [id]="'question-option-{{i}}-{{qoi}}-value'" [type]="'text'" />
                               </mat-form-field>
-                              <button mat-mini-fab color="warn" (click)="onClickRemoveQuestionOption(i, qi, qoi)">
+                              <button mat-icon-button color="warn" (click)="onClickRemoveQuestionOption(i, qi, qoi)">
                                 <mat-icon>delete</mat-icon>
+                              </button>
+                              <button mat-icon-button color="primary" (click)="onClickAddQuestionOption(i, qi, qoi)">
+                                <mat-icon>add</mat-icon>
                               </button>
                             </div>
                           </div>
-                          <button type="button" (click)="onClickAddQuestionOption(i, qi)" mat-stroked-button color="primary">Add</button>
+                        </mat-step>
+
+                        <!-- QUESTION DEPENDS ON -->
+                        <!-- QUESTION DEPENDS ON -->
+                        <mat-step [label]="getQuestionDependsOnList(i, qi).controls.length === 0 ? 'Question Conditions (None)' : 'Question Conditions'">
+                          <div *ngIf="getQuestionDependsOnList(i, qi).controls.length === 0">
+                            <div>
+                              <em>There are no conditions under which this question will be displayed, so it will always be displayed by default.</em>
+                            </div>
+                            <div>
+                              <button mat-button color="primary" (click)="onClickAddQuestionDependency(i, qi, 0)">
+                                Add condition
+                              </button>
+                            </div>
+                          </div>
+                          <div formArrayName="dependsOn">
+                            <div *ngFor="let questionDependsOn of getQuestionDependsOnList(i, qi).controls; let qdoi = index" [formGroupName]="qdoi">
+                              <mat-form-field>
+                                <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-key'">Question</mat-label>
+                                <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-key'" [formControlName]="'key'">
+                                  <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(getSectionTitle(i).getRawValue())" [value]="dependableQuestion.key">
+                                    {{ dependableQuestion.label }}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+  
+                              <mat-form-field>
+                                <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-value'">Value</mat-label>
+                                <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-value'" [formControlName]="'value'">
+                                  <mat-option *ngFor="let option of getValuesForDependsOn(getSectionTitle(i).getRawValue(), getQuestionDependsOnQuestion(i, qi, qdoi).value)" [value]="option.key">
+                                    {{ option.value }}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+  
+                              <button mat-icon-button color="warn" (click)="onClickRemoveQuestionDependency(i, qi, qdoi)">
+                                <mat-icon>delete</mat-icon>
+                              </button>
+
+                              <button mat-icon-button color="primary" (click)="onClickAddQuestionDependency(i, qi, qdoi)">
+                                <mat-icon>add</mat-icon>
+                              </button>
+                            </div>
+                          </div>
                         </mat-step>
                       </mat-stepper>
                     </mat-expansion-panel>
                   </mat-accordion>
                   <button type="button" (click)="onClickAddQuestion(i)" mat-stroked-button color="primary">Add</button>
+                </mat-step>
+
+                <!-- SECTION DEPENDS ON -->
+                <!-- SECTION DEPENDS ON -->
+                <mat-step formArrayName="dependsOn" [label]="getSectionDependsOnList(i).controls.length === 0 ? 'Section Conditions (None)' : 'Section Conditions'">
+                  <div *ngIf="getSectionDependsOnList(i).controls.length === 0">
+                    <div>
+                      <em>There are no conditions under which this section will be displayed, so it will always be displayed by default.</em>
+                    </div>
+                    <div>
+                      <button mat-button color="primary" (click)="onClickAddSectionDependency(i, 0)">
+                        Add condition
+                      </button>
+                    </div>
+                  </div>
+                  <div *ngFor="let dependsOn of getSectionDependsOnList(i).controls; let doi = index">
+                    <div [formGroupName]="doi">
+                      <mat-form-field>
+                        <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-section'">Section</mat-label>
+                        <mat-select id="dependsOn-{{i}}-{{doi}}-section" [formControlName]="'section'">
+                          <mat-option *ngFor="let title of getSectionsForSectionDependsOn()" [value]="title">{{title}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                      <mat-form-field>
+                        <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-key'">Question</mat-label>
+                        <mat-select [id]="'dependsOn-{{i}}-{{doi}}-key'" [formControlName]="'key'">
+                          <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(getSectionDependsOnSection(i, doi).value)" [value]="dependableQuestion.key">
+                            {{ dependableQuestion.label }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                      <mat-form-field>
+                        <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-key'">Value</mat-label>
+                        <mat-select [id]="'dependsOn-{{i}}-{{doi}}-value'" [formControlName]="'value'">
+                          <mat-option *ngFor="let option of getValuesForDependsOn(getSectionDependsOnSection(i, doi).value, getSectionDependsOnQuestion(i, doi).value)" [value]="option.key">
+                            {{ option.value }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+  
+                      <button mat-icon-button color="warn" (click)="onClickRemoveSectionDependency(i, doi)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+
+                      <button mat-icon-button color="primary" (click)="onClickAddSectionDependency(i, doi)">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </div>
+                  </div>
                 </mat-step>
               </mat-stepper>
 
@@ -367,15 +407,15 @@ export class DynamicFormEditComponent implements OnInit {
   protected onClickAddSection(): void { this.sections.push(this.sectionToGroup(new DynamicFormSection())); }
   protected onClickRemoveSection(secIdx: number): void { this.sections.removeAt(secIdx); }
 
-  protected onClickAddSectionDependency(secIdx: number): void { this.getSectionDependsOnList(secIdx).push(this.sectionDependsOnToGroup({key: "", section: "", value: ""})); }
+  protected onClickAddSectionDependency(secIdx: number, doIdx: number): void { this.getSectionDependsOnList(secIdx).insert(doIdx, this.sectionDependsOnToGroup({key: "", section: "", value: ""})); }
   protected onClickRemoveSectionDependency(secIdx: number, doi: number): void { this.getSectionDependsOnList(secIdx).removeAt(doi); }
 
-  protected onClickAddQuestion(secIdx: number) { this.getQuestions(secIdx).push(this.questionToGroup(new DynamicFormQuestion())); }
-  protected onClickRemoveQuestion(secIdx: number, qIdx: number) { this.getQuestions(secIdx).removeAt(qIdx); }
+  protected onClickAddQuestion(secIdx: number): void{ this.getQuestions(secIdx).push(this.questionToGroup(new DynamicFormQuestion())); }
+  protected onClickRemoveQuestion(secIdx: number, qIdx: number): void { this.getQuestions(secIdx).removeAt(qIdx); }
 
-  protected onClickAddQuestionDependency(secIdx: number, qIdx: number) { this.getQuestionDependsOnList(secIdx, qIdx).push(this.questionDependsOnToGroup({key: "", value: ""})); }
-  protected onClickRemoveQuestionDependency(secIdx: number, qIdx: number, dpdsIdx: number) { this.getQuestionDependsOnList(secIdx, qIdx).removeAt(dpdsIdx); }
+  protected onClickAddQuestionDependency(secIdx: number, qIdx: number, dpdsIdx: number): void { this.getQuestionDependsOnList(secIdx, qIdx).insert(dpdsIdx, this.questionDependsOnToGroup({key: "", value: ""})); }
+  protected onClickRemoveQuestionDependency(secIdx: number, qIdx: number, dpdsIdx: number): void { this.getQuestionDependsOnList(secIdx, qIdx).removeAt(dpdsIdx); }
 
-  protected onClickAddQuestionOption(secIdx: number, qIdx: number) { this.getQuestionOptions(secIdx, qIdx).push(this.questionOptionToGroup({key: "", value: ""})); }
-  protected onClickRemoveQuestionOption(secIdx: number, qIdx: number, qoIdx: number) { this.getQuestionOptions(secIdx, qIdx).removeAt(qoIdx); }
+  protected onClickAddQuestionOption(secIdx: number, qIdx: number, qoIdx: number): void { this.getQuestionOptions(secIdx, qIdx).insert(qoIdx, this.questionOptionToGroup({key: "", value: ""})); }
+  protected onClickRemoveQuestionOption(secIdx: number, qIdx: number, qoIdx: number): void { this.getQuestionOptions(secIdx, qIdx).removeAt(qoIdx); }
 }
