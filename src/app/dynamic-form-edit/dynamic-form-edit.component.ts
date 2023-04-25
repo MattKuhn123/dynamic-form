@@ -17,14 +17,14 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
         <mat-card-content>
           <div>
             <mat-form-field>
-              <mat-label [attr.for]="'title'">Title</mat-label>
-              <input matInput [formControlName]="'title'" [id]="'title'" [type]="'text'" />
+              <mat-label for="title">Title</mat-label>
+              <input matInput formControlName="title" id="title" type="text" />
             </mat-form-field>
           </div>
           <div>
             <mat-form-field>
-              <mat-label [attr.for]="'description'">Description</mat-label>
-              <textarea matInput [formControlName]="'description'" [id]="'description'" [type]="'text'"></textarea>
+              <mat-label for="description">Description</mat-label>
+              <textarea matInput formControlName="description" id="description" type="text"></textarea>
             </mat-form-field>
           </div>
           <mat-accordion formArrayName="sections">
@@ -56,26 +56,26 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                   <ng-template matStepLabel>Section Properties</ng-template>
                   <div>
                     <mat-form-field>
-                      <mat-label [attr.for]="'section-{{i}}-key'">Key</mat-label>
-                      <input matInput [formControlName]="'key'" [id]="'section-{{i}}-key'" [type]="'text'" />
+                      <mat-label attr.for="section-{{i}}-key">Key</mat-label>
+                      <input matInput formControlName="key" id="section-{{i}}-key" type="text" />
                     </mat-form-field>
                   </div>
                   <div>
-                    <mat-label [attr.for]="'section-{{i}}-required'">
-                      <mat-checkbox [formControlName]="'required'" [id]="'section-{{i}}-required'"></mat-checkbox>
+                    <mat-label attr.for="section-{{i}}-required">
+                      <mat-checkbox formControlName="required" id="section-{{i}}-required"></mat-checkbox>
                       Section is required
                     </mat-label>
                   </div>
                   <div>
-                    <mat-label [attr.for]="'section-{{i}}-list'">
-                      <mat-checkbox [formControlName]="'list'" [id]="'section-{{i}}-list'"></mat-checkbox>
+                    <mat-label attr.for="section-{{i}}-list">
+                      <mat-checkbox formControlName="list" id="section-{{i}}-list"></mat-checkbox>
                       Section is list
                     </mat-label>
                   </div>
                   <div>
                     <mat-form-field>
-                      <mat-label [attr.for]="'section-{{i}}-description'">Description</mat-label>
-                      <textarea matInput [formControlName]="'description'" [id]="'section-{{i}}-description'" [type]="'text'"></textarea>
+                      <mat-label attr.for="section-{{i}}-description">Description</mat-label>
+                      <textarea matInput formControlName="description" id="section-{{i}}-description" type="text"></textarea>
                     </mat-form-field>
                   </div>
                 </mat-step>
@@ -112,32 +112,32 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                         <mat-step label="Question Properties">
                           <div>
                             <mat-form-field>
-                              <mat-label [attr.for]="'question-{{i}}-{{qi}}-key'">Key</mat-label>
-                              <input matInput [formControlName]="'key'" [id]="'question-{{i}}-{{doi}}-key'" [type]="'text'" />
+                              <mat-label attr.for="question-{{i}}-{{qi}}-key">Key</mat-label>
+                              <input matInput formControlName="key" id="question-{{i}}-{{qi}}-key" type="text" />
                             </mat-form-field>
                           </div>
                           <div>
                             <mat-form-field>
-                              <mat-label [attr.for]="'question-{{i}}-{{qi}}-controlType'">Control type</mat-label>
-                              <mat-select [id]="'question-{{i}}-{{doi}}-controlType'" [formControlName]="'controlType'">
-                                <mat-option [value]="'textarea'">textarea</mat-option>
-                                <mat-option [value]="'textbox'">textbox</mat-option>
-                                <mat-option [value]="'dropdown'">dropdown</mat-option>
-                                <mat-option [value]="'radio'">radio</mat-option>
-                                <mat-option [value]="'date'">date</mat-option>
-                                <mat-option [value]="'file'">file</mat-option>
+                              <mat-label attr.for="question-{{i}}-{{qi}}-controlType">Control type</mat-label>
+                              <mat-select id="question-{{i}}-{{qi}}-controlType" formControlName="controlType">
+                                <mat-option value="textarea">textarea</mat-option>
+                                <mat-option value="textbox">textbox</mat-option>
+                                <mat-option value="dropdown">dropdown</mat-option>
+                                <mat-option value="radio">radio</mat-option>
+                                <mat-option value="date">date</mat-option>
+                                <mat-option value="file">file</mat-option>
                               </mat-select>
                             </mat-form-field>
                           </div>
                           <div>
                             <mat-form-field>
-                              <mat-label [attr.for]="'question-{{i}}-{{qi}}-label'">Label</mat-label>
-                              <input matInput [formControlName]="'label'" [id]="'question-{{i}}-{{doi}}-label'" [type]="'text'" />
+                              <mat-label attr.for="question-{{i}}-{{qi}}-label">Label</mat-label>
+                              <input matInput formControlName="label" id="question-{{i}}-{{qi}}-label" type="text" />
                             </mat-form-field>
                           </div>
                           <div>
-                            <mat-label [attr.for]="'question-{{i}}-required'">
-                              <mat-checkbox [formControlName]="'required'" [id]="'question-{{i}}-required'"></mat-checkbox>
+                            <mat-label attr.for="question-{{i}}-{{qi}}-required">
+                              <mat-checkbox formControlName="required" id="question-{{i}}-{{qi}}-required"></mat-checkbox>
                               Required
                             </mat-label>
                           </div>
@@ -153,12 +153,12 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                           <div *ngFor="let questionOptions of getQuestionOptions(i, qi).controls; let qoi = index">
                             <div [formGroupName]="qoi">
                               <mat-form-field>
-                                <mat-label [attr.for]="'question-option-{{i}}-{{qi}}-key'">Value</mat-label>
-                                <input matInput [formControlName]="'key'" [id]="'question-option-{{i}}-{{qoi}}-key'" [type]="'text'" />
+                                <mat-label attr.for="question-option-{{i}}-{{qi}}-key">Value</mat-label>
+                                <input matInput formControlName="key" id="question-option-{{i}}-{{qoi}}-key" type="text" />
                               </mat-form-field>
                               <mat-form-field>
-                                <mat-label [attr.for]="'question-option-{{i}}-{{qi}}-value'">Label</mat-label>
-                                <input matInput [formControlName]="'value'" [id]="'question-option-{{i}}-{{qoi}}-value'" [type]="'text'" />
+                                <mat-label attr.for="question-option-{{i}}-{{qi}}-value">Label</mat-label>
+                                <input matInput formControlName="value" id="question-option-{{i}}-{{qoi}}-value" type="text" />
                               </mat-form-field>
                               <button mat-icon-button color="warn" (click)="onClickRemoveQuestionOption(i, qi, qoi)">
                                 <mat-icon>delete</mat-icon>
@@ -186,8 +186,8 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                           <div formArrayName="dependsOn">
                             <div *ngFor="let questionDependsOn of getQuestionDependsOnList(i, qi).controls; let qdoi = index" [formGroupName]="qdoi">
                               <mat-form-field>
-                                <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-key'">Question</mat-label>
-                                <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-key'" [formControlName]="'key'">
+                                <mat-label attr.for="question-dependsOn-{{i}}-{{qdoi}}-key">Question</mat-label>
+                                <mat-select id="question-dependsOn-{{i}}-{{qdoi}}-key" formControlName="key">
                                   <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(getSectionTitle(i).getRawValue())" [value]="dependableQuestion.key">
                                     {{ dependableQuestion.label }}
                                   </mat-option>
@@ -195,8 +195,8 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                               </mat-form-field>
   
                               <mat-form-field>
-                                <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-value'">Value</mat-label>
-                                <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-value'" [formControlName]="'value'">
+                                <mat-label attr.for="question-dependsOn-{{i}}-{{qdoi}}-value">Value</mat-label>
+                                <mat-select id="question-dependsOn-{{i}}-{{qdoi}}-value" formControlName="value">
                                   <mat-option *ngFor="let option of getValuesForDependsOn(getSectionTitle(i).getRawValue(), getQuestionDependsOnQuestion(i, qi, qdoi).value)" [value]="option.key">
                                     {{ option.value }}
                                   </mat-option>
@@ -235,15 +235,15 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                   <div *ngFor="let dependsOn of getSectionDependsOnList(i).controls; let doi = index">
                     <div [formGroupName]="doi">
                       <mat-form-field>
-                        <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-section'">Section</mat-label>
-                        <mat-select id="dependsOn-{{i}}-{{doi}}-section" [formControlName]="'section'">
+                        <mat-label attr.for="dependsOn-{{i}}-{{doi}}-section">Section</mat-label>
+                        <mat-select id="dependsOn-{{i}}-{{doi}}-section" formControlName="section">
                           <mat-option *ngFor="let key of getSectionsForSectionDependsOn()" [value]="key">{{ key }}</mat-option>
                         </mat-select>
                       </mat-form-field>
 
                       <mat-form-field>
-                        <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-key'">Question</mat-label>
-                        <mat-select [id]="'dependsOn-{{i}}-{{doi}}-key'" [formControlName]="'key'">
+                        <mat-label attr.for="dependsOn-{{i}}-{{doi}}-key">Question</mat-label>
+                        <mat-select id="dependsOn-{{i}}-{{doi}}-key" formControlName="key">
                           <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(getSectionDependsOnSection(i, doi).value)" [value]="dependableQuestion.key">
                             {{ dependableQuestion.label }}
                           </mat-option>
@@ -251,8 +251,8 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                       </mat-form-field>
 
                       <mat-form-field>
-                        <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-key'">Value</mat-label>
-                        <mat-select [id]="'dependsOn-{{i}}-{{doi}}-value'" [formControlName]="'value'">
+                        <mat-label attr.for="dependsOn-{{i}}-{{doi}}-key">Value</mat-label>
+                        <mat-select id="dependsOn-{{i}}-{{doi}}-value" formControlName="value">
                           <mat-option *ngFor="let option of getValuesForDependsOn(getSectionDependsOnSection(i, doi).value, getSectionDependsOnQuestion(i, doi).value)" [value]="option.key">
                             {{ option.value }}
                           </mat-option>
