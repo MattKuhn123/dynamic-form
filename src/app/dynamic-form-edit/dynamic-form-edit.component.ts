@@ -105,38 +105,36 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                     <mat-expansion-panel *ngFor="let question of getQuestions(i).controls; let qi = index" [formGroupName]="qi">
                       <mat-expansion-panel-header>
                         <mat-panel-title>
-                        Question {{ qi+1 }}: {{ getQuestion(i, qi).get("label")?.getRawValue() }}
+                        Question {{ qi+1 }}: {{ getQuestionLabel(i, qi).getRawValue() }}
                         </mat-panel-title>
                       </mat-expansion-panel-header>
   
                       <mat-stepper orientation="vertical">
                         <mat-step label="Question Properties">
-                          <mat-card>
-                            <mat-card-content>
-                              <mat-form-field appearance="fill">
-                                <mat-label [attr.for]="'question-{{i}}-{{qi}}-key'">Key</mat-label>
-                                <input matInput [formControlName]="'key'" [id]="'question-{{i}}-{{doi}}-key'" [type]="'text'" />
-                              </mat-form-field>
-                              <mat-form-field appearance="fill">
-                                <mat-label [attr.for]="'question-{{i}}-{{qi}}-controlType'">Control type</mat-label>
-                                <mat-select [id]="'question-{{i}}-{{doi}}-controlType'" [formControlName]="'controlType'">
-                                  <mat-option [value]="'textarea'">textarea</mat-option>
-                                  <mat-option [value]="'textbox'">textbox</mat-option>
-                                  <mat-option [value]="'dropdown'">dropdown</mat-option>
-                                  <mat-option [value]="'radio'">radio</mat-option>
-                                  <mat-option [value]="'date'">date</mat-option>
-                                  <mat-option [value]="'file'">file</mat-option>
-                                </mat-select>
-                              </mat-form-field>
-                              <mat-form-field appearance="fill">
-                                <mat-label [attr.for]="'question-{{i}}-{{qi}}-label'">Label</mat-label>
-                                <input matInput [formControlName]="'label'" [id]="'question-{{i}}-{{doi}}-label'" [type]="'text'" />
-                              </mat-form-field>
-                              <mat-label [attr.for]="'question-{{i}}-required'">Required:
-                                <mat-checkbox [formControlName]="'required'" [id]="'question-{{i}}-required'"></mat-checkbox>
-                              </mat-label>
-                            </mat-card-content>
-                          </mat-card>
+                          <mat-card-content>
+                            <mat-form-field appearance="fill">
+                              <mat-label [attr.for]="'question-{{i}}-{{qi}}-key'">Key</mat-label>
+                              <input matInput [formControlName]="'key'" [id]="'question-{{i}}-{{doi}}-key'" [type]="'text'" />
+                            </mat-form-field>
+                            <mat-form-field appearance="fill">
+                              <mat-label [attr.for]="'question-{{i}}-{{qi}}-controlType'">Control type</mat-label>
+                              <mat-select [id]="'question-{{i}}-{{doi}}-controlType'" [formControlName]="'controlType'">
+                                <mat-option [value]="'textarea'">textarea</mat-option>
+                                <mat-option [value]="'textbox'">textbox</mat-option>
+                                <mat-option [value]="'dropdown'">dropdown</mat-option>
+                                <mat-option [value]="'radio'">radio</mat-option>
+                                <mat-option [value]="'date'">date</mat-option>
+                                <mat-option [value]="'file'">file</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <mat-form-field appearance="fill">
+                              <mat-label [attr.for]="'question-{{i}}-{{qi}}-label'">Label</mat-label>
+                              <input matInput [formControlName]="'label'" [id]="'question-{{i}}-{{doi}}-label'" [type]="'text'" />
+                            </mat-form-field>
+                            <mat-label [attr.for]="'question-{{i}}-required'">Required:
+                              <mat-checkbox [formControlName]="'required'" [id]="'question-{{i}}-required'"></mat-checkbox>
+                            </mat-label>
+                          </mat-card-content>
                         </mat-step>
   
                         <mat-step label="Question Depends On">
@@ -247,6 +245,7 @@ export class DynamicFormEditComponent implements OnInit {
   protected getQuestions(secIdx: number): FormArray { return (this.getSection(secIdx)).get("questions") as FormArray; }
   protected getQuestion(secIdx: number, qIdx: number): FormGroup { return this.getQuestions(secIdx).at(qIdx) as FormGroup }
   protected getQuestionCtrlType(secIdx: number, qIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("controlType") as FormControl); }
+  protected getQuestionLabel(secIdx: number, qIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("label") as FormControl); }
   
   protected getQuestionOptions(secIdx: number, qIdx: number): FormArray { return this.getQuestion(secIdx, qIdx).get("options") as FormArray; }
   protected getQuestionOption(secIdx: number, qIdx: number, optIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("options") as FormArray).at(optIdx) as FormControl }
