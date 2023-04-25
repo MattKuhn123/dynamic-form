@@ -27,25 +27,25 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
           </mat-form-field>
 
           <mat-accordion formArrayName="sections">
-            <mat-expansion-panel *ngFor="let section of sections.controls; let i = index" [formGroupName]="i">
+            <mat-expansion-panel *ngFor="let section of sections.controls; let i = index" [formGroupName]="i" #secPanel>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   Section {{ i+1 }}: {{ getSectionTitle(i).getRawValue() }}
                 </mat-panel-title>
                 <mat-panel-description>
-                  <button mat-icon-button color="primary" matTooltip="questions">
-                    <mat-icon [matBadge]="getQuestions(i).length" matBadgeOverlap="false" matBadgeSize="small">question_answer</mat-icon>
+                  <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="questions">
+                    <mat-icon [matBadge]="getQuestions(i).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">question_answer</mat-icon>
                   </button>
 
-                  <button mat-icon-button color="primary" matTooltip="required" *ngIf="getSectionRequired(i).getRawValue()">
+                  <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="required" *ngIf="getSectionRequired(i).getRawValue()">
                     <mat-icon>extension</mat-icon>
                   </button>
 
-                  <button mat-icon-button color="primary" matTooltip="depends on" *ngIf="getSectionDependsOnList(i).length > 0">
-                    <mat-icon [matBadge]="getSectionDependsOnList(i).length" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
+                  <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="depends on" *ngIf="getSectionDependsOnList(i).length > 0">
+                    <mat-icon [matBadge]="getSectionDependsOnList(i).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
                   </button>
 
-                  <button mat-icon-button color="warn" matTooltip="delete" (click)="onClickRemoveSection(i)">
+                  <button mat-icon-button [color]="secPanel.expanded ? 'warn' : 'none'" matTooltip="delete" (click)="onClickRemoveSection(i)">
                     <mat-icon>delete</mat-icon>
                   </button>
                 </mat-panel-description>
@@ -93,8 +93,8 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                       <mat-form-field appearance="fill">
                         <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-key'">Question</mat-label>
                         <mat-select [id]="'dependsOn-{{i}}-{{doi}}-key'" [formControlName]="'key'">
-                          <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(getSectionDependsOnSection(i, doi).value)" [value]="dependableQuestion">
-                            {{ dependableQuestion }}
+                          <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(getSectionDependsOnSection(i, doi).value)" [value]="dependableQuestion.key">
+                            {{ dependableQuestion.label }}
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
@@ -119,22 +119,22 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                 <mat-step>
                   <ng-template matStepLabel>Section Questions</ng-template>
                   <mat-accordion formArrayName="questions">
-                    <mat-expansion-panel *ngFor="let question of getQuestions(i).controls; let qi = index" [formGroupName]="qi">
+                    <mat-expansion-panel *ngFor="let question of getQuestions(i).controls; let qi = index" [formGroupName]="qi" #qtnPanel>
                       <mat-expansion-panel-header>
                         <mat-panel-title>
                         Question {{ qi+1 }}: {{ getQuestionLabel(i, qi).getRawValue() }}
                         </mat-panel-title>
 
                         <mat-panel-description>
-                          <button mat-icon-button color="primary" matTooltip="required" *ngIf="getQuestionRequired(i, qi).getRawValue()">
+                          <button mat-icon-button [color]="qtnPanel.expanded ? 'primary' : 'none'" matTooltip="required" *ngIf="getQuestionRequired(i, qi).getRawValue()">
                             <mat-icon>extension</mat-icon>
                           </button>
 
-                          <button mat-icon-button color="primary" matTooltip="depends on" *ngIf="getQuestionDependsOnList(i, qi).length > 0">
-                            <mat-icon [matBadge]="getQuestionDependsOnList(i, qi).length" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
+                          <button mat-icon-button [color]="qtnPanel.expanded ? 'primary' : 'none'" matTooltip="depends on" *ngIf="getQuestionDependsOnList(i, qi).length > 0">
+                            <mat-icon [matBadge]="getQuestionDependsOnList(i, qi).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
                           </button>
 
-                          <button mat-icon-button color="warn" matTooltip="delete" (click)="onClickRemoveQuestion(i, qi)">
+                          <button mat-icon-button [color]="qtnPanel.expanded ? 'warn' : 'none'" matTooltip="delete" (click)="onClickRemoveQuestion(i, qi)">
                             <mat-icon>delete</mat-icon>
                           </button>
                         </mat-panel-description>
@@ -177,8 +177,8 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                                   <mat-form-field appearance="fill">
                                     <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-key'">Question</mat-label>
                                     <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-key'" [formControlName]="'key'">
-                                      <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(getSectionTitle(i).getRawValue())" [value]="dependableQuestion">
-                                        {{ dependableQuestion }}
+                                      <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(getSectionTitle(i).getRawValue())" [value]="dependableQuestion.key">
+                                        {{ dependableQuestion.label }}
                                       </mat-option>
                                     </mat-select>
                                   </mat-form-field>
@@ -202,7 +202,7 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                           </mat-card-content>
                         </mat-step>
   
-                        <mat-step label="Options" formArrayName="options" *ngIf="isQuestionOptionable(i, qi)">
+                        <mat-step label="Question Options" formArrayName="options" *ngIf="isQuestionOptionable(i, qi)">
                           <div *ngIf="getQuestionOptions(i, qi).controls.length === 0">
                             <em>This question has no options.</em>
                           </div>
@@ -286,10 +286,10 @@ export class DynamicFormEditComponent implements OnInit {
     const titles : string[] = sections.map(section => section.title);
     return titles
   }
-  protected getQuestionsForDependsOn(secTitle: string): string[] {
+  protected getQuestionsForDependsOn(secTitle: string): DynamicFormQuestion[] {
     const secIdx = this.getIndexOfSection(secTitle);
-    const sec = this.getQuestions(secIdx).getRawValue();
-    return Object.values(sec).filter(question => ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === question.controlType) > -1).map(question => question.key);
+    const sec = this.getQuestions(secIdx).value as DynamicFormQuestion[];
+    return sec.filter(question => ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === question.controlType) > -1);
   }
   
   protected getValuesForDependsOn(secTitle: string, qKey: string): { key: string, value: string }[] {
