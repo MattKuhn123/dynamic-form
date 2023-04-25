@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -24,6 +25,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppComponent } from './app.component';
 import { DynamicFormQuestionComponent } from './dynamic-form/dynamic-form-question.component';
@@ -48,6 +50,7 @@ export const appRoute: Routes = [
     BrowserAnimationsModule,
     ClipboardModule,
     HttpClientModule,
+    MatBadgeModule,
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
@@ -65,6 +68,7 @@ export const appRoute: Routes = [
     MatSnackBarModule,
     MatStepperModule,
     MatToolbarModule,
+    MatTooltipModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoute),
     ServiceWorkerModule.register('ngsw-worker.js', {

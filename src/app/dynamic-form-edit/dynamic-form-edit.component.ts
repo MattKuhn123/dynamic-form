@@ -9,6 +9,7 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
   selector: 'app-dynamic-form-edit',
   styles: [
     'mat-card-content { display: flex; flex-direction: column; }', 
+    'mat-panel-description { display: flex; gap: 5px; flex-wrap: wrap; }',
     'mat-card { margin-top: 5px; }',
     'footer { position: fixed; bottom: 10px; text-align: center; width: 100%; }',
   ],
@@ -30,8 +31,29 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
             <mat-expansion-panel *ngFor="let section of sections.controls; let i = index" [formGroupName]="i">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Section {{ i+1 }}: {{ sections.at(i).get("title")?.getRawValue() }}
+                  Section {{ i+1 }}: {{ getSectionTitle(i).getRawValue() }}
                 </mat-panel-title>
+                <mat-panel-description>
+                  <button mat-icon-button matTooltip="questions">
+                    <mat-icon matBadgeColor="primary" [matBadge]="getQuestions(i).length" matBadgeColor="warn" matBadgeOverlap="false" matBadgeSize="small" matBadgePosition="before">question_answer</mat-icon>
+                  </button>
+
+                  <button mat-icon-button matTooltip="required" *ngIf="getSectionRequired(i).getRawValue()">
+                    <mat-icon>extension</mat-icon>
+                  </button>
+
+                  <button mat-icon-button matTooltip="not required" *ngIf="!getSectionRequired(i).getRawValue()">
+                    <mat-icon>extension_off</mat-icon>
+                  </button>
+
+                  <button mat-icon-button matTooltip="depends on" *ngIf="getSectionDependsOnList(i).length > 0">
+                    <mat-icon matBadgeColor="primary" [matBadge]="getSectionDependsOnList(i).length" matBadgeColor="warn" matBadgeOverlap="false" matBadgeSize="small" matBadgePosition="before">rule</mat-icon>
+                  </button>
+
+                  <button mat-icon-button matTooltip="delete" (click)="onClickRemoveSection(i)" color="warn">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </mat-panel-description>
               </mat-expansion-panel-header>
 
               <mat-stepper orientation="vertical">
@@ -212,7 +234,6 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
         </mat-card-content>
         <mat-card-actions>
           <button type="button" (click)="onClickAddSection()" mat-stroked-button color="primary">Add</button>
-          <button type="button" (click)="onClickRemoveSection()" mat-stroked-button color="accent">Remove</button>
         </mat-card-actions>
       </mat-card>
     </form>
@@ -236,6 +257,8 @@ export class DynamicFormEditComponent implements OnInit {
   get sections(): FormArray { return this.fg.get("sections") as FormArray; }
   
   protected getSection(secIdx: number): FormGroup { return (this.sections.at(secIdx) as FormGroup) }
+  protected getSectionTitle(secIdx: number): FormControl { return (this.getSection(secIdx).get("title") as FormControl) }
+  protected getSectionRequired(secIdx: number): FormControl { return (this.getSection(secIdx).get("required") as FormControl) }
   protected getSectionDependsOnList(secIdx: number): FormArray { return (this.getSection(secIdx)).get("dependsOn") as FormArray; }
   protected getSectionDependsOnItem(secIdx: number, dpdsIdx: number): FormGroup { return this.getSectionDependsOnList(secIdx).at(dpdsIdx) as FormGroup; }
   protected getSectionDependsOnSection(secIdx: number, dpdsIdx: number): FormControl { return this.getSectionDependsOnItem(secIdx, dpdsIdx).get("section") as FormControl; }
@@ -325,7 +348,7 @@ export class DynamicFormEditComponent implements OnInit {
   }
 
   protected onClickAddSection(): void { this.sections.push(this.sectionToGroup(new DynamicFormSection())); }
-  protected onClickRemoveSection(): void { this.sections.removeAt(this.sections.length - 1); }
+  protected onClickRemoveSection(secIdx: number): void { this.sections.removeAt(secIdx); }
 
   protected onClickAddSectionDependency(secIdx: number): void { this.getSectionDependsOnList(secIdx).push(this.sectionDependsOnToGroup({key: "", section: "", value: ""})); }
   protected onClickRemoveSectionDependency(secIdx: number, doi: number): void { this.getSectionDependsOnList(secIdx).removeAt(doi); }
