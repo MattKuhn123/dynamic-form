@@ -1,7 +1,7 @@
 import { DynamicFormQuestion } from "./dynamic-form-question.model";
 
 export class DynamicFormSection {
-  dependsOn: { section: number, key: string, value: string }[];
+  dependsOn: { section: string, key: string, value: string }[];
   description: string;
   list: boolean;
   questions: DynamicFormQuestion[];
@@ -9,7 +9,7 @@ export class DynamicFormSection {
   title: string;
 
   constructor(options: {
-    dependsOn?: { section: number, key: string, value: string }[];
+    dependsOn?: { section: string, key: string, value: string }[];
     description?: string;
     list?: boolean;
     questions?: DynamicFormQuestion[];

@@ -73,10 +73,11 @@ export class DynamicFormComponent implements OnInit {
   formGroup!: FormGroup;
   form!: DynamicForm;
   stepperOrientation: Observable<StepperOrientation>;
-  protected get stringified(): string { return JSON.stringify(this.formGroup.getRawValue(), null, 2) };
+  protected get stringified(): string { return JSON.stringify(this.formGroup.getRawValue(), null, 4) };
 
   protected getFormArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
   protected getFormGroupInArray(index: number): FormGroup { return (this.formArray.at(index) as FormArray).at(0) as FormGroup; }
+  protected getNamedFormGroupInArray(name: string): FormGroup { return (this.formArray.at((this.formArray.value as any[]).findIndex(sec => sec[0]._name === name)) as FormArray).at(0) as FormGroup; }
   protected getCtrlFormGroupInArray(ctrlIdx:number, sctnIdx: number): FormGroup { return (this.formArray.at(sctnIdx) as FormArray).at(ctrlIdx) as FormGroup; }
   protected getFormArrayInArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
 
@@ -89,7 +90,7 @@ export class DynamicFormComponent implements OnInit {
   ngOnInit(): void {
     this.dfSvc.getForm().subscribe(form => {
       this.form = form;
-      const formArrays: FormArray[] = this.form.sections.map(section => this.fb.array([this.questionsToFormGroup(section.questions)]));
+      const formArrays: FormArray[] = this.form.sections.map(section => this.fb.array([this.sectionToFormGroup(section)]));
       const formArrayOfArrays: FormArray = this.fb.array(formArrays);
       this.formGroup = this.fb.group({
         formArray: formArrayOfArrays
@@ -104,11 +105,11 @@ export class DynamicFormComponent implements OnInit {
       return false;
     }
 
-    return section.dependsOn.findIndex(dependsOn => this.getFormGroupInArray(dependsOn.section).controls[dependsOn.key].value === dependsOn.value) <= -1;
+    return section.dependsOn.findIndex(dependsOn => this.getNamedFormGroupInArray(dependsOn.section).controls[dependsOn.key].value === dependsOn.value) <= -1;
   }
 
   protected onClickAdd(sctnIdx: number): void {
-    const newGroup = this.questionsToFormGroup(this.form.sections[sctnIdx].questions);
+    const newGroup = this.sectionToFormGroup(this.form.sections[sctnIdx]);
     this.getFormArrayInArray(sctnIdx).push(newGroup);
   }
 
@@ -129,8 +130,9 @@ export class DynamicFormComponent implements OnInit {
     this.snackBar.open("Submitted!", "OK");
   }
 
-  private questionsToFormGroup(questions: DynamicFormQuestion[]): FormGroup {
-    const group: any = { };
+  private sectionToFormGroup(section: DynamicFormSection): FormGroup {
+    const group: any = { _name: section.title };
+    const questions = section.questions
     questions.forEach(question => {
       if (question.required) {
         group[question.key] = new FormControl('', Validators.required);

@@ -147,7 +147,7 @@
         "list": false,
         "required": true,
         "dependsOn": [
-          { "section": 3, "key": "collateralDamage", "value": "yes" }
+          { "section": "Deeds", "key": "collateralDamage", "value": "yes" }
         ],
         "questions": [
           {

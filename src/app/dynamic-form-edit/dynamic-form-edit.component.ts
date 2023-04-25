@@ -86,7 +86,7 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                       <mat-form-field appearance="fill">
                         <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-section'">Section index</mat-label>
                         <mat-select id="dependsOn-{{i}}-{{doi}}-section" [formControlName]="'section'">
-                          <mat-option *ngFor="let index of getSectionsForSectionDependsOn()" [value]="index-1">{{index}}</mat-option>
+                          <mat-option *ngFor="let title of getSectionsForSectionDependsOn()" [value]="title">{{title}}</mat-option>
                         </mat-select>
                       </mat-form-field>
 
@@ -177,7 +177,7 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                                   <mat-form-field appearance="fill">
                                     <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-key'">Question</mat-label>
                                     <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-key'" [formControlName]="'key'">
-                                      <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(i) " [value]="dependableQuestion">
+                                      <mat-option *ngFor="let dependableQuestion of getQuestionsForDependsOn(getSectionTitle(i).getRawValue())" [value]="dependableQuestion">
                                         {{ dependableQuestion }}
                                       </mat-option>
                                     </mat-select>
@@ -186,7 +186,7 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                                   <mat-form-field appearance="fill">
                                     <mat-label [attr.for]="'question-dependsOn-{{i}}-{{qdoi}}-value'">Value</mat-label>
                                     <mat-select [id]="'question-dependsOn-{{i}}-{{qdoi}}-value'" [formControlName]="'value'">
-                                      <mat-option *ngFor="let option of getValuesForDependsOn(i, getQuestionDependsOnQuestion(i, qi, qdoi).value)" [value]="option.key">
+                                      <mat-option *ngFor="let option of getValuesForDependsOn(getSectionTitle(i).getRawValue(), getQuestionDependsOnQuestion(i, qi, qdoi).value)" [value]="option.key">
                                         {{ option.value }}
                                       </mat-option>
                                     </mat-select>
@@ -280,13 +280,27 @@ export class DynamicFormEditComponent implements OnInit {
   protected getQuestionDependsOnItem(secIdx: number, qIdx: number, dpdsIdx: number): FormControl { return this.getQuestionDependsOnList(secIdx, qIdx).at(dpdsIdx) as FormControl; }
   protected getQuestionDependsOnQuestion(secIdx: number, qIdx: number, dpdsIdx: number): FormControl { return this.getQuestionDependsOnItem(secIdx, qIdx, dpdsIdx).get("key") as FormControl; }
   protected getQuestionDependsOnValue(secIdx: number, qIdx: number, dpdsIdx: number): FormControl { return this.getQuestionDependsOnItem(secIdx, qIdx, dpdsIdx).get("value") as FormControl; }
-
-  protected getSectionsForSectionDependsOn(): number[] { return Object.keys((this.sections.value as any[])).map(key => +key + 1); }
-  protected getQuestionsForDependsOn(secIdx: number): string[] { return Object.values(this.getQuestions(secIdx).getRawValue()).filter(question => ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === question.controlType) > -1).map(question => question.key); }
   
-  protected getValuesForDependsOn(secIdx: number, qKey: string): { key: string, value: string }[] { return this.getQuestionOptions(secIdx, this.getIndexOfQuestionInSection(secIdx, qKey)).value; }
+  protected getSectionsForSectionDependsOn(): string[] {
+    const sections: DynamicFormSection[] = this.sections.value as DynamicFormSection[];
+    const titles : string[] = sections.map(section => section.title);
+    return titles
+  }
+  protected getQuestionsForDependsOn(secTitle: string): string[] {
+    const secIdx = this.getIndexOfSection(secTitle);
+    const sec = this.getQuestions(secIdx).getRawValue();
+    return Object.values(sec).filter(question => ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === question.controlType) > -1).map(question => question.key);
+  }
+  
+  protected getValuesForDependsOn(secTitle: string, qKey: string): { key: string, value: string }[] {
+    const secIdx = this.getIndexOfSection(secTitle);
+    return this.getQuestionOptions(secIdx, this.getIndexOfQuestionInSection(secIdx, qKey)).value;
+  }
+
   protected isQuestionOptionable(secIdx: number, qIdx: number): boolean { return ["radio", "dropdown"].findIndex(ctrlType => ctrlType === this.getQuestionCtrlType(secIdx, qIdx).value) > -1; }
+  
   private getIndexOfQuestionInSection(secIdx: number, qKey: string): number { return (this.getQuestions(secIdx).value as DynamicFormQuestion[]).findIndex(question => question.key === qKey); }
+  private getIndexOfSection(title: string): number { return (this.sections.value as DynamicFormSection[]).findIndex(section => section.title === title); }
 
   constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private snackBar: MatSnackBar) { }
 
