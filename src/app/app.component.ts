@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
     </mat-toolbar-row>
     <mat-toolbar-row>
       <button mat-button [routerLink]="['/edit']">Edit</button>
-      <button mat-button [routerLink]="['/view']">View</button>
+      <button mat-button [routerLink]="['/test']">Test</button>
     </mat-toolbar-row>
   </mat-toolbar>
 

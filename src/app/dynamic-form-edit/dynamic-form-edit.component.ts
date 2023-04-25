@@ -41,7 +41,7 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                     <mat-icon>extension</mat-icon>
                   </button>
 
-                  <button mat-icon-button color="primary" matTooltip="not required" *ngIf="!getSectionRequired(i).getRawValue()">
+                  <button mat-icon-button color="accent" matTooltip="not required" *ngIf="!getSectionRequired(i).getRawValue()">
                     <mat-icon>extension_off</mat-icon>
                   </button>
 
@@ -130,7 +130,7 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                         </mat-panel-title>
 
                         <mat-panel-description>
-                          <button mat-icon-button color="accent" matTooltip="required" *ngIf="getQuestionRequired(i, qi).getRawValue()">
+                          <button mat-icon-button color="primary" matTooltip="required" *ngIf="getQuestionRequired(i, qi).getRawValue()">
                             <mat-icon>extension</mat-icon>
                           </button>
 
@@ -138,7 +138,7 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                             <mat-icon>extension_off</mat-icon>
                           </button>
 
-                          <button mat-icon-button color="accent" matTooltip="depends on" *ngIf="getQuestionDependsOnList(i, qi).length > 0">
+                          <button mat-icon-button color="primary" matTooltip="depends on" *ngIf="getQuestionDependsOnList(i, qi).length > 0">
                             <mat-icon [matBadge]="getQuestionDependsOnList(i, qi).length" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
                           </button>
 

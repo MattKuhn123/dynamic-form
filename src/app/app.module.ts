@@ -34,7 +34,7 @@ import { DynamicFormComponent, PreSubmitDialog } from './dynamic-form/dynamic-fo
 
 export const appRoute: Routes = [
   { path: 'edit', component: DynamicFormEditComponent },
-  { path: 'view', component: DynamicFormComponent },
+  { path: 'test', component: DynamicFormComponent },
 ]
 
 @NgModule({
