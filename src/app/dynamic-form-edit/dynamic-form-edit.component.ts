@@ -84,7 +84,7 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                   <div *ngFor="let dependsOn of getSectionDependsOnList(i).controls; let doi = index">
                     <div [formGroupName]="doi">
                       <mat-form-field appearance="fill">
-                        <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-section'">Section index</mat-label>
+                        <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-section'">Section</mat-label>
                         <mat-select id="dependsOn-{{i}}-{{doi}}-section" [formControlName]="'section'">
                           <mat-option *ngFor="let title of getSectionsForSectionDependsOn()" [value]="title">{{title}}</mat-option>
                         </mat-select>
