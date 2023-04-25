@@ -60,10 +60,8 @@ import { createUniqueValidator } from '../shared/unique-value.validator';
                     <mat-form-field>
                       <mat-label attr.for="section-{{i}}-key">Key</mat-label>
                       <input matInput formControlName="key" id="section-{{i}}-key" type="text"/>
+                      <mat-icon matSuffix color="primary" matTooltip="edit" (click)="onClickEditSectionKey(i)">edit</mat-icon>
                     </mat-form-field>
-                    <button mat-icon-button color="primary" matTooltip="edit" (click)="onClickEditSectionKey(i)">
-                      <mat-icon>edit</mat-icon>
-                    </button>
                   </div>
                   <div>
                     <mat-label attr.for="section-{{i}}-required">
@@ -412,7 +410,9 @@ export class DynamicFormEditComponent implements OnInit {
   protected onClickEditSectionKey(secIdx: number): void {
     const dialogRef = this.dialog.open(EditSectionKeyDialog, { data: { secIdx: secIdx, secKey: "", invalid: (this.sections.getRawValue() as DynamicFormSection[]).map(section => section.key) } });
     dialogRef.afterClosed().subscribe(result => {
-      this.getSectionTitle(secIdx).setValue(result);
+      if (result) {
+        this.getSectionTitle(secIdx).setValue(result);
+      }
     });
   }
 
