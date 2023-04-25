@@ -10,7 +10,6 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
   styles: [
     'mat-card-content { display: flex; flex-direction: column; }', 
     'mat-panel-description { display: flex; gap: 5px; flex-wrap: wrap; }',
-    'mat-card { margin-top: 5px; }',
     'footer { position: fixed; bottom: 10px; text-align: center; width: 100%; }',
   ],
   template: `
@@ -34,23 +33,23 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                   Section {{ i+1 }}: {{ getSectionTitle(i).getRawValue() }}
                 </mat-panel-title>
                 <mat-panel-description>
-                  <button mat-icon-button matTooltip="questions">
-                    <mat-icon matBadgeColor="primary" [matBadge]="getQuestions(i).length" matBadgeColor="warn" matBadgeOverlap="false" matBadgeSize="small" matBadgePosition="before">question_answer</mat-icon>
+                  <button mat-icon-button color="primary" matTooltip="questions">
+                    <mat-icon [matBadge]="getQuestions(i).length" matBadgeOverlap="false" matBadgeSize="small">question_answer</mat-icon>
                   </button>
 
-                  <button mat-icon-button matTooltip="required" *ngIf="getSectionRequired(i).getRawValue()">
+                  <button mat-icon-button color="primary" matTooltip="required" *ngIf="getSectionRequired(i).getRawValue()">
                     <mat-icon>extension</mat-icon>
                   </button>
 
-                  <button mat-icon-button matTooltip="not required" *ngIf="!getSectionRequired(i).getRawValue()">
+                  <button mat-icon-button color="primary" matTooltip="not required" *ngIf="!getSectionRequired(i).getRawValue()">
                     <mat-icon>extension_off</mat-icon>
                   </button>
 
-                  <button mat-icon-button matTooltip="depends on" *ngIf="getSectionDependsOnList(i).length > 0">
-                    <mat-icon matBadgeColor="primary" [matBadge]="getSectionDependsOnList(i).length" matBadgeColor="warn" matBadgeOverlap="false" matBadgeSize="small" matBadgePosition="before">rule</mat-icon>
+                  <button mat-icon-button color="primary" matTooltip="depends on" *ngIf="getSectionDependsOnList(i).length > 0">
+                    <mat-icon [matBadge]="getSectionDependsOnList(i).length" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
                   </button>
 
-                  <button mat-icon-button matTooltip="delete" (click)="onClickRemoveSection(i)" color="warn">
+                  <button mat-icon-button color="warn" matTooltip="delete" (click)="onClickRemoveSection(i)">
                     <mat-icon>delete</mat-icon>
                   </button>
                 </mat-panel-description>
@@ -129,6 +128,24 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                         <mat-panel-title>
                         Question {{ qi+1 }}: {{ getQuestionLabel(i, qi).getRawValue() }}
                         </mat-panel-title>
+
+                        <mat-panel-description>
+                          <button mat-icon-button color="accent" matTooltip="required" *ngIf="getQuestionRequired(i, qi).getRawValue()">
+                            <mat-icon>extension</mat-icon>
+                          </button>
+
+                          <button mat-icon-button color="accent" matTooltip="not required" *ngIf="!getQuestionRequired(i, qi).getRawValue()">
+                            <mat-icon>extension_off</mat-icon>
+                          </button>
+
+                          <button mat-icon-button color="accent" matTooltip="depends on" *ngIf="getQuestionDependsOnList(i, qi).length > 0">
+                            <mat-icon [matBadge]="getQuestionDependsOnList(i, qi).length" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
+                          </button>
+
+                          <button mat-icon-button color="warn" matTooltip="delete" (click)="onClickRemoveQuestion(i, qi)">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </mat-panel-description>
                       </mat-expansion-panel-header>
   
                       <mat-stepper orientation="vertical">
@@ -218,11 +235,6 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                           <button type="button" (click)="onClickAddQuestionOption(i, qi)" mat-stroked-button color="primary">Add</button>
                         </mat-step>
                       </mat-stepper>
-                      <mat-action-row>
-                        <button mat-mini-fab color="warn" (click)="onClickRemoveQuestion(i, qi)">
-                          <mat-icon>delete</mat-icon>
-                        </button>
-                      </mat-action-row>
                     </mat-expansion-panel>
                   </mat-accordion>
                   <button type="button" (click)="onClickAddQuestion(i)" mat-stroked-button color="primary">Add</button>
@@ -269,6 +281,7 @@ export class DynamicFormEditComponent implements OnInit {
   protected getQuestion(secIdx: number, qIdx: number): FormGroup { return this.getQuestions(secIdx).at(qIdx) as FormGroup }
   protected getQuestionCtrlType(secIdx: number, qIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("controlType") as FormControl); }
   protected getQuestionLabel(secIdx: number, qIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("label") as FormControl); }
+  protected getQuestionRequired(secIdx: number, qIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("required") as FormControl); }
   
   protected getQuestionOptions(secIdx: number, qIdx: number): FormArray { return this.getQuestion(secIdx, qIdx).get("options") as FormArray; }
   protected getQuestionOption(secIdx: number, qIdx: number, optIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("options") as FormArray).at(optIdx) as FormControl }
