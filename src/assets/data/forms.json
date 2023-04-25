@@ -4,7 +4,7 @@
     "description": "Please complete this form to apply for our new 'Hero' position.",
     "sections": [
       {
-        "title": "Contact",
+        "key": "Contact",
         "description": "Contact information",
         "list": false,
         "required": true,
@@ -40,7 +40,7 @@
         ]
       },
       {
-        "title": "Love interests",
+        "key": "Love interests",
         "description": "Someone whom a villain could kidnap",
         "list": true,
         "required": false,
@@ -76,7 +76,7 @@
         ]
       },
       {
-        "title": "Bravery",
+        "key": "Bravery",
         "description": "Bravery information",
         "list": false,
         "required": true,
@@ -109,7 +109,7 @@
         ]
       },
       {
-        "title": "Deeds",
+        "key": "Deeds",
         "description": "What deeds have you done?",
         "list": false,
         "required": true,
@@ -142,7 +142,7 @@
         ]
       },
       {
-        "title": "Misdeeds",
+        "key": "Misdeeds",
         "description": "What collateral damage have you caused?",
         "list": false,
         "required": true,
@@ -166,7 +166,7 @@
         ]
       },
       {
-        "title": "Follow-up",
+        "key": "Follow-up",
         "description": "Schedule a time to follow-up with us.",
         "list": false,
         "required": true,

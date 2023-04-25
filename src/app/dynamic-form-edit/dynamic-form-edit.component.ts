@@ -323,7 +323,7 @@ export class DynamicFormEditComponent implements OnInit {
   
   protected getSectionsForSectionDependsOn(): string[] {
     const sections: DynamicFormSection[] = this.sections.value as DynamicFormSection[];
-    const titles : string[] = sections.map(section => section.title);
+    const titles : string[] = sections.map(section => section.key);
     return titles
   }
   protected getQuestionsForDependsOn(secTitle: string): DynamicFormQuestion[] {
@@ -340,7 +340,7 @@ export class DynamicFormEditComponent implements OnInit {
   protected isQuestionOptionable(secIdx: number, qIdx: number): boolean { return ["radio", "dropdown"].findIndex(ctrlType => ctrlType === this.getQuestionCtrlType(secIdx, qIdx).value) > -1; }
   
   private getIndexOfQuestionInSection(secIdx: number, qKey: string): number { return (this.getQuestions(secIdx).value as DynamicFormQuestion[]).findIndex(question => question.key === qKey); }
-  private getIndexOfSection(title: string): number { return (this.sections.value as DynamicFormSection[]).findIndex(section => section.title === title); }
+  private getIndexOfSection(sKey: string): number { return (this.sections.value as DynamicFormSection[]).findIndex(section => section.key === sKey); }
 
   constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private snackBar: MatSnackBar) { }
 
@@ -356,7 +356,7 @@ export class DynamicFormEditComponent implements OnInit {
 
   private sectionToGroup(section: DynamicFormSection): FormGroup {
     return this.fb.group({
-      title: this.fb.control(section.title || ""),
+      title: this.fb.control(section.key || ""),
       description: this.fb.control(section.description || ""),
       list: this.fb.control(section.list || false),
       required: this.fb.control(section.required || false),

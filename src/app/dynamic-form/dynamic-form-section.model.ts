@@ -6,7 +6,7 @@ export class DynamicFormSection {
   list: boolean;
   questions: DynamicFormQuestion[];
   required: boolean;
-  title: string;
+  key: string;
 
   constructor(options: {
     dependsOn?: { section: string, key: string, value: string }[];
@@ -14,13 +14,13 @@ export class DynamicFormSection {
     list?: boolean;
     questions?: DynamicFormQuestion[];
     required?: boolean;
-    title?: string;
+    key?: string;
   } = {}) {
     this.dependsOn = options.dependsOn || [];
     this.description = options.description || "";
     this.list = !!options.list;
     this.questions = options.questions || [];
     this.required = !!options.required;
-    this.title = options.title || "";
+    this.key = options.key || "";
   }
 }

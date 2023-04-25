@@ -29,7 +29,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
         
         <div *ngFor="let section of form.sections; let sctnIdx = index; let first = first; let last = last">
           <mat-step *ngIf="!hidden(section)" formGroupName="{{ sctnIdx }}" [stepControl]="getFormGroupInArray(sctnIdx)" [optional]="!section.required">
-            <ng-template matStepLabel>{{section.title}}</ng-template>
+            <ng-template matStepLabel>{{section.key}}</ng-template>
 
             <mat-card>
               <mat-card-header>
@@ -77,7 +77,7 @@ export class DynamicFormComponent implements OnInit {
 
   protected getFormArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
   protected getFormGroupInArray(index: number): FormGroup { return (this.formArray.at(index) as FormArray).at(0) as FormGroup; }
-  protected getNamedFormGroupInArray(name: string): FormGroup { return (this.formArray.at((this.formArray.value as any[]).findIndex(sec => sec[0]._name === name)) as FormArray).at(0) as FormGroup; }
+  protected getNamedFormGroupInArray(name: string): FormGroup { return (this.formArray.at((this.formArray.value as any[]).findIndex(sec => sec[0]._key === name)) as FormArray).at(0) as FormGroup; }
   protected getCtrlFormGroupInArray(ctrlIdx:number, sctnIdx: number): FormGroup { return (this.formArray.at(sctnIdx) as FormArray).at(ctrlIdx) as FormGroup; }
   protected getFormArrayInArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
 
@@ -131,7 +131,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   private sectionToFormGroup(section: DynamicFormSection): FormGroup {
-    const group: any = { _name: section.title };
+    const group: any = { _key: section.key };
     const questions = section.questions
     questions.forEach(question => {
       if (question.required) {
