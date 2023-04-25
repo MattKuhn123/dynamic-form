@@ -56,8 +56,8 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                   <ng-template matStepLabel>Section Properties</ng-template>
                   <div>
                     <mat-form-field>
-                      <mat-label [attr.for]="'section-{{i}}-title'">Title</mat-label>
-                      <input matInput [formControlName]="'title'" [id]="'section-{{i}}-title'" [type]="'text'" />
+                      <mat-label [attr.for]="'section-{{i}}-key'">Key</mat-label>
+                      <input matInput [formControlName]="'key'" [id]="'section-{{i}}-key'" [type]="'text'" />
                     </mat-form-field>
                   </div>
                   <div>
@@ -237,7 +237,7 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                       <mat-form-field>
                         <mat-label [attr.for]="'dependsOn-{{i}}-{{doi}}-section'">Section</mat-label>
                         <mat-select id="dependsOn-{{i}}-{{doi}}-section" [formControlName]="'section'">
-                          <mat-option *ngFor="let title of getSectionsForSectionDependsOn()" [value]="title">{{title}}</mat-option>
+                          <mat-option *ngFor="let key of getSectionsForSectionDependsOn()" [value]="key">{{ key }}</mat-option>
                         </mat-select>
                       </mat-form-field>
 
@@ -299,7 +299,7 @@ export class DynamicFormEditComponent implements OnInit {
   get sections(): FormArray { return this.fg.get("sections") as FormArray; }
   
   protected getSection(secIdx: number): FormGroup { return (this.sections.at(secIdx) as FormGroup) }
-  protected getSectionTitle(secIdx: number): FormControl { return (this.getSection(secIdx).get("title") as FormControl) }
+  protected getSectionTitle(secIdx: number): FormControl { return (this.getSection(secIdx).get("key") as FormControl) }
   protected getSectionRequired(secIdx: number): FormControl { return (this.getSection(secIdx).get("required") as FormControl) }
   protected getSectionDependsOnList(secIdx: number): FormArray { return (this.getSection(secIdx)).get("dependsOn") as FormArray; }
   protected getSectionDependsOnItem(secIdx: number, dpdsIdx: number): FormGroup { return this.getSectionDependsOnList(secIdx).at(dpdsIdx) as FormGroup; }
@@ -356,7 +356,7 @@ export class DynamicFormEditComponent implements OnInit {
 
   private sectionToGroup(section: DynamicFormSection): FormGroup {
     return this.fb.group({
-      title: this.fb.control(section.key || ""),
+      key: this.fb.control(section.key || ""),
       description: this.fb.control(section.description || ""),
       list: this.fb.control(section.list || false),
       required: this.fb.control(section.required || false),
