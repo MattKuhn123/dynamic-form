@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { DynamicFormService } from '../shared/dynamic-form.service';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicFormQuestion } from '../dynamic-form/dynamic-form-question.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { createUniqueValidator } from '../shared/unique-value.validator';
 
 @Component({
   selector: 'app-dynamic-form-edit',
@@ -57,8 +59,11 @@ import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
                   <div>
                     <mat-form-field>
                       <mat-label attr.for="section-{{i}}-key">Key</mat-label>
-                      <input matInput formControlName="key" id="section-{{i}}-key" type="text" />
+                      <input matInput formControlName="key" id="section-{{i}}-key" type="text"/>
                     </mat-form-field>
+                    <button mat-icon-button color="primary" matTooltip="edit" (click)="onClickEditSectionKey(i)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
                   </div>
                   <div>
                     <mat-label attr.for="section-{{i}}-required">
@@ -342,7 +347,7 @@ export class DynamicFormEditComponent implements OnInit {
   private getIndexOfQuestionInSection(secIdx: number, qKey: string): number { return (this.getQuestions(secIdx).value as DynamicFormQuestion[]).findIndex(question => question.key === qKey); }
   private getIndexOfSection(sKey: string): number { return (this.sections.value as DynamicFormSection[]).findIndex(section => section.key === sKey); }
 
-  constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private snackBar: MatSnackBar) { }
+  constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private dialog: MatDialog, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.dfSvc.getForm().subscribe(form => {
@@ -356,7 +361,7 @@ export class DynamicFormEditComponent implements OnInit {
 
   private sectionToGroup(section: DynamicFormSection): FormGroup {
     return this.fb.group({
-      key: this.fb.control(section.key || ""),
+      key: this.fb.control({value: section.key || "", disabled: true}),
       description: this.fb.control(section.description || ""),
       list: this.fb.control(section.list || false),
       required: this.fb.control(section.required || false),
@@ -404,6 +409,13 @@ export class DynamicFormEditComponent implements OnInit {
     this.snackBar.open("Saved!", "OK");
   }
 
+  protected onClickEditSectionKey(secIdx: number): void {
+    const dialogRef = this.dialog.open(EditSectionKeyDialog, { data: { secIdx: secIdx, secKey: "", invalid: (this.sections.getRawValue() as DynamicFormSection[]).map(section => section.key) } });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getSectionTitle(secIdx).setValue(result);
+    });
+  }
+
   protected onClickAddSection(): void { this.sections.push(this.sectionToGroup(new DynamicFormSection())); }
   protected onClickRemoveSection(secIdx: number): void { this.sections.removeAt(secIdx); }
 
@@ -418,4 +430,50 @@ export class DynamicFormEditComponent implements OnInit {
 
   protected onClickAddQuestionOption(secIdx: number, qIdx: number, qoIdx: number): void { this.getQuestionOptions(secIdx, qIdx).insert(qoIdx, this.questionOptionToGroup({key: "", value: ""})); }
   protected onClickRemoveQuestionOption(secIdx: number, qIdx: number, qoIdx: number): void { this.getQuestionOptions(secIdx, qIdx).removeAt(qoIdx); }
+}
+
+export interface EditSectionKeyData {
+  secIdx: string;
+  secKey: string;
+  invalid: string[];
+}
+
+@Component({
+  selector: 'app-edit-section-key-dialog',
+  template: `
+    <h1 mat-dialog-title>Rename section {{ data.secIdx+1 }}</h1>
+    <div mat-dialog-content>
+      <mat-form-field>
+        <mat-label>Section Key</mat-label>
+        <input matInput [formControl]="fc">
+        <mat-error *ngIf="error">{{ getErrorMessage() }}</mat-error>
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onClickCancel()">Cancel</button>
+      <button mat-button (click)="onClickOk()" cdkFocusInitial>Ok</button>
+    </div>
+  `
+})
+export class EditSectionKeyDialog {
+  protected error: boolean = false;
+  protected fc: FormControl = new FormControl(this.data.secKey, [Validators.required, createUniqueValidator(this.data.invalid)])
+  constructor(public dialogRef: MatDialogRef<EditSectionKeyDialog>, @Inject(MAT_DIALOG_DATA) protected data: EditSectionKeyData) {}
+  protected onClickCancel(): void { this.dialogRef.close(); }
+  protected onClickOk(): void {
+    const exists: boolean = this.data.invalid.findIndex(section => section === this.fc.getRawValue()) > 0;
+    if (exists) {
+      this.error = true;
+    } else {
+      this.dialogRef.close(this.fc.value);
+    }
+  }
+
+  protected getErrorMessage(): string {
+    if (this.fc.hasError('required')) {
+      return 'You must enter a value';
+    }
+
+    return this.fc.hasError('unique') ? 'Key must be unique!' : '';
+  }
 }

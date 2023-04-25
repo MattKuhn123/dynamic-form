@@ -1,5 +1,5 @@
 import { NgModule, isDevMode } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router'
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -30,7 +30,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppComponent } from './app.component';
 import { DynamicFormQuestionComponent } from './dynamic-form/dynamic-form-question.component';
-import { DynamicFormEditComponent } from './dynamic-form-edit/dynamic-form-edit.component';
+import { DynamicFormEditComponent, EditSectionKeyDialog } from './dynamic-form-edit/dynamic-form-edit.component';
 import { DynamicFormComponent, PreSubmitDialog } from './dynamic-form/dynamic-form.component';
 
 export const appRoute: Routes = [
@@ -44,12 +44,14 @@ export const appRoute: Routes = [
     DynamicFormQuestionComponent,
     DynamicFormEditComponent,
     DynamicFormComponent,
+    EditSectionKeyDialog,
     PreSubmitDialog,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     ClipboardModule,
+    FormsModule ,
     HttpClientModule,
     MatBadgeModule,
     MatButtonModule,

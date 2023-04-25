@@ -146,7 +146,7 @@ export class DynamicFormComponent implements OnInit {
 }
 
 @Component({
-  selector: 'dialog-data-example-dialog',
+  selector: 'app-presubmit-dialog',
   template: `
   <h1 mat-dialog-title>Are you sure?</h1>
   <div mat-dialog-content>
