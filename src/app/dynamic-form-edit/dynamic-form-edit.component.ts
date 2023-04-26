@@ -37,9 +37,6 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
                   Section {{ i+1 }}: {{ getSectionKey(i).getRawValue() }}
                 </mat-panel-title>
                 <mat-panel-description>
-                  <button mat-icon-button [color]="secPanel.expanded ? 'warn' : 'none'" matTooltip="delete" (click)="onClickRemoveSection(i)">
-                    <mat-icon>delete</mat-icon>
-                  </button>
                   <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="list" *ngIf="getSectionList(i).getRawValue()">
                     <mat-icon>list_alt</mat-icon>
                   </button>
@@ -54,8 +51,13 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
                   </button>
                 </mat-panel-description>
               </mat-expansion-panel-header>
+              <mat-action-row>
+                <button mat-icon-button color="warn" matTooltip="delete" (click)="onClickRemoveSection(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </mat-action-row>
 
-              <mat-stepper orientation="vertical">
+              <mat-stepper orientation="horizontal">
                 <mat-step>
                   <ng-template matStepLabel>Section Properties</ng-template>
                   <div>
@@ -91,13 +93,9 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
                     <mat-expansion-panel *ngFor="let question of getQuestions(i).controls; let qi = index" [formGroupName]="qi" #qtnPanel>
                       <mat-expansion-panel-header>
                         <mat-panel-title>
-                        Question {{ qi+1 }}: {{ getQuestionLabel(i, qi).getRawValue() }}
+                          Question {{ qi+1 }}: {{ getQuestionLabel(i, qi).getRawValue() }}
                         </mat-panel-title>
-
                         <mat-panel-description>
-                          <button mat-icon-button [color]="qtnPanel.expanded ? 'warn' : 'none'" matTooltip="delete" (click)="onClickRemoveQuestion(i, qi)">
-                            <mat-icon>delete</mat-icon>
-                          </button>
                           <button mat-icon-button [color]="qtnPanel.expanded ? 'primary' : 'none'" matTooltip="not required" *ngIf="!getQuestionRequired(i, qi).getRawValue()">
                             <mat-icon>flaky</mat-icon>
                           </button>
@@ -106,8 +104,13 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
                           </button>
                         </mat-panel-description>
                       </mat-expansion-panel-header>
+                      <mat-action-row>
+                        <button mat-icon-button color="warn" matTooltip="delete" (click)="onClickRemoveQuestion(i, qi)">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </mat-action-row>
   
-                      <mat-stepper orientation="vertical">
+                      <mat-stepper orientation="horizontal">
                         <mat-step label="Question Properties">
                           <div>
                             <mat-form-field>
@@ -264,7 +267,6 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
                   </div>
                 </mat-step>
               </mat-stepper>
-
             </mat-expansion-panel>
           </mat-accordion>
         </mat-card-content>
