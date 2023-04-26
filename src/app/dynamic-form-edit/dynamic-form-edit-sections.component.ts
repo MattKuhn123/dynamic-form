@@ -130,61 +130,6 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
       </mat-tab-group>
     </mat-card-content>
   </mat-card>
-
-  <!-- <mat-accordion formArrayName="sections" >
-    <mat-expansion-panel *ngFor="let section of s.controls; let i = index" [formGroupName]="i" #secPanel>
-      <mat-stepper orientation="horizontal">
-        <mat-step formArrayName="conditions" [label]="dfeSvc.getSectionConditions(s, i).controls.length === 0 ? 'Section Conditions (None)' : 'Section Conditions'">
-          <div *ngIf="dfeSvc.getSectionConditions(s, i).controls.length === 0">
-            <div>
-              <em>There are no conditions under which this section will be displayed, so it will always be displayed by default.</em>
-            </div>
-            <div>
-              <button mat-button color="primary" (click)="onClickAddSectionCondition(i, 0)">
-                Add condition
-              </button>
-            </div>
-          </div>
-          <div *ngFor="let conditions of dfeSvc.getSectionConditions(s, i).controls; let doi = index">
-            <div [formGroupName]="doi">
-              <mat-form-field>
-                <mat-label attr.for="conditions-{{i}}-{{doi}}-section">Section</mat-label>
-                <mat-select id="conditions-{{i}}-{{doi}}-section" formControlName="section">
-                  <mat-option *ngFor="let key of dfeSvc.getSectionsForSectionConditions(s)" [value]="key">{{ key }}</mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field>
-                <mat-label attr.for="conditions-{{i}}-{{doi}}-key">Question</mat-label>
-                <mat-select id="conditions-{{i}}-{{doi}}-key" formControlName="key">
-                  <mat-option *ngFor="let conditionalQuestion of dfeSvc.getQuestionsForConditions(s, dfeSvc.getSectionConditionsSection(s, i, doi).getRawValue())" [value]="conditionalQuestion">
-                    {{ conditionalQuestion }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field>
-                <mat-label attr.for="conditions-{{i}}-{{doi}}-key">Value</mat-label>
-                <mat-select id="conditions-{{i}}-{{doi}}-value" formControlName="value">
-                  <mat-option *ngFor="let option of dfeSvc.getValuesForConditions(s, dfeSvc.getSectionConditionsSection(s, i, doi).getRawValue(), dfeSvc.getSectionConditionsQuestion(s, i, doi).getRawValue())" [value]="option.key">
-                    {{ option.value }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <button mat-icon-button color="warn" (click)="onClickRemoveSectionCondition(i, doi)">
-                <mat-icon>delete</mat-icon>
-              </button>
-
-              <button mat-icon-button color="primary" (click)="onClickAddSectionCondition(i, doi)">
-                <mat-icon>add</mat-icon>
-              </button>
-            </div>
-          </div>
-        </mat-step>
-      </mat-stepper>
-    </mat-expansion-panel>
-  </mat-accordion> -->
   </div>`
 })
 export class DynamicFormEditSectionsComponent {
@@ -223,8 +168,6 @@ export class DynamicFormEditSectionsComponent {
   protected onClickAddSectionCondition(doIdx: number): void { this.secEditConditions.insert(doIdx, this.dfeSvc.sectionConditionsToGroup(this.fb, {key: "", section: "", value: ""})); }
   protected onClickRemoveSectionCondition(doi: number): void { this.secEditConditions.removeAt(doi); }
 
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.s.controls, event.previousIndex, event.currentIndex);
-  }
+  drop(event: CdkDragDrop<string[]>) { moveItemInArray(this.s.controls, event.previousIndex, event.currentIndex); }
 }
 
