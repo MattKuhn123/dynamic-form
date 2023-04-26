@@ -43,8 +43,8 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
                   <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="required" *ngIf="getSectionRequired(i).getRawValue()">
                     <mat-icon>shield</mat-icon>
                   </button>
-                  <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="conditions" *ngIf="getSectionConditionsList(i).length > 0">
-                    <mat-icon [matBadge]="getSectionConditionsList(i).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
+                  <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="conditions" *ngIf="getSectionConditions(i).length > 0">
+                    <mat-icon [matBadge]="getSectionConditions(i).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
                   </button>
                   <button mat-icon-button [color]="secPanel.expanded ? 'warn' : 'none'" matTooltip="delete" (click)="onClickRemoveSection(i)">
                     <mat-icon>delete</mat-icon>
@@ -214,8 +214,8 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
                   <button type="button" (click)="onClickAddQuestion(i)" mat-stroked-button color="primary">Add</button>
                 </mat-step>
 
-                <mat-step formArrayName="conditions" [label]="getSectionConditionsList(i).controls.length === 0 ? 'Section Conditions (None)' : 'Section Conditions'">
-                  <div *ngIf="getSectionConditionsList(i).controls.length === 0">
+                <mat-step formArrayName="conditions" [label]="getSectionConditions(i).controls.length === 0 ? 'Section Conditions (None)' : 'Section Conditions'">
+                  <div *ngIf="getSectionConditions(i).controls.length === 0">
                     <div>
                       <em>There are no conditions under which this section will be displayed, so it will always be displayed by default.</em>
                     </div>
@@ -225,7 +225,7 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
                       </button>
                     </div>
                   </div>
-                  <div *ngFor="let conditions of getSectionConditionsList(i).controls; let doi = index">
+                  <div *ngFor="let conditions of getSectionConditions(i).controls; let doi = index">
                     <div [formGroupName]="doi">
                       <mat-form-field>
                         <mat-label attr.for="conditions-{{i}}-{{doi}}-section">Section</mat-label>
@@ -294,11 +294,11 @@ export class DynamicFormEditComponent implements OnInit {
   protected getSection(secIdx: number): FormGroup { return this.sections.at(secIdx) as FormGroup; }
   protected getSectionKey(secIdx: number): FormControl { return this.getSection(secIdx).get("key") as FormControl; }
   protected getSectionRequired(secIdx: number): FormControl { return this.getSection(secIdx).get("required") as FormControl; }
-  protected getSectionConditionsList(secIdx: number): FormArray { return (this.getSection(secIdx)).get("conditions") as FormArray; }
-  protected getSectionConditionsItem(secIdx: number, dpdsIdx: number): FormGroup { return this.getSectionConditionsList(secIdx).at(dpdsIdx) as FormGroup; }
-  protected getSectionConditionsSection(secIdx: number, dpdsIdx: number): FormControl { return this.getSectionConditionsItem(secIdx, dpdsIdx).get("section") as FormControl; }
-  protected getSectionConditionsQuestion(secIdx: number, dpdsIdx: number): FormControl { return this.getSectionConditionsItem(secIdx, dpdsIdx).get("key") as FormControl; }
-  protected getSectionConditionsValue(secIdx: number, dpdsIdx: number): FormControl { return this.getSectionConditionsItem(secIdx, dpdsIdx).get("value") as FormControl; }
+  protected getSectionConditions(secIdx: number): FormArray { return (this.getSection(secIdx)).get("conditions") as FormArray; }
+  protected getSectionCondition(secIdx: number, dpdsIdx: number): FormGroup { return this.getSectionConditions(secIdx).at(dpdsIdx) as FormGroup; }
+  protected getSectionConditionsSection(secIdx: number, dpdsIdx: number): FormControl { return this.getSectionCondition(secIdx, dpdsIdx).get("section") as FormControl; }
+  protected getSectionConditionsQuestion(secIdx: number, dpdsIdx: number): FormControl { return this.getSectionCondition(secIdx, dpdsIdx).get("key") as FormControl; }
+  protected getSectionConditionsValue(secIdx: number, dpdsIdx: number): FormControl { return this.getSectionCondition(secIdx, dpdsIdx).get("value") as FormControl; }
   
   protected getQuestions(secIdx: number): FormArray { return (this.getSection(secIdx)).get("questions") as FormArray; }
   protected getQuestion(secIdx: number, qIdx: number): FormGroup { return this.getQuestions(secIdx).at(qIdx) as FormGroup; }
@@ -428,8 +428,8 @@ export class DynamicFormEditComponent implements OnInit {
   protected onClickAddSection(): void { this.sections.push(this.sectionToGroup(new DynamicFormSection())); }
   protected onClickRemoveSection(secIdx: number): void { this.sections.removeAt(secIdx); }
 
-  protected onClickAddSectionCondition(secIdx: number, doIdx: number): void { this.getSectionConditionsList(secIdx).insert(doIdx, this.sectionConditionsToGroup({key: "", section: "", value: ""})); }
-  protected onClickRemoveSectionCondition(secIdx: number, doi: number): void { this.getSectionConditionsList(secIdx).removeAt(doi); }
+  protected onClickAddSectionCondition(secIdx: number, doIdx: number): void { this.getSectionConditions(secIdx).insert(doIdx, this.sectionConditionsToGroup({key: "", section: "", value: ""})); }
+  protected onClickRemoveSectionCondition(secIdx: number, doi: number): void { this.getSectionConditions(secIdx).removeAt(doi); }
 
   protected onClickAddQuestion(secIdx: number): void{ this.getQuestions(secIdx).push(this.questionToGroup(new DynamicFormQuestion())); }
   protected onClickRemoveQuestion(secIdx: number, qIdx: number): void { this.getQuestions(secIdx).removeAt(qIdx); }
