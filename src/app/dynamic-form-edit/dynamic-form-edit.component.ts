@@ -40,7 +40,7 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
                   <button mat-icon-button [color]="secPanel.expanded ? 'warn' : 'none'" matTooltip="delete" (click)="onClickRemoveSection(i)">
                     <mat-icon>delete</mat-icon>
                   </button>
-                  <button mat-icon-button [color]="secPanel.expanded ? 'warn' : 'none'" matTooltip="list" *ngIf="getSectionList(i).getRawValue()">
+                  <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="list" *ngIf="getSectionList(i).getRawValue()">
                     <mat-icon>list_alt</mat-icon>
                   </button>
                   <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="not required" *ngIf="!getSectionRequired(i).getRawValue()">
