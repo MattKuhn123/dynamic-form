@@ -183,8 +183,8 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
                               <mat-form-field>
                                 <mat-label attr.for="question-conditions-{{i}}-{{qdoi}}-key">Question</mat-label>
                                 <mat-select id="question-conditions-{{i}}-{{qdoi}}-key" formControlName="key">
-                                  <mat-option *ngFor="let conditionalQuestion of getQuestionsForConditions(getSectionKey(i).getRawValue())" [value]="conditionalQuestion.key">
-                                    {{ conditionalQuestion.label }}
+                                  <mat-option *ngFor="let conditionalQuestion of getQuestionsForConditions(getSectionKey(i).getRawValue())" [value]="conditionalQuestion">
+                                    {{ conditionalQuestion }}
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
@@ -237,8 +237,8 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
                       <mat-form-field>
                         <mat-label attr.for="conditions-{{i}}-{{doi}}-key">Question</mat-label>
                         <mat-select id="conditions-{{i}}-{{doi}}-key" formControlName="key">
-                          <mat-option *ngFor="let conditionalQuestion of getQuestionsForConditions(getSectionConditionsSection(i, doi).getRawValue())" [value]="conditionalQuestion.key">
-                            {{ conditionalQuestion.label }}
+                          <mat-option *ngFor="let conditionalQuestion of getQuestionsForConditions(getSectionConditionsSection(i, doi).getRawValue())" [value]="conditionalQuestion">
+                            {{ conditionalQuestion }}
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
@@ -319,10 +319,10 @@ export class DynamicFormEditComponent implements OnInit {
     const sections: DynamicFormSection[] = this.sections.getRawValue() as DynamicFormSection[];
     return sections.map(section => section.key);
   }
-  protected getQuestionsForConditions(secKey: string): DynamicFormQuestion[] {
+  protected getQuestionsForConditions(secKey: string): string[] {
     const secIdx = this.getIndexOfSection(secKey);
-    const sec = this.getQuestions(secIdx).value as DynamicFormQuestion[];
-    return sec.filter(question => ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === question.controlType) > -1);
+    const sec = this.getQuestions(secIdx).getRawValue() as DynamicFormQuestion[];
+    return sec.filter(question => ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === question.controlType) > -1).map(q => q.key);
   }
   
   protected getValuesForConditions(secKey: string, qKey: string): { key: string, value: string }[] {
