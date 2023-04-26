@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { DynamicForm } from '../dynamic-form/dynamic-form.model';
+import { DynamicForm } from './dynamic-form.model';
 
 @Injectable({
   providedIn: 'root'

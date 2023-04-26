@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 import { DynamicFormService } from '../shared/dynamic-form.service';
-import { DynamicFormSection } from './dynamic-form-section.model';
+import { DynamicFormSection } from '../shared/dynamic-form-section.model';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DynamicForm } from './dynamic-form.model';
+import { DynamicForm } from '../shared/dynamic-form.model';
 import { MatDialog } from '@angular/material/dialog';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { StepperOrientation } from '@angular/cdk/stepper';
 import { Observable, map } from 'rxjs';
-import { DynamicFormQuestion } from './dynamic-form-question.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({

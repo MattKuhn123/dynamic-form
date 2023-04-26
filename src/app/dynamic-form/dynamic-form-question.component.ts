@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { DynamicFormQuestion } from './dynamic-form-question.model';
+import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
 
 @Component({
   selector: 'app-dynamic-question',

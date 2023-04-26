@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicFormService } from '../shared/dynamic-form.service';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { DynamicFormQuestion } from '../dynamic-form/dynamic-form-question.model';
+import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DynamicFormSection } from '../dynamic-form/dynamic-form-section.model';
+import { DynamicFormSection } from '../shared/dynamic-form-section.model';
 import { MatDialog } from '@angular/material/dialog';
 import { EditSectionKeyDialog } from './edit-section-key.component';
 import { EditQuestionKeyDialog } from './edit-question-key.component';
