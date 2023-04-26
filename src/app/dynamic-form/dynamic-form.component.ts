@@ -101,11 +101,11 @@ export class DynamicFormComponent implements OnInit {
   }
 
   protected hidden(section: DynamicFormSection): boolean {
-    if (section.dependsOn.length === 0) {
+    if (section.conditions.length === 0) {
       return false;
     }
 
-    return section.dependsOn.findIndex(dependsOn => this.getNamedFormGroupInArray(dependsOn.section).controls[dependsOn.key].value === dependsOn.value) <= -1;
+    return section.conditions.findIndex(conditions => this.getNamedFormGroupInArray(conditions.section).controls[conditions.key].value === conditions.value) <= -1;
   }
 
   protected onClickAdd(sctnIdx: number): void {

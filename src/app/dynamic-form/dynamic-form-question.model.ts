@@ -1,6 +1,6 @@
 export class DynamicFormQuestion {
   controlType: string;
-  dependsOn: { key: string, value: string }[];
+  conditions: { key: string, value: string }[];
   key: string;
   label: string;
   options: { key: string, value: string }[];
@@ -9,7 +9,7 @@ export class DynamicFormQuestion {
   
   constructor(options: {
     controlType?: string;
-    dependsOn?: { key: string, value: string }[];
+    conditions?: { key: string, value: string }[];
     key?: string;
     label?: string;
     options?: { key: string, value: string }[];
@@ -17,7 +17,7 @@ export class DynamicFormQuestion {
     type?: string;
   } = {}) {
     this.controlType = options.controlType || '';
-    this.dependsOn = options.dependsOn || [];
+    this.conditions = options.conditions || [];
     this.key = options.key || '';
     this.label = options.label || '';
     this.options = options.options || [];

@@ -8,11 +8,11 @@
         "description": "Contact information",
         "list": false,
         "required": true,
-        "dependsOn": [ ],
+        "conditions": [ ],
         "questions": [
           {
             "controlType": "textbox",
-            "dependsOn": [ ],
+            "conditions": [ ],
             "key": "firstName",
             "label": "First name",
             "options": [ ],
@@ -21,7 +21,7 @@
           },
           {
             "controlType": "textbox",
-            "dependsOn": [ ],
+            "conditions": [ ],
             "key": "lastName",
             "label": "Last name",
             "options": [ ],
@@ -30,7 +30,7 @@
           },
           {
             "controlType":"textbox",
-            "dependsOn": [ ],
+            "conditions": [ ],
             "key": "emailAddress",
             "label": "Email",
             "options": [ ],
@@ -44,11 +44,11 @@
         "description": "Someone whom a villain could kidnap",
         "list": true,
         "required": false,
-        "dependsOn": [ ],
+        "conditions": [ ],
         "questions": [
           {
             "controlType": "textbox",
-            "dependsOn": [ ],
+            "conditions": [ ],
             "key": "loveFirstName",
             "label": "First name",
             "options": [ ],
@@ -57,7 +57,7 @@
           },
           {
             "controlType": "textbox",
-            "dependsOn": [ ],
+            "conditions": [ ],
             "key": "loveLastName",
             "label": "Last name",
             "options": [ ],
@@ -66,7 +66,7 @@
           },
           {
             "controlType":"file",
-            "dependsOn": [ ],
+            "conditions": [ ],
             "key": "characterWitness",
             "label": "Letter of recommendation",
             "options": [ ],
@@ -80,11 +80,11 @@
         "description": "Bravery information",
         "list": false,
         "required": true,
-        "dependsOn": [ ],
+        "conditions": [ ],
         "questions": [
           {
               "controlType": "dropdown",
-              "dependsOn": [ ],
+              "conditions": [ ],
               "key": "bravery",
               "label": "Bravery Rating",
               "options": [
@@ -97,7 +97,7 @@
           },
           {
             "controlType": "textarea",
-            "dependsOn": [
+            "conditions": [
               { "key": "bravery", "value": "solid" }
             ],
             "key": "braveryExplanation",
@@ -113,11 +113,11 @@
         "description": "What deeds have you done?",
         "list": false,
         "required": true,
-        "dependsOn": [ ],
+        "conditions": [ ],
         "questions": [
           {
             "controlType": "radio",
-            "dependsOn": [ ],
+            "conditions": [ ],
             "key": "quantitySaved",
             "label": "How many citizens have you saved?",
             "options": [
@@ -129,7 +129,7 @@
           },
           {
             "controlType": "dropdown",
-            "dependsOn": [ ],
+            "conditions": [ ],
             "key": "collateralDamage",
             "label": "Have you ever caused collateral damage?",
             "options": [
@@ -146,13 +146,13 @@
         "description": "What collateral damage have you caused?",
         "list": false,
         "required": true,
-        "dependsOn": [
+        "conditions": [
           { "section": "Deeds", "key": "collateralDamage", "value": "yes" }
         ],
         "questions": [
           {
             "controlType": "radio",
-            "dependsOn": [ ],
+            "conditions": [ ],
             "key": "buildingsDestroyed",
             "label": "How many buildings have you destroyed?",
             "options": [
@@ -170,11 +170,11 @@
         "description": "Schedule a time to follow-up with us.",
         "list": false,
         "required": true,
-        "dependsOn": [ ],
+        "conditions": [ ],
         "questions": [
           {
             "controlType": "date",
-            "dependsOn": [ ],
+            "conditions": [ ],
             "key": "callTime",
             "label": "When can we contact you?",
             "options": [ ],
