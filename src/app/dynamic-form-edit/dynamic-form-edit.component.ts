@@ -95,16 +95,14 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
                         </mat-panel-title>
 
                         <mat-panel-description>
-                          <button mat-icon-button [color]="qtnPanel.expanded ? 'primary' : 'none'" matTooltip="required" *ngIf="getQuestionRequired(i, qi).getRawValue()">
-                            <mat-icon>shield</mat-icon>
-                          </button>
-
-                          <button mat-icon-button [color]="qtnPanel.expanded ? 'primary' : 'none'" matTooltip="conditions" *ngIf="getQuestionConditions(i, qi).length > 0">
-                            <mat-icon [matBadge]="getQuestionConditions(i, qi).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
-                          </button>
-
                           <button mat-icon-button [color]="qtnPanel.expanded ? 'warn' : 'none'" matTooltip="delete" (click)="onClickRemoveQuestion(i, qi)">
                             <mat-icon>delete</mat-icon>
+                          </button>
+                          <button mat-icon-button [color]="qtnPanel.expanded ? 'primary' : 'none'" matTooltip="not required" *ngIf="!getQuestionRequired(i, qi).getRawValue()">
+                            <mat-icon>flaky</mat-icon>
+                          </button>
+                          <button mat-icon-button [color]="qtnPanel.expanded ? 'primary' : 'none'" matTooltip="conditions" *ngIf="getQuestionConditions(i, qi).length > 0">
+                            <mat-icon [matBadge]="getQuestionConditions(i, qi).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
                           </button>
                         </mat-panel-description>
                       </mat-expansion-panel-header>
