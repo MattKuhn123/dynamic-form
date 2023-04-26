@@ -410,19 +410,19 @@ export class DynamicFormEditComponent implements OnInit {
     });
   }
 
-    protected onClickEditQuestionKey(secIdx: number, qIdx: number): void {
-      const dialogRef = this.dialog.open(EditQuestionKeyDialog, { data: {
-        secIdx: secIdx,
-        secKey: this.getSectionKey(secIdx).getRawValue(),
-        qKey: this.getQuestionKey(secIdx, qIdx).getRawValue(),
-        qIdx: qIdx,
-        invalid: (this.sections.getRawValue() as DynamicFormSection[]).map(section => section.questions).flat().map(question => question.key)
-      } });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.getQuestionKey(secIdx, qIdx).patchValue(result);
-        }
-      });
+  protected onClickEditQuestionKey(secIdx: number, qIdx: number): void {
+    const dialogRef = this.dialog.open(EditQuestionKeyDialog, { data: {
+      secIdx: secIdx,
+      secKey: this.getSectionKey(secIdx).getRawValue(),
+      qKey: this.getQuestionKey(secIdx, qIdx).getRawValue(),
+      qIdx: qIdx,
+      invalid: (this.sections.getRawValue() as DynamicFormSection[]).map(section => section.questions).flat().map(question => question.key)
+    } });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getQuestionKey(secIdx, qIdx).patchValue(result);
+      }
+    });
   }
 
   protected onClickAddSection(): void { this.sections.push(this.sectionToGroup(new DynamicFormSection())); }
