@@ -30,8 +30,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppComponent } from './app.component';
 import { DynamicFormQuestionComponent } from './dynamic-form/dynamic-form-question.component';
-import { DynamicFormEditComponent, EditSectionKeyDialog } from './dynamic-form-edit/dynamic-form-edit.component';
+import { DynamicFormEditComponent } from './dynamic-form-edit/dynamic-form-edit.component';
 import { DynamicFormComponent, PreSubmitDialog } from './dynamic-form/dynamic-form.component';
+import { EditQuestionKeyDialog } from './dynamic-form-edit/edit-question-key.component';
+import { EditSectionKeyDialog } from './dynamic-form-edit/edit-section-key.component';
 
 export const appRoute: Routes = [
   { path: 'edit', component: DynamicFormEditComponent },
@@ -44,6 +46,7 @@ export const appRoute: Routes = [
     DynamicFormQuestionComponent,
     DynamicFormEditComponent,
     DynamicFormComponent,
+    EditQuestionKeyDialog,
     EditSectionKeyDialog,
     PreSubmitDialog,
   ],
