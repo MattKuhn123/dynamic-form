@@ -3,7 +3,6 @@ import { DynamicFormService } from '../shared/dynamic-form.service';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
-import { DynamicFormSection } from '../shared/dynamic-form-section.model';
 
 @Component({
   selector: 'app-dynamic-form-edit',
@@ -27,14 +26,10 @@ import { DynamicFormSection } from '../shared/dynamic-form-section.model';
               <textarea matInput formControlName="description" id="description" type="text"></textarea>
             </mat-form-field>
           </div>
-
-          <app-dynamic-form-edit-sections [fb]="fb" [fg]="fg"></app-dynamic-form-edit-sections>
-
         </mat-card-content>
-        <mat-card-actions>
-          <button type="button" (click)="onClickAddSection()" mat-stroked-button color="primary">Add</button>
-        </mat-card-actions>
       </mat-card>
+      
+      <app-dynamic-form-edit-sections [fb]="fb" [fg]="fg"></app-dynamic-form-edit-sections>
     </form>
     <mat-card>
       <mat-card-content>
@@ -69,9 +64,5 @@ export class DynamicFormEditComponent implements OnInit {
   protected onClickSave(): void {
     this.dfSvc.setForm(this.fg.getRawValue());
     this.snackBar.open("Saved!", "OK");
-  }
-
-  protected onClickAddSection(): void {
-    this.sections.push(this.dfeSvc.sectionToGroup(this.fb, new DynamicFormSection()));
   }
 }

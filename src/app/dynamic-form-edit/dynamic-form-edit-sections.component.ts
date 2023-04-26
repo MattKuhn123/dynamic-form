@@ -119,6 +119,7 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
       </mat-stepper>
     </mat-expansion-panel>
   </mat-accordion>
+  <button type="button" (click)="onClickAddSection()" mat-stroked-button color="primary">Add</button>
   </div>`,
   styles: [
     'mat-panel-description { display: flex; gap: 5px; flex-wrap: wrap; }',
@@ -145,6 +146,7 @@ export class DynamicFormEditSectionsComponent {
     });
   }
 
+  protected onClickAddSection(): void { this.s.push(this.dfeSvc.sectionToGroup(this.fb, new DynamicFormSection())); }
   protected onClickRemoveSection(secIdx: number): void { this.s.removeAt(secIdx); }
 
   protected onClickAddSectionCondition(secIdx: number, doIdx: number): void { this.dfeSvc.getSectionConditions(this.s, secIdx).insert(doIdx, this.dfeSvc.sectionConditionsToGroup(this.fb, {key: "", section: "", value: ""})); }
