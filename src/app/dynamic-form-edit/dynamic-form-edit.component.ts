@@ -41,7 +41,7 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
                     <mat-icon [matBadge]="getQuestions(i).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">question_answer</mat-icon>
                   </button>
                   <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="required" *ngIf="getSectionRequired(i).getRawValue()">
-                    <mat-icon>priority_high</mat-icon>
+                    <mat-icon>shield</mat-icon>
                   </button>
                   <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="conditions" *ngIf="getSectionConditionsList(i).length > 0">
                     <mat-icon [matBadge]="getSectionConditionsList(i).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
@@ -93,7 +93,7 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
 
                         <mat-panel-description>
                           <button mat-icon-button [color]="qtnPanel.expanded ? 'primary' : 'none'" matTooltip="required" *ngIf="getQuestionRequired(i, qi).getRawValue()">
-                            <mat-icon>priority_high</mat-icon>
+                            <mat-icon>shield</mat-icon>
                           </button>
 
                           <button mat-icon-button [color]="qtnPanel.expanded ? 'primary' : 'none'" matTooltip="conditions" *ngIf="getQuestionConditionsList(i, qi).length > 0">
