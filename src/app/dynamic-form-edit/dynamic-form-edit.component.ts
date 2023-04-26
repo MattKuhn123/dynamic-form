@@ -288,12 +288,12 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
 })
 export class DynamicFormEditComponent implements OnInit {
   fg!: FormGroup;
-  get stringified(): string { return JSON.stringify(this.fg.getRawValue(), null, 4) };
+  get stringified(): string { return JSON.stringify(this.fg.getRawValue(), null, 4); };
   get sections(): FormArray { return this.fg.get("sections") as FormArray; }
   
-  protected getSection(secIdx: number): FormGroup { return (this.sections.at(secIdx) as FormGroup) }
-  protected getSectionKey(secIdx: number): FormControl { return (this.getSection(secIdx).get("key") as FormControl) }
-  protected getSectionRequired(secIdx: number): FormControl { return (this.getSection(secIdx).get("required") as FormControl) }
+  protected getSection(secIdx: number): FormGroup { return this.sections.at(secIdx) as FormGroup; }
+  protected getSectionKey(secIdx: number): FormControl { return this.getSection(secIdx).get("key") as FormControl; }
+  protected getSectionRequired(secIdx: number): FormControl { return this.getSection(secIdx).get("required") as FormControl; }
   protected getSectionConditionsList(secIdx: number): FormArray { return (this.getSection(secIdx)).get("conditions") as FormArray; }
   protected getSectionConditionsItem(secIdx: number, dpdsIdx: number): FormGroup { return this.getSectionConditionsList(secIdx).at(dpdsIdx) as FormGroup; }
   protected getSectionConditionsSection(secIdx: number, dpdsIdx: number): FormControl { return this.getSectionConditionsItem(secIdx, dpdsIdx).get("section") as FormControl; }
@@ -301,14 +301,14 @@ export class DynamicFormEditComponent implements OnInit {
   protected getSectionConditionsValue(secIdx: number, dpdsIdx: number): FormControl { return this.getSectionConditionsItem(secIdx, dpdsIdx).get("value") as FormControl; }
   
   protected getQuestions(secIdx: number): FormArray { return (this.getSection(secIdx)).get("questions") as FormArray; }
-  protected getQuestion(secIdx: number, qIdx: number): FormGroup { return this.getQuestions(secIdx).at(qIdx) as FormGroup }
-  protected getQuestionKey(secIdx: number, qIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("key") as FormControl); }
-  protected getQuestionCtrlType(secIdx: number, qIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("controlType") as FormControl); }
-  protected getQuestionLabel(secIdx: number, qIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("label") as FormControl); }
-  protected getQuestionRequired(secIdx: number, qIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("required") as FormControl); }
+  protected getQuestion(secIdx: number, qIdx: number): FormGroup { return this.getQuestions(secIdx).at(qIdx) as FormGroup; }
+  protected getQuestionKey(secIdx: number, qIdx: number): FormControl { return this.getQuestion(secIdx, qIdx).get("key") as FormControl; }
+  protected getQuestionCtrlType(secIdx: number, qIdx: number): FormControl { return this.getQuestion(secIdx, qIdx).get("controlType") as FormControl; }
+  protected getQuestionLabel(secIdx: number, qIdx: number): FormControl { return this.getQuestion(secIdx, qIdx).get("label") as FormControl; }
+  protected getQuestionRequired(secIdx: number, qIdx: number): FormControl { return this.getQuestion(secIdx, qIdx).get("required") as FormControl; }
   
   protected getQuestionOptions(secIdx: number, qIdx: number): FormArray { return this.getQuestion(secIdx, qIdx).get("options") as FormArray; }
-  protected getQuestionOption(secIdx: number, qIdx: number, optIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("options") as FormArray).at(optIdx) as FormControl }
+  protected getQuestionOption(secIdx: number, qIdx: number, optIdx: number): FormControl { return (this.getQuestion(secIdx, qIdx).get("options") as FormArray).at(optIdx) as FormControl; }
   
   protected getQuestionConditionsList(secIdx: number, qIdx: number): FormArray { return this.getQuestion(secIdx, qIdx).get("conditions") as FormArray; }
   protected getQuestionConditionsItem(secIdx: number, qIdx: number, dpdsIdx: number): FormControl { return this.getQuestionConditionsList(secIdx, qIdx).at(dpdsIdx) as FormControl; }
@@ -317,8 +317,7 @@ export class DynamicFormEditComponent implements OnInit {
   
   protected getSectionsForSectionConditions(): string[] {
     const sections: DynamicFormSection[] = this.sections.getRawValue() as DynamicFormSection[];
-    const keys: string[] = sections.map(section => section.key);
-    return keys;
+    return sections.map(section => section.key);
   }
   protected getQuestionsForConditions(secKey: string): DynamicFormQuestion[] {
     const secIdx = this.getIndexOfSection(secKey);
@@ -364,19 +363,19 @@ export class DynamicFormEditComponent implements OnInit {
       key: this.fb.control(condition.key || ""),
       section: this.fb.control(condition.section || 0),
       value: this.fb.control(condition.value || ""),
-    })
+    });
   }
 
   private questionToGroup(question: DynamicFormQuestion): FormGroup {
     return this.fb.group({
+      key: this.fb.control({value: question.key || "", disabled: true}),
       controlType: this.fb.control(question.controlType || ""),
       conditions: this.fb.array(question.conditions.map(condition => this.questionConditionsToGroup(condition))),
-      key: this.fb.control({value: question.key || "", disabled: true}),
       label: this.fb.control(question.label || ""),
       options: this.fb.array(question.options.map(option => this.questionOptionToGroup(option)) || []),
       required: this.fb.control(question.required || ""),
       type: this.fb.control(question.type || ""),
-    })
+    });
   }
 
   private questionConditionsToGroup(condition: { key: string, value: string }): FormGroup {
@@ -406,24 +405,24 @@ export class DynamicFormEditComponent implements OnInit {
     } });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.getSectionKey(secIdx).setValue(result);
+        this.getSectionKey(secIdx).patchValue(result);
       }
     });
   }
 
     protected onClickEditQuestionKey(secIdx: number, qIdx: number): void {
-    const dialogRef = this.dialog.open(EditQuestionKeyDialog, { data: { 
-      secIdx: secIdx, 
-      secKey: this.getSectionKey(secIdx).getRawValue(), 
-      qKey: this.getQuestionKey(secIdx, qIdx).getRawValue(), 
-      qIdx: qIdx, 
-      invalid: (this.sections.getRawValue() as DynamicFormSection[]).map(section => section.questions).flat().map(question => question.key)
-    } });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.getQuestionKey(secIdx, qIdx).setValue(result);
-      }
-    });
+      const dialogRef = this.dialog.open(EditQuestionKeyDialog, { data: {
+        secIdx: secIdx,
+        secKey: this.getSectionKey(secIdx).getRawValue(),
+        qKey: this.getQuestionKey(secIdx, qIdx).getRawValue(),
+        qIdx: qIdx,
+        invalid: (this.sections.getRawValue() as DynamicFormSection[]).map(section => section.questions).flat().map(question => question.key)
+      } });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.getQuestionKey(secIdx, qIdx).patchValue(result);
+        }
+      });
   }
 
   protected onClickAddSection(): void { this.sections.push(this.sectionToGroup(new DynamicFormSection())); }
