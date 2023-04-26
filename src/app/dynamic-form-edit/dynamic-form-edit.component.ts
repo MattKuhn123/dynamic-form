@@ -37,17 +37,20 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
                   Section {{ i+1 }}: {{ getSectionKey(i).getRawValue() }}
                 </mat-panel-title>
                 <mat-panel-description>
+                  <button mat-icon-button [color]="secPanel.expanded ? 'warn' : 'none'" matTooltip="delete" (click)="onClickRemoveSection(i)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <button mat-icon-button [color]="secPanel.expanded ? 'warn' : 'none'" matTooltip="list" *ngIf="getSectionList(i).getRawValue()">
+                    <mat-icon>list_alt</mat-icon>
+                  </button>
+                  <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="not required" *ngIf="!getSectionRequired(i).getRawValue()">
+                    <mat-icon>flaky</mat-icon>
+                  </button>
                   <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="questions">
                     <mat-icon [matBadge]="getQuestions(i).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">question_answer</mat-icon>
                   </button>
-                  <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="required" *ngIf="getSectionRequired(i).getRawValue()">
-                    <mat-icon>shield</mat-icon>
-                  </button>
                   <button mat-icon-button [color]="secPanel.expanded ? 'primary' : 'none'" matTooltip="conditions" *ngIf="getSectionConditions(i).length > 0">
                     <mat-icon [matBadge]="getSectionConditions(i).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
-                  </button>
-                  <button mat-icon-button [color]="secPanel.expanded ? 'warn' : 'none'" matTooltip="delete" (click)="onClickRemoveSection(i)">
-                    <mat-icon>delete</mat-icon>
                   </button>
                 </mat-panel-description>
               </mat-expansion-panel-header>
@@ -294,6 +297,7 @@ export class DynamicFormEditComponent implements OnInit {
   protected getSection(secIdx: number): FormGroup { return this.sections.at(secIdx) as FormGroup; }
   protected getSectionKey(secIdx: number): FormControl { return this.getSection(secIdx).get("key") as FormControl; }
   protected getSectionRequired(secIdx: number): FormControl { return this.getSection(secIdx).get("required") as FormControl; }
+  protected getSectionList(secIdx: number): FormControl { return this.getSection(secIdx).get("list") as FormControl; }
   protected getSectionConditions(secIdx: number): FormArray { return (this.getSection(secIdx)).get("conditions") as FormArray; }
   protected getSectionCondition(secIdx: number, dpdsIdx: number): FormGroup { return this.getSectionConditions(secIdx).at(dpdsIdx) as FormGroup; }
   protected getSectionConditionsSection(secIdx: number, dpdsIdx: number): FormControl { return this.getSectionCondition(secIdx, dpdsIdx).get("section") as FormControl; }
