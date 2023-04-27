@@ -27,6 +27,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -84,6 +85,7 @@ export const appRoute: Routes = [
     MatRadioModule,
     MatSelectModule,
     MatSidenavModule,
+    MatSlideToggleModule,
     MatSnackBarModule,
     MatStepperModule,
     MatTabsModule,

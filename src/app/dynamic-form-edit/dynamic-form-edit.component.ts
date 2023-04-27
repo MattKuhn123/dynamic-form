@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicFormService } from '../shared/dynamic-form.service';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
+import { createUniqueValidator } from '../shared/unique-value.validator';
 
 @Component({
   selector: 'app-dynamic-form-edit',
@@ -11,31 +12,16 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
     'footer { position: fixed; bottom: 10px; text-align: center; width: 100%; }',
   ],
   template: `
-    <form *ngIf="fg" [formGroup]="fg">
-      <mat-card>
-        <mat-card-content>
-          <div>
-            <mat-form-field>
-              <mat-label for="title">Title</mat-label>
-              <input matInput formControlName="title" id="title" type="text" />
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field>
-              <mat-label for="description">Description</mat-label>
-              <textarea matInput formControlName="description" id="description" type="text"></textarea>
-            </mat-form-field>
-          </div>
-        </mat-card-content>
-      </mat-card>
-      
+    <form *ngIf="fg" [formGroup]="fg">      
       <app-dynamic-form-edit-sections [fb]="fb" [fg]="fg"></app-dynamic-form-edit-sections>
     </form>
-    <!-- <mat-card>
+
+    <mat-card>
       <mat-card-content>
-        <pre *ngIf="fg"> {{ stringified }} </pre>
+        <mat-slide-toggle [formControl]="showJson">Show json</mat-slide-toggle>
+        <pre *ngIf="fg && showJson.getRawValue()"> {{ stringified }} </pre>
       </mat-card-content>
-    </mat-card> -->
+    </mat-card>
     
     <mat-sidenav-container>
       <footer>
@@ -48,6 +34,8 @@ export class DynamicFormEditComponent implements OnInit {
   fg!: FormGroup;
   get stringified(): string { return JSON.stringify(this.fg.getRawValue(), null, 4); };
   get sections(): FormArray { return this.fg.get("sections") as FormArray; }
+
+  protected showJson: FormControl = new FormControl(false);
   
   constructor(private dfSvc: DynamicFormService, private dfeSvc: DynamicFormEditService, protected fb: FormBuilder, private snackBar: MatSnackBar) { }
 

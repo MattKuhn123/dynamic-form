@@ -15,7 +15,24 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
   ],
   template: `<div [formGroup]="fg">
   <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="selectedTabIndex = $event">
-    <mat-tab label="Sections">
+    <mat-tab label="Form">
+    <mat-card>
+        <mat-card-content>
+          <div>
+            <mat-form-field>
+              <mat-label for="title">Title</mat-label>
+              <input matInput formControlName="title" id="title" type="text" />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label for="description">Description</mat-label>
+              <textarea matInput formControlName="description" id="description" type="text"></textarea>
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
       <mat-card>
         <mat-card-content>
           <mat-list formArrayName="sections" cdkDropList (cdkDropListDropped)="reorderSections($event)">
