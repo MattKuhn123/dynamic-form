@@ -35,6 +35,11 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
 
       <mat-card>
         <mat-card-content>
+          <div *ngIf="s.controls.length === 0">
+            <div>
+              <em>There are no sections in this form.</em>
+            </div>
+          </div>
           <mat-list formArrayName="sections" cdkDropList (cdkDropListDropped)="reorderSections($event)">
             <mat-list-item role="listitem" *ngFor="let section of s.controls; let i = index" [formGroupName]="i" #secListItem cdkDrag>
               <mat-icon matListItemIcon>drag_indicator</mat-icon>
