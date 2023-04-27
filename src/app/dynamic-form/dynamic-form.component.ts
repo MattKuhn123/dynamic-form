@@ -62,7 +62,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
   <mat-card>
     <mat-card-content>
-      <pre *ngIf="formGroup"> {{ stringified }} </pre>
+    <mat-slide-toggle [formControl]="showJson">Show json</mat-slide-toggle>
+      <pre *ngIf="formGroup && showJson.getRawValue()"> {{ stringified }} </pre>
     </mat-card-content>
   </mat-card>
   `,
@@ -73,6 +74,8 @@ export class DynamicFormComponent implements OnInit {
   form!: DynamicForm;
   stepperOrientation: Observable<StepperOrientation>;
   protected get stringified(): string { return JSON.stringify(this.formGroup.getRawValue(), null, 4) };
+
+  protected showJson: FormControl = new FormControl(false);
 
   protected getFormArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
   protected getFormGroupInArray(index: number): FormGroup { return (this.formArray.at(index) as FormArray).at(0) as FormGroup; }
