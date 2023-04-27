@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DynamicFormSection } from '../shared/dynamic-form-section.model';
 import { EditSectionKeyDialog } from './edit-section-key.component';
@@ -40,6 +40,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               <mat-icon matListItemIcon>drag_indicator</mat-icon>
               <span matListItemTitle>
                 Section {{ i+1 }}: {{ dfeSvc.getSectionKey(s, i).getRawValue() }}
+                <!-- <button type="button" mat-button matTooltip="errors" color="warn" *ngIf="!dfeSvc.getSection(s, secEditIdx).valid" ><mat-icon>error</mat-icon></button> -->
                 <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditSection(i)"><mat-icon>edit</mat-icon></button>
                 <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveSection(i)"><mat-icon>delete</mat-icon></button>
                 <button type="button" mat-button matTooltip="list" *ngIf="dfeSvc.getSectionList(s, i).getRawValue()">
@@ -79,7 +80,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
           <div>
             <mat-label for="section-required">
               <mat-checkbox formControlName="required" id="section-required"></mat-checkbox>
-              Section is required
+              Require section
             </mat-label>
           </div>
           <div>
@@ -121,6 +122,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               <mat-icon matListItemIcon>drag_indicator</mat-icon>
               <span matListItemTitle>
                 Question {{ qi+1 }}: {{ dfeSvc.getQuestionKey(s, secEditIdx, qi).getRawValue() }}
+                <button type="button" mat-button [matTooltip]="getQuestionErrors(qi)" color="warn" *ngIf="dfeSvc.getQuestion(s, secEditIdx, qi).invalid" ><mat-icon>error</mat-icon></button>
                 <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditQuestion(qi)"><mat-icon>edit</mat-icon></button>
                 <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveQuestion(qi)"><mat-icon>delete</mat-icon></button>
                 <button type="button" mat-button matTooltip="required" *ngIf="dfeSvc.getQuestionRequired(s, secEditIdx, qi).getRawValue()">
@@ -141,6 +143,11 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
             </mat-list-item>
           </mat-list>
         </mat-card-content>
+        <mat-card-actions>
+          <button type="button" (click)="onClickAddQuestion()" mat-button color="primary">
+            Add question
+          </button>
+        </mat-card-actions>
       </mat-card>
       
       <mat-card>
@@ -262,6 +269,29 @@ export class DynamicFormEditSectionsComponent {
     this.selectedTabIndex = 2;
   }
   protected onClickRemoveQuestion(qIdx: number): void { this.secEditQuestions.removeAt(qIdx); }
+
+  protected getQuestionErrors(qIdx: number): string {
+    const errs: string[] = [];
+    const qForm: FormGroup = this.dfeSvc.getQuestion(this.s, this.secEditIdx, qIdx);
+
+    const formErrors: ValidationErrors | null | undefined = qForm?.errors;
+    if (formErrors) {
+      Object.keys(formErrors).forEach(keyError => {
+        errs.push(keyError);
+      });
+    }
+
+    Object.keys(qForm.controls).forEach(key => {
+      const control = qForm.get(key);
+      const controlErrors: ValidationErrors | null | undefined = control?.errors;
+      if (controlErrors) {
+        errs.push(key);
+      }
+    })
+
+    const err: string = errs.join(", ");
+    return `errors: ${err}`;
+  }
 
   reorderSections(event: CdkDragDrop<string[]>) { moveItemInArray(this.s.controls, event.previousIndex, event.currentIndex); }
   reorderQuestions(event: CdkDragDrop<string[]>) { moveItemInArray(this.secEditQuestions.controls, event.previousIndex, event.currentIndex); }

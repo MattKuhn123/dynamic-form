@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicFormQuestion } from './dynamic-form-question.model';
 import { DynamicFormSection } from './dynamic-form-section.model';
+import { createUniqueValidator } from './unique-value.validator';
+import { createKeyRequiredValidator } from './key-required.validator';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +11,10 @@ import { DynamicFormSection } from './dynamic-form-section.model';
 export class DynamicFormEditService {
   public sectionToGroup(fb: FormBuilder, section: DynamicFormSection): FormGroup {
     return fb.group({
-      key: fb.control({value: section.key || "", disabled: true}),
-      description: fb.control(section.description || ""),
-      list: fb.control(section.list || false),
-      required: fb.control(section.required || false),
+      key: fb.control({value: section.key || "", disabled: true}, [Validators.required]),
+      description: fb.control(section.description || "", [Validators.required]),
+      list: fb.control(section.list || false, [Validators.required]),
+      required: fb.control(section.required || false, [Validators.required]),
       conditions: fb.array(section.conditions.map((condition: any) => this.sectionConditionsToGroup(fb, condition))),
       questions: fb.array(section.questions.map(question => this.questionToGroup(fb, question)))
     });
@@ -28,14 +30,14 @@ export class DynamicFormEditService {
 
   public questionToGroup(fb: FormBuilder, question: DynamicFormQuestion): FormGroup {
     return fb.group({
-      key: fb.control({value: question.key || "", disabled: true}),
-      controlType: fb.control(question.controlType || ""),
+      key: fb.control({value: question.key || "", disabled: true}, [Validators.required]),
+      controlType: fb.control(question.controlType || "", [Validators.required]),
       conditions: fb.array(question.conditions.map(condition => this.questionConditionsToGroup(fb, condition))),
-      label: fb.control(question.label || ""),
+      label: fb.control(question.label || "", [Validators.required]),
       options: fb.array(question.options.map(option => this.questionOptionToGroup(fb, option)) || []),
       required: fb.control(question.required || ""),
       type: fb.control(question.type || ""),
-    });
+    }, { validators: createKeyRequiredValidator });
   }
 
   public questionConditionsToGroup(fb: FormBuilder, condition: { key: string, value: string }): FormGroup {

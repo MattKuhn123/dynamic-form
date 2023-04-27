@@ -51,6 +51,7 @@ export class DynamicFormEditComponent implements OnInit {
   protected onSubmit(): void {
     if (!this.fg.valid) {
       this.snackBar.open("Please fix all issues", "OK");
+      return;
     }
 
     this.dfSvc.setForm(this.fg.getRawValue());

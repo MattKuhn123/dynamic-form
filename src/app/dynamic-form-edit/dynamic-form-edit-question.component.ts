@@ -24,7 +24,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
           <div>
             <mat-label attr.for="question-{{i}}-{{qi}}-required">
               <mat-checkbox formControlName="required" id="question-{{i}}-{{qi}}-required"></mat-checkbox>
-              Question is required
+              Require question
             </mat-label>
           </div>
           <div>
