@@ -12,7 +12,7 @@ export interface EditSectionKeyData {
 @Component({
   selector: 'app-edit-section-key-dialog',
   template: `
-    <h1 mat-dialog-title>Rename section {{ data.secIdx+1 }}</h1>
+    <h2 mat-dialog-title>Rename {{ data.secKey }}</h2>
     <div mat-dialog-content>
       <mat-form-field>
         <mat-label>Section Key</mat-label>

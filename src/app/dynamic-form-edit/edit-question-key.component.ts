@@ -14,7 +14,7 @@ export interface EditQuestionKeyData {
 @Component({
   selector: 'app-edit-question-key-dialog',
   template: `
-    <h1 mat-dialog-title>Rename question {{ data.qIdx+1 }}</h1>
+    <h2 mat-dialog-title>Rename {{ data.qKey }}</h2>
     <div mat-dialog-content>
       <mat-form-field>
         <mat-label>Question Key</mat-label>
