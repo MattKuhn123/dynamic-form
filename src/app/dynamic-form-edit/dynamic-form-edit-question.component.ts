@@ -20,6 +20,14 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
               <input matInput formControlName="key" id="question-{{i}}-{{qi}}-key" type="text" />
               <mat-icon matSuffix color="primary" matTooltip="edit" (click)="onClickEditQuestionKey(qi)">edit</mat-icon>
             </mat-form-field>
+          </div>
+          <div>
+            <mat-label attr.for="question-{{i}}-{{qi}}-required">
+              <mat-checkbox formControlName="required" id="question-{{i}}-{{qi}}-required"></mat-checkbox>
+              Question is required
+            </mat-label>
+          </div>
+          <div>
             <mat-form-field [appearance]="'outline'">
               <mat-label attr.for="question-{{i}}-{{qi}}-controlType">Control type</mat-label>
               <mat-select id="question-{{i}}-{{qi}}-controlType" formControlName="controlType">
@@ -31,14 +39,12 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
                 <mat-option value="file">file</mat-option>
               </mat-select>
             </mat-form-field>
+          </div>
+          <div>
             <mat-form-field [appearance]="'outline'">
               <mat-label attr.for="question-{{i}}-{{qi}}-label">Label</mat-label>
               <input matInput formControlName="label" id="question-{{i}}-{{qi}}-label" type="text" />
             </mat-form-field>
-            <mat-label attr.for="question-{{i}}-{{qi}}-required">
-              <mat-checkbox formControlName="required" id="question-{{i}}-{{qi}}-required"></mat-checkbox>
-              Question is required
-            </mat-label>
           </div>
         </mat-card-content>
       </mat-card>

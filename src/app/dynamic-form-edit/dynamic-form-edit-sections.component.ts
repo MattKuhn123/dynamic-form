@@ -40,13 +40,13 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               <mat-icon matListItemIcon>drag_indicator</mat-icon>
               <span matListItemTitle>
                 Section {{ i+1 }}: {{ dfeSvc.getSectionKey(s, i).getRawValue() }}
-                <button mat-button color="primary" (click)="onClickEditSection(i)"><mat-icon>edit</mat-icon></button>
-                <button mat-button color="warn" (click)="onClickRemoveSection(i)"><mat-icon>delete</mat-icon></button>
+                <button mat-button matTooltip="edit" color="primary" (click)="onClickEditSection(i)"><mat-icon>edit</mat-icon></button>
+                <button mat-button matTooltip="delete" color="warn" (click)="onClickRemoveSection(i)"><mat-icon>delete</mat-icon></button>
                 <button mat-button matTooltip="list" *ngIf="dfeSvc.getSectionList(s, i).getRawValue()">
                     <mat-icon>list_alt</mat-icon>
                 </button>
-                <button mat-button matTooltip="not required" *ngIf="!dfeSvc.getSectionRequired(s, i).getRawValue()">
-                  <mat-icon>flaky</mat-icon>
+                <button mat-button matTooltip="required" *ngIf="dfeSvc.getSectionRequired(s, i).getRawValue()">
+                  <mat-icon>emergency</mat-icon>
                 </button>
                 <button mat-button matTooltip="questions">
                   <mat-icon [matBadge]="dfeSvc.getQuestions(s, i).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">question_answer</mat-icon>
@@ -75,10 +75,14 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               <input matInput formControlName="key" id="section-key" type="text"/>
               <mat-icon matSuffix color="primary" matTooltip="edit" (click)="onClickEditSectionKey()">edit</mat-icon>
             </mat-form-field>
+          </div>
+          <div>
             <mat-label for="section-required">
               <mat-checkbox formControlName="required" id="section-required"></mat-checkbox>
               Section is required
             </mat-label>
+          </div>
+          <div>
             <mat-label for="section-list">
               <mat-checkbox formControlName="list" id="section-list"></mat-checkbox>
               Section is list
@@ -117,8 +121,22 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               <mat-icon matListItemIcon>drag_indicator</mat-icon>
               <span matListItemTitle>
                 Question {{ qi+1 }}: {{ dfeSvc.getQuestionKey(s, secEditIdx, qi).getRawValue() }}
-                <button mat-button color="primary" (click)="onClickEditQuestion(qi)"><mat-icon>edit</mat-icon></button>
-                <button mat-button color="warn" (click)="onClickRemoveQuestion(qi)"><mat-icon>delete</mat-icon></button>
+                <button mat-button matTooltip="edit" color="primary" (click)="onClickEditQuestion(qi)"><mat-icon>edit</mat-icon></button>
+                <button mat-button matTooltip="delete" color="warn" (click)="onClickRemoveQuestion(qi)"><mat-icon>delete</mat-icon></button>
+                <button mat-button matTooltip="required" *ngIf="dfeSvc.getQuestionRequired(s, secEditIdx, qi).getRawValue()">
+                  <mat-icon>emergency</mat-icon>
+                </button>
+                <button mat-button [matTooltip]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qi).getRawValue()" [ngSwitch]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qi).getRawValue()">
+                  <mat-icon *ngSwitchCase="'textarea'">notes</mat-icon>
+                  <mat-icon *ngSwitchCase="'textbox'">short_text</mat-icon>
+                  <mat-icon *ngSwitchCase="'dropdown'">list</mat-icon>
+                  <mat-icon *ngSwitchCase="'radio'">radio</mat-icon>
+                  <mat-icon *ngSwitchCase="'date'">edit_calendar</mat-icon>
+                  <mat-icon *ngSwitchCase="'file'">article</mat-icon>
+                </button>
+                <button mat-button matTooltip="conditions" *ngIf="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length > 0">
+                  <mat-icon [matBadge]="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
+                </button>
               </span>
             </mat-list-item>
           </mat-list>

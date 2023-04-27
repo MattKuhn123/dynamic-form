@@ -47,7 +47,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
               </mat-card-content>
 
               <mat-card-actions align="start">
-                <button type="button" mat-button *ngIf="section.list" (click)="onClickAdd(sctnIdx)">Add Another</button>
+                <button type="button" mat-button *ngIf="section.list" (click)="onClickAdd(sctnIdx)">Add another</button>
                 <button type="button" mat-button *ngIf="section.list"  [disabled]="getFormArray(sctnIdx).controls.length <= 1"(click)="onClickRemove(sctnIdx)">Remove Last</button>
                 <button type="button" mat-button *ngIf="!first" matStepperPrevious>Back</button>
                 <button type="button" mat-button color="primary" *ngIf="!last" [disabled]="!getFormGroupInArray(sctnIdx).valid && section.required" matStepperNext>Next</button>
