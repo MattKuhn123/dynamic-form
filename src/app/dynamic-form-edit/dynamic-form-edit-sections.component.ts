@@ -44,10 +44,10 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
             <mat-list-item role="listitem" *ngFor="let section of s.controls; let i = index" [formGroupName]="i" #secListItem cdkDrag>
               <mat-icon matListItemIcon>drag_indicator</mat-icon>
               <span matListItemTitle>
-                Section {{ i+1 }}: {{ dfeSvc.getSectionKey(s, i).getRawValue() }}
-                <button type="button" mat-button [matTooltip]="flatten(getSectionErrors(i))" color="warn" *ngIf="dfeSvc.getSection(s, i).invalid" ><mat-icon>error</mat-icon></button>
                 <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditSection(i)"><mat-icon>edit</mat-icon></button>
                 <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveSection(i)"><mat-icon>delete</mat-icon></button>
+                Section {{ i+1 }}: {{ dfeSvc.getSectionKey(s, i).getRawValue() }}
+                <button type="button" mat-button [matTooltip]="flatten(getSectionErrors(i))" color="warn" *ngIf="dfeSvc.getSection(s, i).invalid" ><mat-icon>error</mat-icon></button>
                 <button type="button" mat-button matTooltip="list" *ngIf="dfeSvc.getSectionList(s, i).getRawValue()">
                     <mat-icon>list_alt</mat-icon>
                 </button>
@@ -126,10 +126,10 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
             <mat-list-item role="listitem" *ngFor="let question of secEditQuestions.controls; let qi = index" [formGroupName]="qi" #qListItem cdkDrag>
               <mat-icon matListItemIcon>drag_indicator</mat-icon>
               <span matListItemTitle>
-                Question {{ qi+1 }}: {{ dfeSvc.getQuestionKey(s, secEditIdx, qi).getRawValue() }}
-                <button type="button" mat-button [matTooltip]="flatten(getQuestionErrors(qi))" color="warn" *ngIf="dfeSvc.getQuestion(s, secEditIdx, qi).invalid" ><mat-icon>error</mat-icon></button>
                 <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditQuestion(qi)"><mat-icon>edit</mat-icon></button>
                 <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveQuestion(qi)"><mat-icon>delete</mat-icon></button>
+                Question {{ qi+1 }}: {{ dfeSvc.getQuestionKey(s, secEditIdx, qi).getRawValue() }}
+                <button type="button" mat-button [matTooltip]="flatten(getQuestionErrors(qi))" color="warn" *ngIf="dfeSvc.getQuestion(s, secEditIdx, qi).invalid" ><mat-icon>error</mat-icon></button>
                 <button type="button" mat-button matTooltip="required" *ngIf="dfeSvc.getQuestionRequired(s, secEditIdx, qi).getRawValue()">
                   <mat-icon>emergency</mat-icon>
                 </button>
