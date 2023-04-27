@@ -9,6 +9,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { StepperOrientation } from '@angular/cdk/stepper';
 import { Observable, map } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PresubmitDialogComponent } from './presubmit-dialog.component';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -120,7 +121,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   protected onPreSubmit(): void {
-    const dialogRef = this.dialog.open(PreSubmitDialog);
+    const dialogRef = this.dialog.open(PresubmitDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.onSubmit();
@@ -146,18 +147,3 @@ export class DynamicFormComponent implements OnInit {
     return this.fb.group(group);
   }
 }
-
-@Component({
-  selector: 'app-presubmit-dialog',
-  template: `
-  <h1 mat-dialog-title>Are you sure?</h1>
-  <div mat-dialog-content>
-    <p>Are you sure your application is complete?</p>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="false">No</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Submit</button>
-  </div>
-  `
-})
-export class PreSubmitDialog { }
