@@ -40,7 +40,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               <mat-icon matListItemIcon>drag_indicator</mat-icon>
               <span matListItemTitle>
                 Section {{ i+1 }}: {{ dfeSvc.getSectionKey(s, i).getRawValue() }}
-                <!-- <button type="button" mat-button matTooltip="errors" color="warn" *ngIf="!dfeSvc.getSection(s, secEditIdx).valid" ><mat-icon>error</mat-icon></button> -->
+                <button type="button" mat-button [matTooltip]="flatten(getSectionErrors(i))" color="warn" *ngIf="dfeSvc.getSection(s, i).invalid" ><mat-icon>error</mat-icon></button>
                 <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditSection(i)"><mat-icon>edit</mat-icon></button>
                 <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveSection(i)"><mat-icon>delete</mat-icon></button>
                 <button type="button" mat-button matTooltip="list" *ngIf="dfeSvc.getSectionList(s, i).getRawValue()">
@@ -50,10 +50,10 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
                   <mat-icon>emergency</mat-icon>
                 </button>
                 <button type="button" mat-button matTooltip="questions">
-                  <mat-icon [matBadge]="dfeSvc.getQuestions(s, i).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">question_answer</mat-icon>
+                  <mat-icon [matBadge]="dfeSvc.getQuestions(s, i).length" matBadgeColor="primary" matBadgeOverlap="false" matBadgeSize="small">question_answer</mat-icon>
                 </button>
                 <button type="button" mat-button matTooltip="conditions" *ngIf="dfeSvc.getSectionConditions(s, i).length > 0">
-                  <mat-icon [matBadge]="dfeSvc.getSectionConditions(s, i).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
+                  <mat-icon [matBadge]="dfeSvc.getSectionConditions(s, i).length" matBadgeColor="primary" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
                 </button>
               </span>
             </mat-list-item>
@@ -86,7 +86,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
           <div>
             <mat-label for="section-list">
               <mat-checkbox formControlName="list" id="section-list"></mat-checkbox>
-              Section is list
+              List
             </mat-label>
           </div>
           <div>
@@ -122,7 +122,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               <mat-icon matListItemIcon>drag_indicator</mat-icon>
               <span matListItemTitle>
                 Question {{ qi+1 }}: {{ dfeSvc.getQuestionKey(s, secEditIdx, qi).getRawValue() }}
-                <button type="button" mat-button [matTooltip]="getQuestionErrors(qi)" color="warn" *ngIf="dfeSvc.getQuestion(s, secEditIdx, qi).invalid" ><mat-icon>error</mat-icon></button>
+                <button type="button" mat-button [matTooltip]="flatten(getQuestionErrors(qi))" color="warn" *ngIf="dfeSvc.getQuestion(s, secEditIdx, qi).invalid" ><mat-icon>error</mat-icon></button>
                 <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditQuestion(qi)"><mat-icon>edit</mat-icon></button>
                 <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveQuestion(qi)"><mat-icon>delete</mat-icon></button>
                 <button type="button" mat-button matTooltip="required" *ngIf="dfeSvc.getQuestionRequired(s, secEditIdx, qi).getRawValue()">
@@ -137,7 +137,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
                   <mat-icon *ngSwitchCase="'file'">article</mat-icon>
                 </button>
                 <button type="button" mat-button matTooltip="conditions" *ngIf="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length > 0">
-                  <mat-icon [matBadge]="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
+                  <mat-icon [matBadge]="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length" matBadgeColor="primary" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
                 </button>
               </span>
             </mat-list-item>
@@ -270,7 +270,11 @@ export class DynamicFormEditSectionsComponent {
   }
   protected onClickRemoveQuestion(qIdx: number): void { this.secEditQuestions.removeAt(qIdx); }
 
-  protected getQuestionErrors(qIdx: number): string {
+  protected flatten(strings: string[]): string {
+    return [... new Set(strings)].join(", ");
+  }
+
+  protected getQuestionErrors(qIdx: number): string[] {
     const errs: string[] = [];
     const qForm: FormGroup = this.dfeSvc.getQuestion(this.s, this.secEditIdx, qIdx);
 
@@ -287,10 +291,35 @@ export class DynamicFormEditSectionsComponent {
       if (controlErrors) {
         errs.push(key);
       }
+    });
+
+    return errs;
+  }
+
+  protected getSectionErrors(secIdx: number): string[] {
+    const secForm: FormGroup = this.dfeSvc.getSection(this.s, secIdx);
+    const errs: string[] = [];
+
+    const formErrors: ValidationErrors | null | undefined = secForm?.errors;
+    if (formErrors) {
+      Object.keys(formErrors).forEach(keyError => {
+        errs.push(keyError);
+      });
+    }
+
+    Object.keys(secForm.controls).forEach(key => {
+      const control = secForm.get(key);
+      const controlErrors: ValidationErrors | null | undefined = control?.errors;
+      if (controlErrors) {
+        errs.push(key);
+      }
+    });
+
+    (secForm.get("questions") as FormArray).controls.forEach((question, qIdx) => {
+      this.getQuestionErrors(qIdx).forEach(questionError => errs.push(questionError));
     })
 
-    const err: string = errs.join(", ");
-    return `errors: ${err}`;
+    return errs;
   }
 
   reorderSections(event: CdkDragDrop<string[]>) { moveItemInArray(this.s.controls, event.previousIndex, event.currentIndex); }

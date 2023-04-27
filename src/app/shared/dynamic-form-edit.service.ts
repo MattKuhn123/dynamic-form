@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { DynamicFormQuestion } from './dynamic-form-question.model';
 import { DynamicFormSection } from './dynamic-form-section.model';
 import { keyRequiredValidator } from './key-required.validator';
+import { questionMinimum } from './question-minimum.validator';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class DynamicFormEditService {
       required: fb.control(section.required || false, [Validators.required]),
       conditions: fb.array(section.conditions.map((condition: any) => this.sectionConditionsToGroup(fb, condition))),
       questions: fb.array(section.questions.map(question => this.questionToGroup(fb, question)))
-    });
+    }, { validators: [ questionMinimum, keyRequiredValidator ] });
   }
 
   public sectionConditionsToGroup(fb: FormBuilder, condition: { key: string, section: string, value: string }): FormGroup {
