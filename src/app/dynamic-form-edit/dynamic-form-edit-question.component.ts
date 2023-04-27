@@ -24,7 +24,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
           <div>
             <mat-label attr.for="question-{{i}}-{{qi}}-required">
               <mat-checkbox formControlName="required" id="question-{{i}}-{{qi}}-required"></mat-checkbox>
-              Require question
+              Required
             </mat-label>
           </div>
           <div>
@@ -46,10 +46,100 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
               <input matInput formControlName="label" id="question-{{i}}-{{qi}}-label" type="text" />
             </mat-form-field>
           </div>
+
+          <div *ngIf="dfeSvc.getQuestionCtrlType(s, i, qi).getRawValue() === 'textbox'">
+            <mat-form-field [appearance]="'outline'">
+              <mat-label attr.for="question-{{i}}-{{qi}}-type">Type</mat-label>
+              <mat-select id="question-{{i}}-{{qi}}-type" formControlName="type">
+                <mat-option value="text">text</mat-option>
+                <mat-option value="number">number</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div *ngIf="dfeSvc.getQuestionCtrlType(s, i, qi).getRawValue() === 'textbox'
+            && dfeSvc.getQuestionType(s, i, qi).getRawValue() === 'number'">
+            <mat-form-field [appearance]="'outline'">
+              <mat-label attr.for="question-{{i}}-{{qi}}-min">Minimum</mat-label>
+              <input matInput formControlName="min" id="question-{{i}}-{{qi}}-min" type="number" />
+            </mat-form-field>
+          </div>
+
+          <div *ngIf="dfeSvc.getQuestionCtrlType(s, i, qi).getRawValue() === 'textbox'
+            && dfeSvc.getQuestionType(s, i, qi).getRawValue() === 'number'">
+            <mat-form-field [appearance]="'outline'">
+              <mat-label attr.for="question-{{i}}-{{qi}}-maxLength">Maximum</mat-label>
+              <input matInput formControlName="max" id="question-{{i}}-{{qi}}-max" type="number" />
+            </mat-form-field>
+          </div>
+
+          <div *ngIf="dfeSvc.getQuestionCtrlType(s, i, qi).getRawValue() === 'textbox'
+            && dfeSvc.getQuestionType(s, i, qi).getRawValue() === 'text'">
+            <mat-label attr.for="question-{{i}}-{{qi}}-email">
+              <mat-checkbox formControlName="email" id="question-{{i}}-{{qi}}-required"></mat-checkbox>
+              Email address
+            </mat-label>
+          </div>
+
+          <div *ngIf="dfeSvc.getQuestionCtrlType(s, i, qi).getRawValue() === 'textbox'
+            && dfeSvc.getQuestionType(s, i, qi).getRawValue() === 'text'
+            && !dfeSvc.getQuestionEmail(s, i, qi).getRawValue()">
+            <mat-form-field [appearance]="'outline'">
+              <mat-label attr.for="question-{{i}}-{{qi}}-minLength">Minimum Length</mat-label>
+              <input matInput formControlName="minLength" id="question-{{i}}-{{qi}}-minLength" type="number" />
+            </mat-form-field>
+          </div>
+
+          <div *ngIf="dfeSvc.getQuestionCtrlType(s, i, qi).getRawValue() === 'textbox'
+            && dfeSvc.getQuestionType(s, i, qi).getRawValue() === 'text'
+            && !dfeSvc.getQuestionEmail(s, i, qi).getRawValue()">
+            <mat-form-field [appearance]="'outline'">
+              <mat-label attr.for="question-{{i}}-{{qi}}-maxLength">Maximum Length</mat-label>
+              <input matInput formControlName="maxLength" id="question-{{i}}-{{qi}}-maxLength" type="number" />
+            </mat-form-field>
+          </div>
+
+          <div *ngIf="dfeSvc.getQuestionCtrlType(s, i, qi).getRawValue() === 'textbox'
+            && dfeSvc.getQuestionType(s, i, qi).getRawValue() === 'text'
+            && !dfeSvc.getQuestionEmail(s, i, qi).getRawValue()">
+            <mat-label attr.for="question-{{i}}-{{qi}}-allowNumbers">
+              <mat-checkbox formControlName="allowNumbers" id="question-{{i}}-{{qi}}-allowNumbers"></mat-checkbox>
+              Allow numbers
+            </mat-label>
+          </div>
+
+          <div *ngIf="dfeSvc.getQuestionCtrlType(s, i, qi).getRawValue() === 'textbox'
+            && dfeSvc.getQuestionType(s, i, qi).getRawValue() === 'text'
+            && !dfeSvc.getQuestionEmail(s, i, qi).getRawValue()">
+            <mat-label attr.for="question-{{i}}-{{qi}}-allowSpaces">
+              <mat-checkbox formControlName="allowSpaces" id="question-{{i}}-{{qi}}-allowSpaces"></mat-checkbox>
+              Allow spaces
+            </mat-label>
+          </div>
+
+          <div *ngIf="dfeSvc.getQuestionCtrlType(s, i, qi).getRawValue() === 'textbox'
+            && dfeSvc.getQuestionType(s, i, qi).getRawValue() === 'text'
+            && !dfeSvc.getQuestionEmail(s, i, qi).getRawValue()">
+            <mat-label attr.for="question-{{i}}-{{qi}}-allowPunctuation">
+              <mat-checkbox formControlName="allowPunctuation" id="question-{{i}}-{{qi}}-allowPunctuation"></mat-checkbox>
+              Allow punctuation
+            </mat-label>
+          </div>
+
+          <div *ngIf="dfeSvc.getQuestionCtrlType(s, i, qi).getRawValue() === 'date'">
+          <mat-form-field [appearance]="'outline'">
+              <mat-label attr.for="question-{{i}}-{{qi}}-temporal">Type</mat-label>
+              <mat-select id="question-{{i}}-{{qi}}-temporal" formControlName="temporal">
+                <mat-option value="past">Past</mat-option>
+                <mat-option value="future">Future</mat-option>
+                <mat-option value="">Either</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </mat-card-content>
       </mat-card>
 
-      <mat-card  *ngIf="dfeSvc.isQuestionOptionable(s, i, qi)">
+      <mat-card *ngIf="dfeSvc.isQuestionOptionable(s, i, qi)">
         <mat-card-header>
           <mat-card-title>
             Options

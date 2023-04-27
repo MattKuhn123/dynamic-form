@@ -17,7 +17,14 @@
             "label": "First name",
             "options": [ ],
             "required": true,
-            "type": "text"
+
+            "type": "text",
+            "minLength": 1,
+            "maxLength": 100,
+            "email": false,
+            "allowNumbers": false,
+            "allowSpaces": false,
+            "allowPunctuation": false
           },
           {
             "controlType": "textbox",
@@ -26,7 +33,14 @@
             "label": "Last name",
             "options": [ ],
             "required": true,
-            "type": "text"
+
+            "type": "text",
+            "minLength": 1,
+            "maxLength": 100,
+            "email": false,
+            "allowNumbers": false,
+            "allowSpaces": false,
+            "allowPunctuation": false
           },
           {
             "controlType":"textbox",
@@ -35,7 +49,14 @@
             "label": "Email",
             "options": [ ],
             "required": true,
-            "type": "email"
+
+            "type": "text",
+            "minLength": 1,
+            "maxLength": 100,
+            "email": true,
+            "allowNumbers": false,
+            "allowSpaces": false,
+            "allowPunctuation": false
           }
         ]
       },
@@ -53,7 +74,14 @@
             "label": "First name",
             "options": [ ],
             "required": true,
-            "type": "text"
+
+            "type": "text",
+            "minLength": 1,
+            "maxLength": 100,
+            "email": false,
+            "allowNumbers": false,
+            "allowSpaces": false,
+            "allowPunctuation": false
           },
           {
             "controlType": "textbox",
@@ -62,7 +90,14 @@
             "label": "Last name",
             "options": [ ],
             "required": true,
-            "type": "text"
+
+            "type": "text",
+            "minLength": 1,
+            "maxLength": 100,
+            "email": false,
+            "allowNumbers": false,
+            "allowSpaces": false,
+            "allowPunctuation": false
           },
           {
             "controlType":"file",
@@ -70,8 +105,7 @@
             "key": "characterWitness",
             "label": "Letter of recommendation",
             "options": [ ],
-            "required": true,
-            "type": "file"
+            "required": true
           }
         ]
       },
@@ -104,7 +138,14 @@
             "label": "Why 'solid'?",
             "options": [ ],
             "required": false,
-            "type": "textarea"
+            
+            "type": "text",
+            "minLength": 25,
+            "maxLength": 500,
+            "email": false,
+            "allowNumbers": true,
+            "allowSpaces": true,
+            "allowPunctuation": true
           }
         ]
       },
@@ -136,8 +177,7 @@
               { "key": "yes", "value": "yes" },
               { "key": "no", "value": "no" }
             ],
-            "required": false,
-            "type": ""
+            "required": false
           }
         ]
       },
@@ -179,7 +219,7 @@
             "label": "When can we contact you?",
             "options": [ ],
             "required": true,
-            "type": "date"
+            "temporal": "future"
           }
         ]
       }

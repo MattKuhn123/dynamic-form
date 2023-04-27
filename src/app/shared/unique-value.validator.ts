@@ -1,6 +1,6 @@
 import { ValidatorFn, AbstractControl, ValidationErrors } from "@angular/forms";
 
-export function createUniqueValidator(invalidValues: string[]): ValidatorFn {
+export function uniqueValidator(invalidValues: string[]): ValidatorFn {
   return (control:AbstractControl) : ValidationErrors | null => {
 
       const value = control.value;

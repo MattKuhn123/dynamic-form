@@ -19,7 +19,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
         <div *ngSwitchCase="'textbox'">
           <mat-form-field appearance="fill">
             <mat-label [attr.for]="question.key">{{ question.label }}</mat-label>
-            <input matInput [formControlName]="question.key" [id]="question.key" [type]="question.type" />
+            <input matInput [formControlName]="question.key" [id]="question.key" type="text" />
           </mat-form-field>
         </div>
 

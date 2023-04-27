@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicFormQuestion } from './dynamic-form-question.model';
 import { DynamicFormSection } from './dynamic-form-section.model';
-import { createUniqueValidator } from './unique-value.validator';
-import { createKeyRequiredValidator } from './key-required.validator';
+import { keyRequiredValidator } from './key-required.validator';
 
 @Injectable({
   providedIn: 'root'
@@ -36,8 +35,21 @@ export class DynamicFormEditService {
       label: fb.control(question.label || "", [Validators.required]),
       options: fb.array(question.options.map(option => this.questionOptionToGroup(fb, option)) || []),
       required: fb.control(question.required || ""),
-      type: fb.control(question.type || ""),
-    }, { validators: createKeyRequiredValidator });
+      
+      type: fb.control(question.type), // text, number
+      min: fb.control(question.min), // for number
+      max: fb.control(question.max), // for number
+      
+      minLength: fb.control(question.minLength), // for text
+      maxLength: fb.control(question.maxLength), // for text
+      email: fb.control(question.email), // for text
+      allowNumbers: fb.control(question.allowNumbers), // for text
+      allowSpaces: fb.control(question.allowSpaces), // for text
+      allowPunctuation: fb.control(question.allowPunctuation), // for text
+
+      temporal: fb.control(question.temporal) // past, future, implied for date
+
+    }, { validators: keyRequiredValidator });
   }
 
   public questionConditionsToGroup(fb: FormBuilder, condition: { key: string, value: string }): FormGroup {
@@ -68,6 +80,13 @@ export class DynamicFormEditService {
   public getQuestion(secs: FormArray, secIdx: number, qIdx: number): FormGroup { return this.getQuestions(secs, secIdx).at(qIdx) as FormGroup; }
   public getQuestionKey(secs: FormArray, secIdx: number, qIdx: number): FormControl { return this.getQuestion(secs, secIdx, qIdx).get("key") as FormControl; }
   public getQuestionCtrlType(secs: FormArray, secIdx: number, qIdx: number): FormControl { return this.getQuestion(secs, secIdx, qIdx).get("controlType") as FormControl; }
+  public getQuestionType(secs: FormArray, secIdx: number, qIdx: number): FormControl { return this.getQuestion(secs, secIdx, qIdx).get("type") as FormControl; }
+  public getQuestionEmail(secs: FormArray, secIdx: number, qIdx: number): FormControl { return this.getQuestion(secs, secIdx, qIdx).get("email") as FormControl; }
+  
+  public getQuestionNumbers(secs: FormArray, secIdx: number, qIdx: number): FormControl { return this.getQuestion(secs, secIdx, qIdx).get("allowNumbers") as FormControl; }
+  public getQuestionSpaces(secs: FormArray, secIdx: number, qIdx: number): FormControl { return this.getQuestion(secs, secIdx, qIdx).get("allowSpaces") as FormControl; }
+  public getQuestionPunctuation(secs: FormArray, secIdx: number, qIdx: number): FormControl { return this.getQuestion(secs, secIdx, qIdx).get("allowPuncutation") as FormControl; }
+  
   public getQuestionLabel(secs: FormArray, secIdx: number, qIdx: number): FormControl { return this.getQuestion(secs, secIdx, qIdx).get("label") as FormControl; }
   public getQuestionRequired(secs: FormArray, secIdx: number, qIdx: number): FormControl { return this.getQuestion(secs, secIdx, qIdx).get("required") as FormControl; }
   

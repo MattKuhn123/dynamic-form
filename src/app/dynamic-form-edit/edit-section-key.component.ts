@@ -1,7 +1,7 @@
 import { Component, Inject } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { createUniqueValidator } from "../shared/unique-value.validator";
+import { uniqueValidator } from "../shared/unique-value.validator";
 
 export interface EditSectionKeyData {
   secIdx: string;
@@ -28,7 +28,7 @@ export interface EditSectionKeyData {
 })
 export class EditSectionKeyDialog {
   protected error: boolean = false;
-  protected fc: FormControl = new FormControl(this.data.secKey, [Validators.required, createUniqueValidator(this.data.invalid)])
+  protected fc: FormControl = new FormControl(this.data.secKey, [Validators.required, uniqueValidator(this.data.invalid)])
   constructor(public dialogRef: MatDialogRef<EditSectionKeyDialog>, @Inject(MAT_DIALOG_DATA) protected data: EditSectionKeyData) {}
   protected onClickCancel(): void { this.dialogRef.close(); }
   protected onClickOk(): void {

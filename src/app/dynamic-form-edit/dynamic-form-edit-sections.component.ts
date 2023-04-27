@@ -80,7 +80,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
           <div>
             <mat-label for="section-required">
               <mat-checkbox formControlName="required" id="section-required"></mat-checkbox>
-              Require section
+              Required
             </mat-label>
           </div>
           <div>
