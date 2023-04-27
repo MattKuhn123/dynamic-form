@@ -42,7 +42,9 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
         <div *ngSwitchCase="'date'">
           <mat-form-field appearance="fill">
             <mat-label>{{ question.label }}</mat-label>
-            <input [id]="question.key" [formControlName]="question.key" matInput [matDatepicker]="picker">
+            <input *ngIf="question.temporal === 'past'" [max]="today" [id]="question.key" [formControlName]="question.key" matInput [matDatepicker]="picker">
+            <input *ngIf="question.temporal === 'future'" [min]="today" [id]="question.key" [formControlName]="question.key" matInput [matDatepicker]="picker">
+            <input *ngIf="question.temporal === ''" [id]="question.key" [formControlName]="question.key" matInput [matDatepicker]="picker">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
@@ -63,6 +65,8 @@ export class DynamicFormQuestionComponent {
   @Input() form!: FormGroup;
   get isValid(): boolean { return this.form.controls[this.question.key].valid; }
   get hidden(): boolean { return this.question.conditions.findIndex(question => this.form.controls[question.key].value !== question.value) > -1; }
+
+  get today(): Date { return new Date(); }
 
   protected fileName: string = "";
 

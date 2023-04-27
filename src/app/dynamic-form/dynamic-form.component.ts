@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { DynamicFormService } from '../shared/dynamic-form.service';
 import { DynamicFormSection } from '../shared/dynamic-form-section.model';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { DynamicForm } from '../shared/dynamic-form.model';
 import { MatDialog } from '@angular/material/dialog';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -137,11 +137,38 @@ export class DynamicFormComponent implements OnInit {
     const group: any = { _key: section.key };
     const questions = section.questions
     questions.forEach(question => {
+      const validators: ValidatorFn[] = [];
       if (question.required) {
-        group[question.key] = new FormControl('', Validators.required);
-      } else {
-        group[question.key] = new FormControl('');
+        validators.push(Validators.required);
       }
+
+      if (question.controlType === "textbox" && question.type === "text") {
+        if (question.email) {
+          validators.push(Validators.email);
+        } else {
+          if (question.minLength) {
+            validators.push(Validators.minLength(question.minLength));
+          }
+    
+          if (question.maxLength) {
+            validators.push(Validators.maxLength(question.maxLength));
+          }
+  
+          validators.push(Validators.pattern(`[a-zA-Z${question.allowNumbers ? "0-9" : ""}${question.allowSpaces ? " " : ""}${question.allowPunctuation ? "_.,!\"'/$" : ""}]*`))
+        }
+      }
+
+      if (question.controlType === "textbox" && question.type === "number") {
+        if (question.min) {
+          validators.push(Validators.min(question.min));
+        }
+  
+        if (question.max) {
+          validators.push(Validators.min(question.max));
+        }
+      }
+
+      group[question.key] = new FormControl('', validators);
     });
     
     return this.fb.group(group);
