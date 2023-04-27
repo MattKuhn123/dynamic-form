@@ -40,18 +40,18 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               <mat-icon matListItemIcon>drag_indicator</mat-icon>
               <span matListItemTitle>
                 Section {{ i+1 }}: {{ dfeSvc.getSectionKey(s, i).getRawValue() }}
-                <button mat-button matTooltip="edit" color="primary" (click)="onClickEditSection(i)"><mat-icon>edit</mat-icon></button>
-                <button mat-button matTooltip="delete" color="warn" (click)="onClickRemoveSection(i)"><mat-icon>delete</mat-icon></button>
-                <button mat-button matTooltip="list" *ngIf="dfeSvc.getSectionList(s, i).getRawValue()">
+                <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditSection(i)"><mat-icon>edit</mat-icon></button>
+                <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveSection(i)"><mat-icon>delete</mat-icon></button>
+                <button type="button" mat-button matTooltip="list" *ngIf="dfeSvc.getSectionList(s, i).getRawValue()">
                     <mat-icon>list_alt</mat-icon>
                 </button>
-                <button mat-button matTooltip="required" *ngIf="dfeSvc.getSectionRequired(s, i).getRawValue()">
+                <button type="button" mat-button matTooltip="required" *ngIf="dfeSvc.getSectionRequired(s, i).getRawValue()">
                   <mat-icon>emergency</mat-icon>
                 </button>
-                <button mat-button matTooltip="questions">
+                <button type="button" mat-button matTooltip="questions">
                   <mat-icon [matBadge]="dfeSvc.getQuestions(s, i).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">question_answer</mat-icon>
                 </button>
-                <button mat-button matTooltip="conditions" *ngIf="dfeSvc.getSectionConditions(s, i).length > 0">
+                <button type="button" mat-button matTooltip="conditions" *ngIf="dfeSvc.getSectionConditions(s, i).length > 0">
                   <mat-icon [matBadge]="dfeSvc.getSectionConditions(s, i).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
                 </button>
               </span>
@@ -121,12 +121,12 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               <mat-icon matListItemIcon>drag_indicator</mat-icon>
               <span matListItemTitle>
                 Question {{ qi+1 }}: {{ dfeSvc.getQuestionKey(s, secEditIdx, qi).getRawValue() }}
-                <button mat-button matTooltip="edit" color="primary" (click)="onClickEditQuestion(qi)"><mat-icon>edit</mat-icon></button>
-                <button mat-button matTooltip="delete" color="warn" (click)="onClickRemoveQuestion(qi)"><mat-icon>delete</mat-icon></button>
-                <button mat-button matTooltip="required" *ngIf="dfeSvc.getQuestionRequired(s, secEditIdx, qi).getRawValue()">
+                <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditQuestion(qi)"><mat-icon>edit</mat-icon></button>
+                <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveQuestion(qi)"><mat-icon>delete</mat-icon></button>
+                <button type="button" mat-button matTooltip="required" *ngIf="dfeSvc.getQuestionRequired(s, secEditIdx, qi).getRawValue()">
                   <mat-icon>emergency</mat-icon>
                 </button>
-                <button mat-button [matTooltip]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qi).getRawValue()" [ngSwitch]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qi).getRawValue()">
+                <button type="button" mat-button [matTooltip]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qi).getRawValue()" [ngSwitch]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qi).getRawValue()">
                   <mat-icon *ngSwitchCase="'textarea'">notes</mat-icon>
                   <mat-icon *ngSwitchCase="'textbox'">short_text</mat-icon>
                   <mat-icon *ngSwitchCase="'dropdown'">list</mat-icon>
@@ -134,7 +134,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
                   <mat-icon *ngSwitchCase="'date'">edit_calendar</mat-icon>
                   <mat-icon *ngSwitchCase="'file'">article</mat-icon>
                 </button>
-                <button mat-button matTooltip="conditions" *ngIf="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length > 0">
+                <button type="button" mat-button matTooltip="conditions" *ngIf="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length > 0">
                   <mat-icon [matBadge]="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length" matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
                 </button>
               </span>
@@ -155,7 +155,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               <em>There are no conditions under which this section will be displayed, so it will always be displayed by default.</em>
             </div>
             <div>
-              <button mat-button color="primary" (click)="onClickAddSectionCondition(0)">
+              <button type="button" mat-button color="primary" (click)="onClickAddSectionCondition(0)">
                 Add condition
               </button>
             </div>
@@ -188,11 +188,11 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
                 </mat-select>
               </mat-form-field>
     
-              <button mat-icon-button color="warn" (click)="onClickRemoveSectionCondition(doi)">
+              <button type="button" mat-icon-button color="warn" (click)="onClickRemoveSectionCondition(doi)">
                 <mat-icon>delete</mat-icon>
               </button>
     
-              <button mat-icon-button color="primary" (click)="onClickAddSectionCondition(doi)">
+              <button type="button" mat-icon-button color="primary" (click)="onClickAddSectionCondition(doi)">
                 <mat-icon>add</mat-icon>
               </button>
             </div>

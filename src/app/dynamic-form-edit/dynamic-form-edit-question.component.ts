@@ -64,7 +64,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
                 </em>
               </div>
               <div>
-                <button mat-button color="primary" (click)="onClickAddQuestionOption(qi, 0)">
+                <button type="button" mat-button color="primary" (click)="onClickAddQuestionOption(qi, 0)">
                   Add option
                 </button>
               </div>
@@ -80,10 +80,10 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
                   <mat-label attr.for="question-option-{{i}}-{{qi}}-value">Label</mat-label>
                   <input matInput formControlName="value" id="question-option-{{i}}-{{qoi}}-value" type="text" />
                 </mat-form-field>
-                <button mat-icon-button color="warn" (click)="onClickRemoveQuestionOption(qi, qoi)">
+                <button type="button" mat-icon-button color="warn" (click)="onClickRemoveQuestionOption(qi, qoi)">
                   <mat-icon>delete</mat-icon>
                 </button>
-                <button mat-icon-button color="primary" (click)="onClickAddQuestionOption(qi, qoi)">
+                <button type="button" mat-icon-button color="primary" (click)="onClickAddQuestionOption(qi, qoi)">
                   <mat-icon>add</mat-icon>
                 </button>
               </div>
