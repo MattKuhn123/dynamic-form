@@ -16,7 +16,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
   template: `<div [formGroup]="fg">
   <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="selectedTabIndex = $event">
     <mat-tab label="Form">
-    <mat-card>
+      <mat-card>
         <mat-card-content>
           <div>
             <mat-form-field>
