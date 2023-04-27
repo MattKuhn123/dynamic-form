@@ -40,7 +40,7 @@ import { DynamicFormComponent, PreSubmitDialog } from './dynamic-form/dynamic-fo
 import { EditQuestionKeyDialog } from './dynamic-form-edit/edit-question-key.component';
 import { EditSectionKeyDialog } from './dynamic-form-edit/edit-section-key.component';
 import { DynamicFormEditSectionsComponent } from './dynamic-form-edit/dynamic-form-edit-sections.component';
-import { DynamicFormEditQuestionsComponent } from './dynamic-form-edit/dynamic-form-edit-questions.component';
+import { DynamicFormEditQuestionComponent } from './dynamic-form-edit/dynamic-form-edit-question.component';
 
 export const appRoute: Routes = [
   { path: 'edit', component: DynamicFormEditComponent },
@@ -57,7 +57,7 @@ export const appRoute: Routes = [
     EditSectionKeyDialog,
     PreSubmitDialog,
     DynamicFormEditSectionsComponent,
-    DynamicFormEditQuestionsComponent,
+    DynamicFormEditQuestionComponent,
   ],
   imports: [
     BrowserModule,

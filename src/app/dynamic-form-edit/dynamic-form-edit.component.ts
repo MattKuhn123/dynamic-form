@@ -31,11 +31,11 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
       
       <app-dynamic-form-edit-sections [fb]="fb" [fg]="fg"></app-dynamic-form-edit-sections>
     </form>
-    <mat-card>
+    <!-- <mat-card>
       <mat-card-content>
         <pre *ngIf="fg"> {{ stringified }} </pre>
       </mat-card-content>
-    </mat-card>
+    </mat-card> -->
     
     <mat-sidenav-container>
       <footer>
