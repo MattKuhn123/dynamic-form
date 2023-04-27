@@ -106,10 +106,13 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               <mat-slide-toggle (change)="onInfoToggleChange($event)" #additionalInfoToggle></mat-slide-toggle>
               Additional information
             </mat-label>
-            <ckeditor *ngIf="additionalInfoToggle.checked" id="section-info" formControlName="info" data="<p>Hello, world!</p>"></ckeditor>
-            <div *ngIf="additionalInfoToggle.checked">
-              <mat-label for="section-info">Preview</mat-label>
-              <div *ngIf="secEdit" [innerHtml]="secEditInfo.getRawValue()"></div>
+            <div style="display: flex; gap: 5px;">
+              <div>
+                <ckeditor *ngIf="additionalInfoToggle.checked" id="section-info" formControlName="info" data="<p>Hello, world!</p>"></ckeditor>
+              </div>
+              <div style="border: solid; border-width: thin; flex: 1; padding: 5px" *ngIf="additionalInfoToggle.checked">
+                <div *ngIf="secEdit" [innerHtml]="secEditInfo.getRawValue()"></div>
+              </div>
             </div>
           </div>
         </mat-card-content>
