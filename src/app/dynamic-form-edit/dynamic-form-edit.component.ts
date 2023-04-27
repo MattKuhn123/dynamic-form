@@ -11,8 +11,14 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
     'footer { position: fixed; bottom: 10px; text-align: center; width: 100%; }',
   ],
   template: `
-    <form *ngIf="fg" [formGroup]="fg">      
+    <form *ngIf="fg" [formGroup]="fg" (ngSubmit)="onSubmit()">      
       <app-dynamic-form-edit-sections [fb]="fb" [fg]="fg"></app-dynamic-form-edit-sections>
+
+      <mat-sidenav-container>
+        <footer>
+          <button type="submit" mat-raised-button color="primary" *ngIf="fg" [cdkCopyToClipboard]="stringified">Submit</button>
+        </footer>
+      </mat-sidenav-container>
     </form>
 
     <mat-card>
@@ -21,12 +27,6 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
         <pre *ngIf="fg && showJson.getRawValue()"> {{ stringified }} </pre>
       </mat-card-content>
     </mat-card>
-    
-    <mat-sidenav-container>
-      <footer>
-        <button mat-raised-button color="primary" *ngIf="fg" [cdkCopyToClipboard]="stringified" (click)="onClickSave()">Save</button>
-      </footer>
-    </mat-sidenav-container>
   `,
 })
 export class DynamicFormEditComponent implements OnInit {
@@ -48,8 +48,8 @@ export class DynamicFormEditComponent implements OnInit {
     });
   }
 
-  protected onClickSave(): void {
+  protected onSubmit(): void {    
     this.dfSvc.setForm(this.fg.getRawValue());
-    this.snackBar.open("Saved!", "OK");
+    this.snackBar.open("Submitted!", "OK");
   }
 }
