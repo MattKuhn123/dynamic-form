@@ -100,6 +100,18 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               <textarea matInput formControlName="description" id="section-description" type="text"></textarea>
             </mat-form-field>
           </div>
+
+          <div>
+            <mat-label for="section-info">
+              <mat-slide-toggle (change)="onInfoToggleChange($event)" #additionalInfoToggle></mat-slide-toggle>
+              Additional information
+            </mat-label>
+            <ckeditor *ngIf="additionalInfoToggle.checked" id="section-info" formControlName="info" data="<p>Hello, world!</p>"></ckeditor>
+            <div *ngIf="additionalInfoToggle.checked">
+              <mat-label for="section-info">Preview</mat-label>
+              <div *ngIf="secEdit" [innerHtml]="secEditInfo.getRawValue()"></div>
+            </div>
+          </div>
         </mat-card-content>
       </mat-card>
 
@@ -228,6 +240,7 @@ export class DynamicFormEditSectionsComponent {
   protected qEditIdx!: number;
   protected get secEditConditions(): FormArray { return this.secEdit.get("conditions") as FormArray; }
   protected get secEditKey(): FormControl { return this.secEdit.get("key") as FormControl; }
+  protected get secEditInfo(): FormControl { return this.secEdit.get("info") as FormControl; }
   
   protected get secEditQuestions(): FormArray { return this.secEdit.get("questions") as FormArray; }
   protected get secEditQuestion(): FormGroup { return (this.secEditQuestions).at(this.qEditIdx) as FormGroup; }
@@ -325,6 +338,12 @@ export class DynamicFormEditSectionsComponent {
     })
 
     return errs;
+  }
+
+  protected onInfoToggleChange(event: any): void {
+    if (!event.checked) {
+      this.secEditInfo.patchValue("");
+    }
   }
 
   reorderSections(event: CdkDragDrop<string[]>) { moveItemInArray(this.s.controls, event.previousIndex, event.currentIndex); }

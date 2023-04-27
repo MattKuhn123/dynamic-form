@@ -13,6 +13,7 @@ export class DynamicFormEditService {
     return fb.group({
       key: fb.control({value: section.key || "", disabled: true}, [Validators.required]),
       description: fb.control(section.description || "", [Validators.required]),
+      info: fb.control(section.info || ""),
       list: fb.control(section.list || false, [Validators.required]),
       required: fb.control(section.required || false, [Validators.required]),
       conditions: fb.array(section.conditions.map((condition: any) => this.sectionConditionsToGroup(fb, condition))),

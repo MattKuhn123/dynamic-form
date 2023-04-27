@@ -34,6 +34,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { CKEditorModule } from 'ckeditor4-angular';
+
 import { AppComponent } from './app.component';
 import { DynamicFormQuestionComponent } from './dynamic-form/dynamic-form-question.component';
 import { DynamicFormEditComponent } from './dynamic-form-edit/dynamic-form-edit.component';
@@ -64,6 +66,7 @@ export const appRoute: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    CKEditorModule,
     ClipboardModule,
     DragDropModule,
     FormsModule ,

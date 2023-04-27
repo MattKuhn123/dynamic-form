@@ -63,7 +63,7 @@ import { PresubmitDialogComponent } from './presubmit-dialog.component';
 
   <mat-card>
     <mat-card-content>
-    <mat-slide-toggle [formControl]="showJson">Show json</mat-slide-toggle>
+      <mat-slide-toggle [formControl]="showJson">Show json</mat-slide-toggle>
       <pre *ngIf="formGroup && showJson.getRawValue()"> {{ stringified }} </pre>
     </mat-card-content>
   </mat-card>

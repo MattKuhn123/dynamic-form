@@ -24,6 +24,7 @@
     "@angular/service-worker": "^15.2.0",
     "@azure/msal-angular": "^2.5.4",
     "@azure/msal-browser": "^2.34.0",
+    "ckeditor4-angular": "^3.3.0",
     "karma-tfs-reporter": "^1.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
