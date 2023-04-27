@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicFormService } from '../shared/dynamic-form.service';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
-import { createUniqueValidator } from '../shared/unique-value.validator';
 
 @Component({
   selector: 'app-dynamic-form-edit',
