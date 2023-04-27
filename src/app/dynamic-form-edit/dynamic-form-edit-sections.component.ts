@@ -37,7 +37,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
         <mat-card-content>
           <div *ngIf="s.controls.length === 0">
             <div>
-              <em>There are no sections in this form.</em>
+              <em>There are no sections in this form!</em>
             </div>
           </div>
           <mat-list formArrayName="sections" cdkDropList (cdkDropListDropped)="reorderSections($event)">
