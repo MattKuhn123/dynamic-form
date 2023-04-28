@@ -103,7 +103,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
 
           <div>
             <mat-label for="section-info">
-              <mat-slide-toggle (change)="onInfoToggleChange($event)" #additionalInfoToggle></mat-slide-toggle>
+              <mat-slide-toggle (change)="onInfoToggleChange($event)" [checked]="true" #additionalInfoToggle></mat-slide-toggle>
               Additional information
             </mat-label>
             <ckeditor *ngIf="additionalInfoToggle.checked" id="section-info" formControlName="info" data=""></ckeditor>
