@@ -30,7 +30,12 @@ import { PresubmitDialogComponent } from './presubmit-dialog.component';
         <div *ngFor="let section of form.sections; let sctnIdx = index; let first = first; let last = last">
           <mat-step *ngIf="!hidden(section)" formGroupName="{{ sctnIdx }}" [stepControl]="getFormGroupInArray(sctnIdx)" [optional]="!section.required">
             <ng-template matStepLabel>{{section.key}}</ng-template>
-
+            
+            <mat-card *ngIf="section.info"  appearance="outlined">
+              <mat-card-content>
+                <div [innerHtml]="section.info"></div>
+              </mat-card-content>
+            </mat-card>
             <mat-card>
               <mat-card-header>
                 <mat-card-title>
@@ -81,7 +86,7 @@ export class DynamicFormComponent implements OnInit {
   protected getFormArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
   protected getFormGroupInArray(index: number): FormGroup { return (this.formArray.at(index) as FormArray).at(0) as FormGroup; }
   protected getNamedFormGroupInArray(name: string): FormGroup { return (this.formArray.at((this.formArray.value as any[]).findIndex(sec => sec[0]._key === name)) as FormArray).at(0) as FormGroup; }
-  protected getCtrlFormGroupInArray(ctrlIdx:number, sctnIdx: number): FormGroup { return (this.formArray.at(sctnIdx) as FormArray).at(ctrlIdx) as FormGroup; }
+  protected getCtrlFormGroupInArray(ctrlIdx: number, sctnIdx: number): FormGroup { return (this.formArray.at(sctnIdx) as FormArray).at(ctrlIdx) as FormGroup; }
   protected getFormArrayInArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
 
   constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private dialog: MatDialog, private snackBar: MatSnackBar, private bo: BreakpointObserver) {

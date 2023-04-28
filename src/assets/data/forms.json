@@ -6,6 +6,7 @@
       {
         "key": "Contact",
         "subtitle": "Contact information",
+        "info": "<p>By using this application, you agree to our <a href=\"https://www.google.com\">terms and conditions</a>.</p>\n",
         "list": false,
         "required": true,
         "conditions": [ ],

@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
       <span>Dynamic form renderer</span>
     </mat-toolbar-row>
     <mat-toolbar-row>
-      <button mat-button [routerLink]="['/edit']">Edit</button>
+      <button mat-button [routerLink]="['']">Edit</button>
       <button mat-button [routerLink]="['/test']">Test</button>
     </mat-toolbar-row>
   </mat-toolbar>
