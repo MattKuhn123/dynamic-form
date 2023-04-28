@@ -123,11 +123,6 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
             <div>
               <em>There are no questions for this section!</em>
             </div>
-            <div>
-              <button type="button" (click)="onClickAddQuestion()" mat-button color="primary">
-                Add question
-              </button>
-            </div>
           </div>
 
           <mat-list cdkDropList (cdkDropListDropped)="reorderQuestions($event)">
