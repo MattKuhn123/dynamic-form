@@ -32,7 +32,6 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
           </div>
         </mat-card-content>
       </mat-card>
-
       <mat-card>
         <mat-card-content>
           <div *ngIf="s.controls.length === 0">
@@ -71,7 +70,6 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
         </mat-card-actions>
       </mat-card>
     </mat-tab>
-    
     <mat-tab [formGroup]="secEdit" [label]="'Section: ' + secEditKey.getRawValue()" *ngIf="selectedTabIndex > 0">
       <mat-card>
         <mat-card-content>
@@ -100,7 +98,6 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               <textarea matInput formControlName="subtitle" id="section-subtitle" type="text"></textarea>
             </mat-form-field>
           </div>
-
           <div>
             <mat-label for="section-info">
               <mat-slide-toggle (change)="onInfoToggleChange($event)" [checked]="true" #additionalInfoToggle></mat-slide-toggle>
@@ -118,13 +115,11 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
           </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-
           <div *ngIf="secEditQuestions.controls.length === 0">
             <div>
               <em>There are no questions for this section!</em>
             </div>
           </div>
-
           <mat-list cdkDropList (cdkDropListDropped)="reorderQuestions($event)">
             <mat-list-item role="listitem" *ngFor="let question of secEditQuestions.controls; let qi = index" [formGroupName]="qi" #qListItem cdkDrag>
               <mat-icon matListItemIcon>drag_indicator</mat-icon>
@@ -157,7 +152,6 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
           </button>
         </mat-card-actions>
       </mat-card>
-      
       <mat-card>
         <mat-card-header>
           <mat-card-title>
@@ -175,7 +169,6 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               </button>
             </div>
           </div>
-    
           <div *ngFor="let conditions of secEditConditions.controls; let doi = index" formArrayName="conditions">
             <div [formGroupName]="doi">
               <mat-form-field [appearance]="'outline'">
@@ -184,7 +177,6 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
                   <mat-option *ngFor="let key of dfeSvc.getSectionsForSectionConditions(s)" [value]="key">{{ key }}</mat-option>
                 </mat-select>
               </mat-form-field>
-    
               <mat-form-field [appearance]="'outline'">
                 <mat-label attr.for="conditions-{{doi}}-key">Question</mat-label>
                 <mat-select id="conditions-{{doi}}-key" formControlName="key">
@@ -193,7 +185,6 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-    
               <mat-form-field [appearance]="'outline'">
                 <mat-label attr.for="conditions-{{doi}}-key">Value</mat-label>
                 <mat-select id="conditions-{{doi}}-value" formControlName="value">
@@ -202,11 +193,9 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-    
               <button type="button" mat-icon-button color="warn" (click)="onClickRemoveSectionCondition(doi)">
                 <mat-icon>delete</mat-icon>
               </button>
-    
               <button type="button" mat-icon-button color="primary" (click)="onClickAddSectionCondition(doi)">
                 <mat-icon>add</mat-icon>
               </button>
@@ -215,7 +204,6 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
         </mat-card-content>
       </mat-card>
     </mat-tab>
-
     <mat-tab [label]="'Question: ' + secEditQuestionKey.getRawValue()" *ngIf="selectedTabIndex > 1">
       <app-dynamic-form-edit-questions [fb]="fb" [fg]="fg" [i]="secEditIdx" [qi]="qEditIdx"></app-dynamic-form-edit-questions>
     </mat-tab>
