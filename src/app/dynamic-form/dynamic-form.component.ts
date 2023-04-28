@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DynamicFormService } from '../shared/dynamic-form.service';
 import { DynamicFormSection } from '../shared/dynamic-form-section.model';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { DynamicForm } from '../shared/dynamic-form.model';
@@ -10,6 +9,8 @@ import { StepperOrientation } from '@angular/cdk/stepper';
 import { Observable, map } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PresubmitDialogComponent } from './presubmit-dialog.component';
+import { S3Service } from '../shared/s3.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -89,23 +90,31 @@ export class DynamicFormComponent implements OnInit {
   protected getCtrlFormGroupInArray(ctrlIdx: number, sctnIdx: number): FormGroup { return (this.formArray.at(sctnIdx) as FormArray).at(ctrlIdx) as FormGroup; }
   protected getFormArrayInArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
 
-  constructor(private dfSvc: DynamicFormService, private fb: FormBuilder, private dialog: MatDialog, private snackBar: MatSnackBar, private bo: BreakpointObserver) {
+  constructor(private s3: S3Service, private fb: FormBuilder, private dialog: MatDialog, private snackBar: MatSnackBar, private bo: BreakpointObserver, private route: ActivatedRoute) {
     this.stepperOrientation = this.bo
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
   }
   
   ngOnInit(): void {
-    this.dfSvc.getForm().subscribe(form => {
-      this.form = form;
-      const formArrays: FormArray[] = this.form.sections.map(section => this.fb.array([this.sectionToFormGroup(section)]));
-      const formArrayOfArrays: FormArray = this.fb.array(formArrays);
-      this.formGroup = this.fb.group({
-        formArray: formArrayOfArrays
-      });
-
-      this.formArray = this.formGroup.get('formArray') as FormArray;
+    this.init();
+  }
+  
+  private async init(): Promise<void> {
+    this.route.queryParams.subscribe((params: any) => {
+      this.initForm(params.key)
     });
+  }
+  
+  private async initForm(key: string): Promise<void> {    
+    const form: DynamicForm = await this.s3.getForm(key);
+    this.form = form;
+    const formArrays: FormArray[] = this.form.sections.map(section => this.fb.array([this.sectionToFormGroup(section)]));
+    const formArrayOfArrays: FormArray = this.fb.array(formArrays);
+    this.formGroup = this.fb.group({
+      formArray: formArrayOfArrays
+    });
+    this.formArray = this.formGroup.get('formArray') as FormArray;
   }
 
   protected hidden(section: DynamicFormSection): boolean {

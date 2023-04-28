@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { DynamicFormService } from '../shared/dynamic-form.service';
+import { S3Service } from '../shared/s3.service';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
+import { DynamicForm } from '../shared/dynamic-form.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dynamic-form-edit',
@@ -36,16 +38,29 @@ export class DynamicFormEditComponent implements OnInit {
 
   protected showJson: FormControl = new FormControl(false);
   
-  constructor(private dfSvc: DynamicFormService, private dfeSvc: DynamicFormEditService, protected fb: FormBuilder, private snackBar: MatSnackBar) { }
+  constructor(private s3: S3Service, private dfeSvc: DynamicFormEditService, protected fb: FormBuilder, private snackBar: MatSnackBar, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.dfSvc.getForm().subscribe(form => {
+    this.init();
+  }
+  
+  private async init(): Promise<void> {
+    this.route.queryParams.subscribe((params: any) => {
+      this.initForm(params.key)
+    });
+  }
+
+  private async initForm(key: string): Promise<void> {
+    try {
+      const form: DynamicForm = await this.s3.getForm(key);
       this.fg = this.fb.group({
         title: this.fb.control(form.title || ""),
         subtitle: this.fb.control(form.subtitle || ""),
         sections: this.fb.array(form.sections.map(section => this.dfeSvc.sectionToGroup(this.fb, section)) || [])
       });
-    });
+    } catch (error) {
+      console.log("ERROR", error);
+    }
   }
 
   protected onSubmit(): void {
@@ -54,7 +69,7 @@ export class DynamicFormEditComponent implements OnInit {
       return;
     }
 
-    this.dfSvc.setForm(this.fg.getRawValue());
+    this.s3.putForm(this.fg.getRawValue());
     this.snackBar.open("Submitted!", "OK");
   }
 }
