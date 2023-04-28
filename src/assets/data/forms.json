@@ -1,11 +1,11 @@
 {
   "form": {
     "title": "Hero application form",
-    "description": "Please complete this form to apply for our new 'Hero' position.",
+    "subtitle": "Please complete this form to apply for our new 'Hero' position.",
     "sections": [
       {
         "key": "Contact",
-        "description": "Contact information",
+        "subtitle": "Contact information",
         "list": false,
         "required": true,
         "conditions": [ ],
@@ -62,7 +62,7 @@
       },
       {
         "key": "Love interests",
-        "description": "Someone whom a villain could kidnap",
+        "subtitle": "Someone whom a villain could kidnap",
         "list": true,
         "required": false,
         "conditions": [ ],
@@ -111,7 +111,7 @@
       },
       {
         "key": "Bravery",
-        "description": "Bravery information",
+        "subtitle": "Bravery information",
         "list": false,
         "required": true,
         "conditions": [ ],
@@ -151,7 +151,7 @@
       },
       {
         "key": "Deeds",
-        "description": "What deeds have you done?",
+        "subtitle": "What deeds have you done?",
         "list": false,
         "required": true,
         "conditions": [ ],
@@ -183,7 +183,7 @@
       },
       {
         "key": "Misdeeds",
-        "description": "What collateral damage have you caused?",
+        "subtitle": "What collateral damage have you caused?",
         "list": false,
         "required": true,
         "conditions": [
@@ -207,7 +207,7 @@
       },
       {
         "key": "Follow-up",
-        "description": "Schedule a time to follow-up with us.",
+        "subtitle": "Schedule a time to follow-up with us.",
         "list": false,
         "required": true,
         "conditions": [ ],

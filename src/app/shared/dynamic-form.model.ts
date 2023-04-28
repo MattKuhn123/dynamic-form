@@ -1,16 +1,16 @@
 import { DynamicFormSection } from "./dynamic-form-section.model";
 
 export class DynamicForm {
-  description: string;
+  subtitle: string;
   sections: DynamicFormSection[];
   title: string;
 
   constructor(options: {
-    description?: string;
+    subtitle?: string;
     sections?: DynamicFormSection[];
     title?: string;
   } = {}) {
-    this.description = options.description || "";
+    this.subtitle = options.subtitle || "";
     this.sections = options.sections || [];
     this.title = options.title || "";
   }

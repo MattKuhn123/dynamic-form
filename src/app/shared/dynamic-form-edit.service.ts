@@ -12,7 +12,7 @@ export class DynamicFormEditService {
   public sectionToGroup(fb: FormBuilder, section: DynamicFormSection): FormGroup {
     return fb.group({
       key: fb.control({value: section.key || "", disabled: true}, [Validators.required]),
-      description: fb.control(section.description || "", [Validators.required]),
+      subtitle: fb.control(section.subtitle || "", [Validators.required]),
       info: fb.control(section.info || ""),
       list: fb.control(section.list || false, [Validators.required]),
       required: fb.control(section.required || false, [Validators.required]),

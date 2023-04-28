@@ -20,7 +20,7 @@ import { PresubmitDialogComponent } from './presubmit-dialog.component';
         <mat-card-title>{{ form.title }}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p> {{ form.description }} </p>
+        <p> {{ form.subtitle }} </p>
       </mat-card-content>
     </mat-card>
 
@@ -34,7 +34,7 @@ import { PresubmitDialogComponent } from './presubmit-dialog.component';
             <mat-card>
               <mat-card-header>
                 <mat-card-title>
-                  {{section.description}}
+                  {{section.subtitle}}
                 </mat-card-title>
               </mat-card-header>
               

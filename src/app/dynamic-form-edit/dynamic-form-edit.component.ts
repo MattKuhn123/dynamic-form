@@ -42,7 +42,7 @@ export class DynamicFormEditComponent implements OnInit {
     this.dfSvc.getForm().subscribe(form => {
       this.fg = this.fb.group({
         title: this.fb.control(form.title || ""),
-        description: this.fb.control(form.description || ""),
+        subtitle: this.fb.control(form.subtitle || ""),
         sections: this.fb.array(form.sections.map(section => this.dfeSvc.sectionToGroup(this.fb, section)) || [])
       });
     });

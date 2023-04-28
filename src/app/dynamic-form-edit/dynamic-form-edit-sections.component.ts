@@ -26,8 +26,8 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
           </div>
           <div>
             <mat-form-field>
-              <mat-label for="description">Description</mat-label>
-              <textarea matInput formControlName="description" id="description" type="text"></textarea>
+              <mat-label for="description">Subtitle</mat-label>
+              <textarea matInput formControlName="subtitle" id="subtitle" type="text"></textarea>
             </mat-form-field>
           </div>
         </mat-card-content>
@@ -46,7 +46,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               <span matListItemTitle>
                 <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditSection(i)"><mat-icon>edit</mat-icon></button>
                 <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveSection(i)"><mat-icon>delete</mat-icon></button>
-                Section {{ i+1 }}: {{ dfeSvc.getSectionKey(s, i).getRawValue() }}
+                {{ dfeSvc.getSectionKey(s, i).getRawValue() }}
                 <button type="button" mat-button [matTooltip]="flatten(getSectionErrors(i))" color="warn" *ngIf="dfeSvc.getSection(s, i).invalid" ><mat-icon>error</mat-icon></button>
                 <button type="button" mat-button matTooltip="list" *ngIf="dfeSvc.getSectionList(s, i).getRawValue()">
                     <mat-icon>list_alt</mat-icon>
@@ -96,8 +96,8 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
           </div>
           <div>
             <mat-form-field [appearance]="'outline'">
-              <mat-label for="section-description">Description</mat-label>
-              <textarea matInput formControlName="description" id="section-description" type="text"></textarea>
+              <mat-label for="section-subtitle">Subtitle</mat-label>
+              <textarea matInput formControlName="subtitle" id="section-subtitle" type="text"></textarea>
             </mat-form-field>
           </div>
 
@@ -108,7 +108,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
             </mat-label>
             <div style="display: flex; gap: 5px;">
               <div>
-                <ckeditor *ngIf="additionalInfoToggle.checked" id="section-info" formControlName="info" data="<p>Hello, world!</p>"></ckeditor>
+                <ckeditor *ngIf="additionalInfoToggle.checked" id="section-info" formControlName="info" data=""></ckeditor>
               </div>
               <div style="border: solid; border-width: thin; flex: 1; padding: 5px" *ngIf="additionalInfoToggle.checked">
                 <div *ngIf="secEdit" [innerHtml]="secEditInfo.getRawValue()"></div>
@@ -143,7 +143,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
               <span matListItemTitle>
                 <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditQuestion(qi)"><mat-icon>edit</mat-icon></button>
                 <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveQuestion(qi)"><mat-icon>delete</mat-icon></button>
-                Question {{ qi+1 }}: {{ dfeSvc.getQuestionKey(s, secEditIdx, qi).getRawValue() }}
+                {{ dfeSvc.getQuestionKey(s, secEditIdx, qi).getRawValue() }}
                 <button type="button" mat-button [matTooltip]="flatten(getQuestionErrors(qi))" color="warn" *ngIf="dfeSvc.getQuestion(s, secEditIdx, qi).invalid" ><mat-icon>error</mat-icon></button>
                 <button type="button" mat-button matTooltip="required" *ngIf="dfeSvc.getQuestionRequired(s, secEditIdx, qi).getRawValue()">
                   <mat-icon>emergency</mat-icon>

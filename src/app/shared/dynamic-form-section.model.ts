@@ -2,7 +2,7 @@ import { DynamicFormQuestion } from "./dynamic-form-question.model";
 
 export class DynamicFormSection {
   conditions: { section: string, key: string, value: string }[];
-  description: string;
+  subtitle: string;
   info: string;
   list: boolean;
   questions: DynamicFormQuestion[];
@@ -11,7 +11,7 @@ export class DynamicFormSection {
 
   constructor(options: {
     conditions?: { section: string, key: string, value: string }[];
-    description?: string;
+    subtitle?: string;
     info?: string
     list?: boolean;
     questions?: DynamicFormQuestion[];
@@ -19,7 +19,7 @@ export class DynamicFormSection {
     key?: string;
   } = {}) {
     this.conditions = options.conditions || [];
-    this.description = options.description || "";
+    this.subtitle = options.subtitle || "";
     this.info = options.info || "";
     this.list = !!options.list;
     this.questions = options.questions || [];
