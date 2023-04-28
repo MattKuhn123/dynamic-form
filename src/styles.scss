@@ -1,0 +1,36 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@import "@angular/material/theming";
+
+
+@include mat-core();
+
+$mat-primary: (
+  main: #1d3d6e,
+  lighter: #bbc5d4,
+  darker: #112751,
+  200: #1d3d6e, // For slide toggle,
+  contrast : (
+    main: #ffffff,
+    lighter: #ffffff,
+    darker: #ffffff,
+  )
+);
+$primary: mat-palette($mat-primary, main, lighter, darker);
+$accent: mat-palette($mat-blue-grey, A200, A100, A400);
+$typography: mat.define-typography-config();
+
+$theme: mat-light-theme((
+  color: (
+    primary: $primary, 
+    accent: $accent
+  ),
+  typography: $typography,
+  density: 0
+));
+
+@include angular-material-theme($theme);
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
