@@ -5,7 +5,6 @@ import { DynamicFormSection } from '../shared/dynamic-form-section.model';
 import { EditSectionKeyDialog } from './edit-section-key.component';
 import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
 
 @Component({
   selector: 'app-dynamic-form-edit-sections',
@@ -70,7 +69,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
         </mat-card-actions>
       </mat-card>
     </mat-tab>
-    <mat-tab [formGroup]="secEdit" [label]="'Section: ' + secEditKey.getRawValue()" *ngIf="selectedTabIndex > 0">
+    <mat-tab [formGroup]="secEdit" label="Section" *ngIf="selectedTabIndex > 0">
       <mat-card>
         <mat-card-content>
           <div>
@@ -108,50 +107,14 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
         </mat-card-content>
       </mat-card>
 
-      <mat-card formArrayName="questions">
-        <mat-card-header>
-          <mat-card-title>
-            Questions
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div *ngIf="secEditQuestions.controls.length === 0">
-            <div>
-              <em>There are no questions for this section!</em>
-            </div>
-          </div>
-          <mat-list cdkDropList (cdkDropListDropped)="reorderQuestions($event)">
-            <mat-list-item role="listitem" *ngFor="let question of secEditQuestions.controls; let qi = index" [formGroupName]="qi" #qListItem cdkDrag>
-              <mat-icon matListItemIcon>drag_indicator</mat-icon>
-              <span matListItemTitle>
-                <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditQuestion(qi)"><mat-icon>edit</mat-icon></button>
-                <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveQuestion(qi)"><mat-icon>delete</mat-icon></button>
-                {{ dfeSvc.getQuestionKey(s, secEditIdx, qi).getRawValue() }}
-                <button type="button" mat-button [matTooltip]="flatten(getQuestionErrors(qi))" color="warn" *ngIf="dfeSvc.getQuestion(s, secEditIdx, qi).invalid" ><mat-icon>error</mat-icon></button>
-                <button type="button" mat-button matTooltip="required" *ngIf="dfeSvc.getQuestionRequired(s, secEditIdx, qi).getRawValue()">
-                  <mat-icon>emergency</mat-icon>
-                </button>
-                <button type="button" mat-button [matTooltip]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qi).getRawValue()" [ngSwitch]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qi).getRawValue()">
-                  <mat-icon *ngSwitchCase="'textarea'">notes</mat-icon>
-                  <mat-icon *ngSwitchCase="'textbox'">short_text</mat-icon>
-                  <mat-icon *ngSwitchCase="'dropdown'">list</mat-icon>
-                  <mat-icon *ngSwitchCase="'radio'">radio</mat-icon>
-                  <mat-icon *ngSwitchCase="'date'">edit_calendar</mat-icon>
-                  <mat-icon *ngSwitchCase="'file'">article</mat-icon>
-                </button>
-                <button type="button" mat-button matTooltip="conditions" *ngIf="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length > 0">
-                  <mat-icon [matBadge]="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length" matBadgeColor="primary" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
-                </button>
-              </span>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-        <mat-card-actions>
-          <button type="button" (click)="onClickAddQuestion()" mat-button color="primary">
-            Add question
-          </button>
-        </mat-card-actions>
-      </mat-card>
+      <app-dynamic-form-edit-questions 
+        [fg]="fg" 
+        [fb]="fb"
+        [secEdit]="secEdit"
+        [secEditIdx]="secEditIdx"
+        (raiseClickEditQuestion)="handleClickEditQuestion($event)"
+        ></app-dynamic-form-edit-questions>
+
       <mat-card>
         <mat-card-header>
           <mat-card-title>
@@ -204,8 +167,8 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
         </mat-card-content>
       </mat-card>
     </mat-tab>
-    <mat-tab [label]="'Question: ' + secEditQuestionKey.getRawValue()" *ngIf="selectedTabIndex > 1">
-      <app-dynamic-form-edit-questions [fb]="fb" [fg]="fg" [i]="secEditIdx" [qi]="qEditIdx"></app-dynamic-form-edit-questions>
+    <mat-tab label="Question" *ngIf="selectedTabIndex > 1">
+      <app-dynamic-form-edit-question [fb]="fb" [fg]="fg" [i]="secEditIdx" [qi]="qEditIdx"></app-dynamic-form-edit-question>
     </mat-tab>
   </mat-tab-group>
   </div>`
@@ -220,10 +183,6 @@ export class DynamicFormEditSectionsComponent {
   protected get secEditConditions(): FormArray { return this.secEdit.get("conditions") as FormArray; }
   protected get secEditKey(): FormControl { return this.secEdit.get("key") as FormControl; }
   protected get secEditInfo(): FormControl { return this.secEdit.get("info") as FormControl; }
-  
-  protected get secEditQuestions(): FormArray { return this.secEdit.get("questions") as FormArray; }
-  protected get secEditQuestion(): FormGroup { return (this.secEditQuestions).at(this.qEditIdx) as FormGroup; }
-  protected get secEditQuestionKey(): FormControl { return this.secEditQuestion.get("key") as FormControl; }
 
   protected selectedTabIndex: number = 0;
 
@@ -260,38 +219,7 @@ export class DynamicFormEditSectionsComponent {
   protected onClickAddSectionCondition(doIdx: number): void { this.secEditConditions.insert(doIdx, this.dfeSvc.sectionConditionsToGroup(this.fb, {key: "", section: "", value: ""})); }
   protected onClickRemoveSectionCondition(doi: number): void { this.secEditConditions.removeAt(doi); }
 
-  protected onClickAddQuestion(): void{ this.secEditQuestions.push(this.dfeSvc.questionToGroup(this.fb, new DynamicFormQuestion())); }
-  protected onClickEditQuestion(qi: number): void {
-    this.qEditIdx = qi;
-    this.selectedTabIndex = 2;
-  }
-  protected onClickRemoveQuestion(qIdx: number): void { this.secEditQuestions.removeAt(qIdx); }
-
-  protected flatten(strings: string[]): string {
-    return [... new Set(strings)].join(", ");
-  }
-
-  protected getQuestionErrors(qIdx: number): string[] {
-    const errs: string[] = [];
-    const qForm: FormGroup = this.dfeSvc.getQuestion(this.s, this.secEditIdx, qIdx);
-
-    const formErrors: ValidationErrors | null | undefined = qForm?.errors;
-    if (formErrors) {
-      Object.keys(formErrors).forEach(keyError => {
-        errs.push(keyError);
-      });
-    }
-
-    Object.keys(qForm.controls).forEach(key => {
-      const control = qForm.get(key);
-      const controlErrors: ValidationErrors | null | undefined = control?.errors;
-      if (controlErrors) {
-        errs.push(key);
-      }
-    });
-
-    return errs;
-  }
+  protected flatten(strings: string[]): string { return [... new Set(strings)].join(", "); }
 
   protected getSectionErrors(secIdx: number): string[] {
     const secForm: FormGroup = this.dfeSvc.getSection(this.s, secIdx);
@@ -312,11 +240,12 @@ export class DynamicFormEditSectionsComponent {
       }
     });
 
-    (secForm.get("questions") as FormArray).controls.forEach((question, qIdx) => {
-      this.getQuestionErrors(qIdx).forEach(questionError => errs.push(questionError));
-    })
-
     return errs;
+  }
+
+  protected handleClickEditQuestion(qEditIndex: number): void {
+    this.selectedTabIndex = 2;
+    this.qEditIdx = qEditIndex;
   }
 
   protected onInfoToggleChange(event: any): void {
@@ -326,6 +255,5 @@ export class DynamicFormEditSectionsComponent {
   }
 
   reorderSections(event: CdkDragDrop<string[]>) { moveItemInArray(this.s.controls, event.previousIndex, event.currentIndex); }
-  reorderQuestions(event: CdkDragDrop<string[]>) { moveItemInArray(this.secEditQuestions.controls, event.previousIndex, event.currentIndex); }
 }
 

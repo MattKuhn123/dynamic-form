@@ -7,7 +7,7 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'app-dynamic-form-edit-questions',
+  selector: 'app-dynamic-form-edit-question',
   styles: [],
   template: `<div [formGroup]="formGroup">
   <div formArrayName="questions">
