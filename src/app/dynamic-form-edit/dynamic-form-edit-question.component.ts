@@ -266,5 +266,5 @@ export class DynamicFormEditQuestionComponent {
     });
   }
 
-  drop(event: CdkDragDrop<string[]>) { moveItemInArray(this.dfeSvc.getQuestions(this.s, this.i).controls, event.previousIndex, event.currentIndex); }
+  protected drop(event: CdkDragDrop<string[]>) { moveItemInArray(this.dfeSvc.getQuestions(this.s, this.i).controls, event.previousIndex, event.currentIndex); }
 }

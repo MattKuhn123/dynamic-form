@@ -259,6 +259,6 @@ export class DynamicFormEditSectionsComponent {
     }
   }
 
-  reorderSections(event: CdkDragDrop<string[]>) { moveItemInArray(this.s.controls, event.previousIndex, event.currentIndex); }
+  protected reorderSections(event: CdkDragDrop<string[]>) { moveItemInArray(this.s.controls, event.previousIndex, event.currentIndex); }
 }
 
