@@ -8,52 +8,52 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
   selector: 'app-dynamic-form-edit-questions',
   styles: [ ],
   template: `
-    <div [formGroup]="secEdit">
-      <mat-card formArrayName="questions">
-        <mat-card-header>
-          <mat-card-title>
-            Questions
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div *ngIf="secEditQuestions.controls.length === 0">
-            <div>
-              <em>There are no questions for this section!</em>
-            </div>
+  <div [formGroup]="secEdit">
+    <mat-card formArrayName="questions">
+      <mat-card-header>
+        <mat-card-title>
+          Questions
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="secEditQuestions.controls.length === 0">
+          <div>
+            <em>There are no questions for this section!</em>
           </div>
-          <mat-list cdkDropList (cdkDropListDropped)="reorderQuestions($event)">
-            <mat-list-item role="listitem" *ngFor="let question of secEditQuestions.controls; let qi = index" [formGroupName]="qi" cdkDrag>
-              <mat-icon matListItemIcon>drag_indicator</mat-icon>
-              <span matListItemTitle>
-                <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditQuestion(qi)"><mat-icon>edit</mat-icon></button>
-                <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveQuestion(qi)"><mat-icon>delete</mat-icon></button>
-                {{ dfeSvc.getQuestionKey(s, secEditIdx, qi).getRawValue() }}
-                <button type="button" mat-button [matTooltip]="flatten(getQuestionErrors(qi))" color="warn" *ngIf="dfeSvc.getQuestion(s, secEditIdx, qi).invalid" ><mat-icon>error</mat-icon></button>
-                <button type="button" mat-button matTooltip="required" *ngIf="dfeSvc.getQuestionRequired(s, secEditIdx, qi).getRawValue()">
-                  <mat-icon>emergency</mat-icon>
-                </button>
-                <button type="button" mat-button [matTooltip]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qi).getRawValue()" [ngSwitch]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qi).getRawValue()">
-                  <mat-icon *ngSwitchCase="'textarea'">notes</mat-icon>
-                  <mat-icon *ngSwitchCase="'textbox'">short_text</mat-icon>
-                  <mat-icon *ngSwitchCase="'dropdown'">list</mat-icon>
-                  <mat-icon *ngSwitchCase="'radio'">radio</mat-icon>
-                  <mat-icon *ngSwitchCase="'date'">edit_calendar</mat-icon>
-                  <mat-icon *ngSwitchCase="'file'">article</mat-icon>
-                </button>
-                <button type="button" mat-button matTooltip="conditions" *ngIf="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length > 0">
-                  <mat-icon [matBadge]="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length" matBadgeColor="primary" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
-                </button>
-              </span>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-        <mat-card-actions>
-          <button type="button" (click)="onClickAddQuestion()" mat-button color="primary">
-            Add question
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
+        </div>
+        <mat-list cdkDropList (cdkDropListDropped)="reorderQuestions($event)">
+          <mat-list-item role="listitem" *ngFor="let question of secEditQuestions.controls; let qi = index" [formGroupName]="qi" cdkDrag>
+            <mat-icon matListItemIcon>drag_indicator</mat-icon>
+            <span matListItemTitle>
+              <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditQuestion(qi)"><mat-icon>edit</mat-icon></button>
+              <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveQuestion(qi)"><mat-icon>delete</mat-icon></button>
+              {{ dfeSvc.getQuestionKey(s, secEditIdx, qi).getRawValue() }}
+              <button type="button" mat-button [matTooltip]="flatten(getQuestionErrors(qi))" color="warn" *ngIf="dfeSvc.getQuestion(s, secEditIdx, qi).invalid" ><mat-icon>error</mat-icon></button>
+              <button type="button" mat-button matTooltip="required" *ngIf="dfeSvc.getQuestionRequired(s, secEditIdx, qi).getRawValue()">
+                <mat-icon>emergency</mat-icon>
+              </button>
+              <button type="button" mat-button [matTooltip]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qi).getRawValue()" [ngSwitch]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qi).getRawValue()">
+                <mat-icon *ngSwitchCase="'textarea'">notes</mat-icon>
+                <mat-icon *ngSwitchCase="'textbox'">short_text</mat-icon>
+                <mat-icon *ngSwitchCase="'dropdown'">list</mat-icon>
+                <mat-icon *ngSwitchCase="'radio'">radio</mat-icon>
+                <mat-icon *ngSwitchCase="'date'">edit_calendar</mat-icon>
+                <mat-icon *ngSwitchCase="'file'">article</mat-icon>
+              </button>
+              <button type="button" mat-button matTooltip="conditions" *ngIf="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length > 0">
+                <mat-icon [matBadge]="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length" matBadgeColor="primary" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
+              </button>
+            </span>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+      <mat-card-actions>
+        <button type="button" (click)="onClickAddQuestion()" mat-button color="primary">
+          Add question
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
   `,
 })
 export class DynamicFormEditQuestionsComponent {
