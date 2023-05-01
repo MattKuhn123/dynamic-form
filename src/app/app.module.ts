@@ -48,6 +48,7 @@ import { PresubmitDialogComponent } from './dynamic-form/presubmit-dialog.compon
 import { DynamicFormEditListComponent } from './dynamic-form-list/dynamic-form-list.component';
 import { DynamicFormEditQuestionsComponent } from './dynamic-form-edit/dynamic-form-edit-questions.component';
 import { DynamicFormEditSectionConditionsComponent } from './dynamic-form-edit/dynamic-form-edit-section-conditions.component';
+import { DynamicFormEditSectionComponent } from './dynamic-form-edit/dynamic-form-edit-section.component';
 
 export const appRoute: Routes = [
   { path: '', component: DynamicFormEditListComponent },
@@ -69,6 +70,7 @@ export const appRoute: Routes = [
     DynamicFormEditListComponent,
     DynamicFormEditQuestionsComponent,
     DynamicFormEditSectionConditionsComponent,
+    DynamicFormEditSectionComponent,
   ],
   imports: [
     BrowserModule,
