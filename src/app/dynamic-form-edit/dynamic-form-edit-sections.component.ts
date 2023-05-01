@@ -113,7 +113,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
         [secEdit]="secEdit"
         [secEditIdx]="secEditIdx"
         (raiseClickEditQuestion)="handleClickEditQuestion($event)"
-        ></app-dynamic-form-edit-questions>
+      ></app-dynamic-form-edit-questions>
 
       <mat-card>
         <mat-card-header>
@@ -168,7 +168,12 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
       </mat-card>
     </mat-tab>
     <mat-tab label="Question" *ngIf="selectedTabIndex > 1">
-      <app-dynamic-form-edit-question [fb]="fb" [fg]="fg" [i]="secEditIdx" [qi]="qEditIdx"></app-dynamic-form-edit-question>
+      <app-dynamic-form-edit-question 
+        [fb]="fb" 
+        [fg]="fg" 
+        [i]="secEditIdx" 
+        [qi]="qEditIdx"
+      ></app-dynamic-form-edit-question>
     </mat-tab>
   </mat-tab-group>
   </div>`
