@@ -34,7 +34,7 @@ export class DynamicFormEditService {
       key: fb.control({value: question.key || "", disabled: true}, [Validators.required]),
       controlType: fb.control(question.controlType || "", [Validators.required]),
       conditions: fb.array(question.conditions.map(condition => this.questionConditionsToGroup(fb, condition))),
-      label: fb.control(question.label || "", [Validators.required]),
+      label: fb.control(question.label || ""),
       options: fb.array(question.options.map(option => this.questionOptionToGroup(fb, option)) || []),
       required: fb.control(question.required || ""),
       

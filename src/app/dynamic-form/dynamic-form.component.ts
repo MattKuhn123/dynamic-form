@@ -29,11 +29,6 @@ import { ActivatedRoute } from '@angular/router';
         <div *ngFor="let section of form.sections; let sctnIdx = index; let first = first; let last = last">
           <mat-step *ngIf="!hidden(section)" formGroupName="{{ sctnIdx }}" [stepControl]="getFormGroupInArray(sctnIdx)" [optional]="!section.required">
             <ng-template matStepLabel>{{section.key}}</ng-template>
-            <mat-card *ngIf="section.info"  appearance="outlined">
-              <mat-card-content>
-                <div [innerHtml]="section.info"></div>
-              </mat-card-content>
-            </mat-card>
             <mat-card>
               <mat-card-header>
                 <mat-card-title>
@@ -41,6 +36,11 @@ import { ActivatedRoute } from '@angular/router';
                 </mat-card-title>
               </mat-card-header>
               <mat-card-content>
+                <mat-card *ngIf="section.info"  appearance="outlined">
+                  <mat-card-content>
+                    <div [innerHtml]="section.info"></div>
+                  </mat-card-content>
+                </mat-card>
                 <div *ngFor="let control of getFormArray(sctnIdx).controls; let ctrlIdx = index; let lastControl = last">
                   <div *ngFor="let question of section.questions; let qstnIdx = index">
                     <app-dynamic-question [question]="question" [form]="getCtrlFormGroupInArray(ctrlIdx, sctnIdx)"></app-dynamic-question>
