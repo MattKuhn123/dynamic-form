@@ -50,6 +50,7 @@ import { DynamicFormEditQuestionsComponent } from './dynamic-form-edit/dynamic-f
 import { DynamicFormEditSectionConditionsComponent } from './dynamic-form-edit/dynamic-form-edit-section-conditions.component';
 import { DynamicFormEditSectionComponent } from './dynamic-form-edit/dynamic-form-edit-section.component';
 import { DynamicFormEditOptionsComponent } from './dynamic-form-edit/dynamic-form-edit-options.component';
+import { DynamicFormEditQuestionConditionsComponent } from './dynamic-form-edit/dynamic-form-edit-question-conditions.component';
 
 export const appRoute: Routes = [
   { path: '', component: DynamicFormEditListComponent },
@@ -73,6 +74,7 @@ export const appRoute: Routes = [
     DynamicFormEditSectionConditionsComponent,
     DynamicFormEditSectionComponent,
     DynamicFormEditOptionsComponent,
+    DynamicFormEditQuestionConditionsComponent,
   ],
   imports: [
     BrowserModule,

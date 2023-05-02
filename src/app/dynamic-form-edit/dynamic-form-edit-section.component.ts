@@ -51,7 +51,7 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
     [fg]="fg" 
     [secEdit]="secEdit"
     [secEditIdx]="secEditIdx"
-    (raiseClickEditQuestion)=" raiseClickEditQuestion.emit(qEditIdx)"
+    (raiseClickEditQuestion)=" raiseClickEditQuestion.emit($event)"
   ></app-dynamic-form-edit-questions>
 
   <app-dynamic-form-edit-section-conditions
@@ -70,7 +70,6 @@ export class DynamicFormEditSectionComponent {
   @Output() raiseClickEditQuestion: EventEmitter<number> = new EventEmitter<number>();
 
   protected secEdit!: FormGroup;
-  protected qEditIdx!: number;
 
   protected get secEditConditions(): FormArray { return this.secEdit.get("conditions") as FormArray; }
   protected get secEditKey(): FormControl { return this.secEdit.get("key") as FormControl; }

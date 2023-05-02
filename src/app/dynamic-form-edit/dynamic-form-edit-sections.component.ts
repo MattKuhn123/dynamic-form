@@ -131,6 +131,7 @@ export class DynamicFormEditSectionsComponent {
   protected handleDropListDropped(event: CdkDragDrop<string[]>) { moveItemInArray(this.s.controls, event.previousIndex, event.currentIndex); }
 
   protected handleClickEditQuestion(qEditIdx: number): void {
+    debugger;
     this.qEditIdx = qEditIdx;
     this.selectedTabIndex = 2;
   }
