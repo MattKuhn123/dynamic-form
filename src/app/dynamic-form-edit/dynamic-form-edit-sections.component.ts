@@ -80,7 +80,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
         [fb]="fb" 
         [fg]="fg" 
         [secEditIdx]="secEditIdx" 
-        [qi]="qEditIdx"
+        [qEditIdx]="qEditIdx"
       ></app-dynamic-form-edit-question>
     </mat-tab>
   </mat-tab-group>

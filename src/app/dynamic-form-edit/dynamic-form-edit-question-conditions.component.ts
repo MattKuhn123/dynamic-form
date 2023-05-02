@@ -13,18 +13,18 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div *ngIf="dfeSvc.getQuestionConditions(s, secEditIdx, qi).controls.length === 0">
+      <div *ngIf="dfeSvc.getQuestionConditions(s, secEditIdx, qEditIdx).controls.length === 0">
         <div>
           <em>There are no conditions under which this question will be displayed, so it will always be displayed by default.</em>
         </div>
         <div>
-          <button mat-button color="primary" (click)="onClickAddQuestionCondition(qi, 0)">
+          <button mat-button color="primary" (click)="onClickAddQuestionCondition(qEditIdx, 0)">
             Add condition
           </button>
         </div>
       </div>
       <div formArrayName="conditions">
-        <div *ngFor="let questionConditions of dfeSvc.getQuestionConditions(s, secEditIdx, qi).controls; let qdoi = index" [formGroupName]="qdoi">
+        <div *ngFor="let questionConditions of dfeSvc.getQuestionConditions(s, secEditIdx, qEditIdx).controls; let qdoi = index" [formGroupName]="qdoi">
           <mat-form-field [appearance]="'outline'">
             <mat-label attr.for="question-conditions-{{secEditIdx}}-{{qdoi}}-key">Question</mat-label>
             <mat-select id="question-conditions-{{secEditIdx}}-{{qdoi}}-key" formControlName="key">
@@ -37,17 +37,17 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
           <mat-form-field [appearance]="'outline'">
             <mat-label attr.for="question-conditions-{{secEditIdx}}-{{qdoi}}-value">Value</mat-label>
             <mat-select id="question-conditions-{{secEditIdx}}-{{qdoi}}-value" formControlName="value">
-              <mat-option *ngFor="let option of dfeSvc.getValuesForConditions(s, dfeSvc.getSectionKey(s, secEditIdx).getRawValue(), dfeSvc.getQuestionConditionsQuestion(s, secEditIdx, qi, qdoi).value)" [value]="option.key">
+              <mat-option *ngFor="let option of dfeSvc.getValuesForConditions(s, dfeSvc.getSectionKey(s, secEditIdx).getRawValue(), dfeSvc.getQuestionConditionsQuestion(s, secEditIdx, qEditIdx, qdoi).value)" [value]="option.key">
                 {{ option.value }}
               </mat-option>
             </mat-select>
           </mat-form-field>
 
-          <button mat-icon-button color="warn" (click)="onClickRemoveQuestionCondition(qi, qdoi)">
+          <button mat-icon-button color="warn" (click)="onClickRemoveQuestionCondition(qEditIdx, qdoi)">
             <mat-icon>delete</mat-icon>
           </button>
 
-          <button mat-icon-button color="primary" (click)="onClickAddQuestionCondition(qi, qdoi)">
+          <button mat-icon-button color="primary" (click)="onClickAddQuestionCondition(qEditIdx, qdoi)">
             <mat-icon>add</mat-icon>
           </button>
         </div>
@@ -60,11 +60,11 @@ export class DynamicFormEditQuestionConditionsComponent {
   @Input() fg!: FormGroup;
   @Input() fb!: FormBuilder;
   @Input() secEditIdx!: number;
-  @Input() qi!: number;
+  @Input() qEditIdx!: number;
 
   get s(): FormArray { return this.fg.get("sections") as FormArray; }
 
-  get qEdit(): FormGroup { return this.dfeSvc.getQuestion(this.s, this.secEditIdx, this.qi) as FormGroup; }
+  get qEdit(): FormGroup { return this.dfeSvc.getQuestion(this.s, this.secEditIdx, this.qEditIdx) as FormGroup; }
 
   constructor(protected dfeSvc: DynamicFormEditService) { }
 

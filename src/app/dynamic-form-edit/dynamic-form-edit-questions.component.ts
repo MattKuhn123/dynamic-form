@@ -22,17 +22,17 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
           </div>
         </div>
         <mat-list cdkDropList (cdkDropListDropped)="reorderQuestions($event)">
-          <mat-list-item role="listitem" *ngFor="let question of secEditQuestions.controls; let qi = index" [formGroupName]="qi" cdkDrag>
+          <mat-list-item role="listitem" *ngFor="let question of secEditQuestions.controls; let qEditIdx = index" [formGroupName]="qEditIdx" cdkDrag>
             <mat-icon matListItemIcon>drag_indicator</mat-icon>
             <span matListItemTitle>
-              <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditQuestion(qi)"><mat-icon>edit</mat-icon></button>
-              <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveQuestion(qi)"><mat-icon>delete</mat-icon></button>
-              {{ dfeSvc.getQuestionKey(s, secEditIdx, qi).getRawValue() }}
-              <button type="button" mat-button [matTooltip]="flatten(getQuestionErrors(qi))" color="warn" *ngIf="dfeSvc.getQuestion(s, secEditIdx, qi).invalid" ><mat-icon>error</mat-icon></button>
-              <button type="button" mat-button matTooltip="required" *ngIf="dfeSvc.getQuestionRequired(s, secEditIdx, qi).getRawValue()">
+              <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditQuestion(qEditIdx)"><mat-icon>edit</mat-icon></button>
+              <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveQuestion(qEditIdx)"><mat-icon>delete</mat-icon></button>
+              {{ dfeSvc.getQuestionKey(s, secEditIdx, qEditIdx).getRawValue() }}
+              <button type="button" mat-button [matTooltip]="flatten(getQuestionErrors(qEditIdx))" color="warn" *ngIf="dfeSvc.getQuestion(s, secEditIdx, qEditIdx).invalid" ><mat-icon>error</mat-icon></button>
+              <button type="button" mat-button matTooltip="required" *ngIf="dfeSvc.getQuestionRequired(s, secEditIdx, qEditIdx).getRawValue()">
                 <mat-icon>emergency</mat-icon>
               </button>
-              <button type="button" mat-button [matTooltip]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qi).getRawValue()" [ngSwitch]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qi).getRawValue()">
+              <button type="button" mat-button [matTooltip]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qEditIdx).getRawValue()" [ngSwitch]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qEditIdx).getRawValue()">
                 <mat-icon *ngSwitchCase="'textarea'">notes</mat-icon>
                 <mat-icon *ngSwitchCase="'textbox'">short_text</mat-icon>
                 <mat-icon *ngSwitchCase="'dropdown'">list</mat-icon>
@@ -40,8 +40,8 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
                 <mat-icon *ngSwitchCase="'date'">edit_calendar</mat-icon>
                 <mat-icon *ngSwitchCase="'file'">article</mat-icon>
               </button>
-              <button type="button" mat-button matTooltip="conditions" *ngIf="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length > 0">
-                <mat-icon [matBadge]="dfeSvc.getQuestionConditions(s, secEditIdx, qi).length" matBadgeColor="primary" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
+              <button type="button" mat-button matTooltip="conditions" *ngIf="dfeSvc.getQuestionConditions(s, secEditIdx, qEditIdx).length > 0">
+                <mat-icon [matBadge]="dfeSvc.getQuestionConditions(s, secEditIdx, qEditIdx).length" matBadgeColor="primary" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
               </button>
             </span>
           </mat-list-item>
@@ -78,10 +78,10 @@ export class DynamicFormEditQuestionsComponent {
 
   protected onClickAddQuestion(): void{ this.secEditQuestions.push(this.dfeSvc.questionToGroup(this.fb, new DynamicFormQuestion())); }
 
-  protected onClickEditQuestion(qi: number): void {
+  protected onClickEditQuestion(qEditIdx: number): void {
     debugger;
-    this.qEditIdx = qi;
-    this.raiseClickEditQuestion.emit(qi);
+    this.qEditIdx = qEditIdx;
+    this.raiseClickEditQuestion.emit(qEditIdx);
   }
   protected onClickRemoveQuestion(qIdx: number): void { this.secEditQuestions.removeAt(qIdx); }
 
