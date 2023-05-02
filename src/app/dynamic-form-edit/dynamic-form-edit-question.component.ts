@@ -4,12 +4,11 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DynamicFormSection } from '../shared/dynamic-form-section.model';
 import { EditQuestionKeyDialog } from './edit-question-key.component';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-dynamic-form-edit-question',
   styles: [],
-  template: `<div [formGroup]="formGroup">
+  template: `<div [formGroup]="secEdit">
   <div formArrayName="questions">
     <div [formGroupName]="qEditIdx">
       <mat-card>
@@ -162,8 +161,8 @@ export class DynamicFormEditQuestionComponent {
   @Input() secEditIdx!: number;
   @Input() qEditIdx!: number;
 
-  get s(): FormArray { return this.fg.get("sections") as FormArray; }
-  get formGroup(): FormGroup { return this.s.at(this.secEditIdx) as FormGroup; }
+  protected get s(): FormArray { return this.fg.get("sections") as FormArray; }
+  protected get secEdit(): FormGroup { return this.s.at(this.secEditIdx) as FormGroup; }
 
   constructor(protected dfeSvc: DynamicFormEditService, private dialog: MatDialog) { }
 
@@ -181,6 +180,4 @@ export class DynamicFormEditQuestionComponent {
       }
     });
   }
-
-  protected drop(event: CdkDragDrop<string[]>) { moveItemInArray(this.dfeSvc.getQuestions(this.s, this.secEditIdx).controls, event.previousIndex, event.currentIndex); }
 }

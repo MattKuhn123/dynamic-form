@@ -33,6 +33,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DynamicFormEditComponent implements OnInit {
   fg!: FormGroup;
+  
   get stringified(): string { return JSON.stringify(this.fg.getRawValue(), null, 4); };
   get sections(): FormArray { return this.fg.get("sections") as FormArray; }
 

@@ -61,9 +61,9 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
 export class DynamicFormEditSectionConditionsComponent {
   @Input() fg!: FormGroup;
   @Input() fb!: FormBuilder;
-  get s(): FormArray { return this.fg.get("sections") as FormArray; }
   @Input() secEdit!: FormGroup;
 
+  protected get s(): FormArray { return this.fg.get("sections") as FormArray; }
   protected get secEditConditions(): FormArray { return this.secEdit.get("conditions") as FormArray; }
 
   constructor(protected dfeSvc: DynamicFormEditService) { }

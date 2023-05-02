@@ -55,9 +55,8 @@ export class DynamicFormEditQuestionOptionsComponent {
   @Input() secEditIdx!: number;
   @Input() qEditIdx!: number;
 
-  get s(): FormArray { return this.fg.get("sections") as FormArray; }
-
-  get qEdit(): FormGroup { return this.dfeSvc.getQuestion(this.s, this.secEditIdx, this.qEditIdx) as FormGroup; }
+  protected get s(): FormArray { return this.fg.get("sections") as FormArray; }
+  protected get qEdit(): FormGroup { return this.dfeSvc.getQuestion(this.s, this.secEditIdx, this.qEditIdx) as FormGroup; }
 
   constructor(protected dfeSvc: DynamicFormEditService) { }
 

@@ -28,8 +28,10 @@ export interface EditSectionKeyData {
 })
 export class EditSectionKeyDialog {
   protected error: boolean = false;
-  protected fc: FormControl = new FormControl(this.data.secKey, [Validators.required, uniqueValidator(this.data.invalid)])
+  protected fc: FormControl = new FormControl(this.data.secKey, [Validators.required, uniqueValidator(this.data.invalid)]);
+
   constructor(public dialogRef: MatDialogRef<EditSectionKeyDialog>, @Inject(MAT_DIALOG_DATA) protected data: EditSectionKeyData) {}
+  
   protected onClickCancel(): void { this.dialogRef.close(); }
   protected onClickOk(): void {
     const exists: boolean = this.data.invalid.findIndex(section => section === this.fc.getRawValue()) > -1;

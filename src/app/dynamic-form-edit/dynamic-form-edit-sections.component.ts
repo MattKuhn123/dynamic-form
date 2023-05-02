@@ -89,12 +89,13 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 export class DynamicFormEditSectionsComponent {
   @Input() fg!: FormGroup;
   @Input() fb!: FormBuilder;
-  get s(): FormArray { return this.fg.get("sections") as FormArray; }
-
+  
   protected secEditIdx: number = 0;
   protected qEditIdx: number = 0;
   protected selectedTabIndex: number = 0;
-
+  
+  get s(): FormArray { return this.fg.get("sections") as FormArray; }
+  
   constructor(protected dfeSvc: DynamicFormEditService) { }
 
   protected onClickAddSection(): void { this.s.push(this.dfeSvc.sectionToGroup(this.fb, new DynamicFormSection())); }

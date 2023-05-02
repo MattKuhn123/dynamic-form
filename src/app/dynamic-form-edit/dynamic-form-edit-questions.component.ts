@@ -21,7 +21,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
             <em>There are no questions for this section!</em>
           </div>
         </div>
-        <mat-list cdkDropList (cdkDropListDropped)="reorderQuestions($event)">
+        <mat-list cdkDropList (cdkDropListDropped)="handleDropListDropped($event)">
           <mat-list-item role="listitem" *ngFor="let question of secEditQuestions.controls; let qEditIdx = index" [formGroupName]="qEditIdx" cdkDrag>
             <mat-icon matListItemIcon>drag_indicator</mat-icon>
             <span matListItemTitle>
@@ -59,15 +59,14 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
 export class DynamicFormEditQuestionsComponent {
   @Input() fg!: FormGroup;
   @Input() fb!: FormBuilder;
-  get s(): FormArray { return this.fg.get("sections") as FormArray; }
-
   @Input() secEdit!: FormGroup;
   @Input() secEditIdx!: number;
 
   @Output() raiseClickEditQuestion: EventEmitter<number> = new EventEmitter<number>();
-
+  
   protected qEditIdx!: number;
-
+  
+  protected get s(): FormArray { return this.fg.get("sections") as FormArray; }
   protected get secEditQuestions(): FormArray { return this.secEdit.get("questions") as FormArray; }
   protected get secEditQuestion(): FormGroup { return (this.secEditQuestions).at(this.qEditIdx) as FormGroup; }
   protected get secEditQuestionKey(): FormControl { return this.secEditQuestion.get("key") as FormControl; }
@@ -82,6 +81,7 @@ export class DynamicFormEditQuestionsComponent {
     this.qEditIdx = qEditIdx;
     this.raiseClickEditQuestion.emit(qEditIdx);
   }
+
   protected onClickRemoveQuestion(qIdx: number): void { this.secEditQuestions.removeAt(qIdx); }
 
   protected getQuestionErrors(qIdx: number): string[] {
@@ -106,5 +106,5 @@ export class DynamicFormEditQuestionsComponent {
     return errs;
   }
 
-  protected reorderQuestions(event: CdkDragDrop<string[]>) { moveItemInArray(this.secEditQuestions.controls, event.previousIndex, event.currentIndex); }
+  protected handleDropListDropped(event: CdkDragDrop<string[]>) { moveItemInArray(this.secEditQuestions.controls, event.previousIndex, event.currentIndex); }
 }

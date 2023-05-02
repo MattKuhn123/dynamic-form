@@ -30,8 +30,10 @@ export interface EditQuestionKeyData {
 })
 export class EditQuestionKeyDialog {
   protected error: boolean = false;
-  protected fc: FormControl = new FormControl(this.data.qKey, [Validators.required, uniqueValidator(this.data.invalid)])
+  protected fc: FormControl = new FormControl(this.data.qKey, [Validators.required, uniqueValidator(this.data.invalid)]);
+
   constructor(public dialogRef: MatDialogRef<EditQuestionKeyData>, @Inject(MAT_DIALOG_DATA) protected data: EditQuestionKeyData) { }
+  
   protected onClickCancel(): void { this.dialogRef.close(); }
   protected onClickOk(): void {
     const exists: boolean = this.data.invalid.findIndex(question => question === this.fc.getRawValue()) > -1;

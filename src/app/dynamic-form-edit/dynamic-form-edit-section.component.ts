@@ -65,21 +65,16 @@ export class DynamicFormEditSectionComponent {
   @Input() fg!: FormGroup;
   @Input() fb!: FormBuilder;
   @Input() secEditIdx!: number;
-  get s(): FormArray { return this.fg.get("sections") as FormArray; }
-
+  
   @Output() raiseClickEditQuestion: EventEmitter<number> = new EventEmitter<number>();
-
-  protected secEdit!: FormGroup;
-
+  
+  protected get s(): FormArray { return this.fg.get("sections") as FormArray; }
+  protected get secEdit(): FormGroup { return this.dfeSvc.getSection(this.s, this.secEditIdx) as FormGroup; }
   protected get secEditConditions(): FormArray { return this.secEdit.get("conditions") as FormArray; }
   protected get secEditKey(): FormControl { return this.secEdit.get("key") as FormControl; }
   protected get secEditInfo(): FormControl { return this.secEdit.get("info") as FormControl; }
 
   constructor(protected dfeSvc: DynamicFormEditService, private dialog: MatDialog) { }
-
-  ngOnInit(): void {
-    this.secEdit = this.dfeSvc.getSection(this.s, this.secEditIdx);
-  }
 
   protected onClickEditSectionKey(): void {
     const dialogRef = this.dialog.open(EditSectionKeyDialog, { data: { 
