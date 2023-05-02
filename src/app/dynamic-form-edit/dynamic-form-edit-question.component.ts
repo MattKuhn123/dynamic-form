@@ -15,7 +15,7 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
         <mat-card>
           <mat-card-content>
             <div>
-              <mat-form-field [appearance]="'outline'">
+              <mat-form-field>
                 <mat-label attr.for="question-{{secEditIdx}}-{{qEditIdx}}-key">Key</mat-label>
                 <input matInput formControlName="key" id="question-{{secEditIdx}}-{{qEditIdx}}-key" type="text" />
                 <mat-icon matSuffix color="primary" matTooltip="edit" (click)="onClickEditQuestionKey(qEditIdx)">edit</mat-icon>
@@ -28,7 +28,7 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
               </mat-label>
             </div>
             <div>
-              <mat-form-field [appearance]="'outline'">
+              <mat-form-field>
                 <mat-label attr.for="question-{{secEditIdx}}-{{qEditIdx}}-controlType">Control type</mat-label>
                 <mat-select id="question-{{secEditIdx}}-{{qEditIdx}}-controlType" formControlName="controlType">
                   <mat-option value="textarea">textarea</mat-option>
@@ -41,14 +41,14 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
               </mat-form-field>
             </div>
             <div>
-              <mat-form-field [appearance]="'outline'">
+              <mat-form-field>
                 <mat-label attr.for="question-{{secEditIdx}}-{{qEditIdx}}-label">Label</mat-label>
                 <input matInput formControlName="label" id="question-{{secEditIdx}}-{{qEditIdx}}-label" type="text" />
               </mat-form-field>
             </div>
 
             <div *ngIf="dfeSvc.getQuestionCtrlType(s, secEditIdx, qEditIdx).getRawValue() === 'textbox'">
-              <mat-form-field [appearance]="'outline'">
+              <mat-form-field>
                 <mat-label attr.for="question-{{secEditIdx}}-{{qEditIdx}}-type">Type</mat-label>
                 <mat-select id="question-{{secEditIdx}}-{{qEditIdx}}-type" formControlName="type">
                   <mat-option value="text">text</mat-option>
@@ -59,7 +59,7 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
 
             <div *ngIf="dfeSvc.getQuestionCtrlType(s, secEditIdx, qEditIdx).getRawValue() === 'textbox'
               && dfeSvc.getQuestionType(s, secEditIdx, qEditIdx).getRawValue() === 'number'">
-              <mat-form-field [appearance]="'outline'">
+              <mat-form-field>
                 <mat-label attr.for="question-{{secEditIdx}}-{{qEditIdx}}-min">Minimum</mat-label>
                 <input matInput formControlName="min" id="question-{{secEditIdx}}-{{qEditIdx}}-min" type="number" />
               </mat-form-field>
@@ -67,7 +67,7 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
 
             <div *ngIf="dfeSvc.getQuestionCtrlType(s, secEditIdx, qEditIdx).getRawValue() === 'textbox'
               && dfeSvc.getQuestionType(s, secEditIdx, qEditIdx).getRawValue() === 'number'">
-              <mat-form-field [appearance]="'outline'">
+              <mat-form-field>
                 <mat-label attr.for="question-{{secEditIdx}}-{{qEditIdx}}-maxLength">Maximum</mat-label>
                 <input matInput formControlName="max" id="question-{{secEditIdx}}-{{qEditIdx}}-max" type="number" />
               </mat-form-field>
@@ -84,7 +84,7 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
             <div *ngIf="dfeSvc.getQuestionCtrlType(s, secEditIdx, qEditIdx).getRawValue() === 'textbox'
               && dfeSvc.getQuestionType(s, secEditIdx, qEditIdx).getRawValue() === 'text'
               && !dfeSvc.getQuestionEmail(s, secEditIdx, qEditIdx).getRawValue()">
-              <mat-form-field [appearance]="'outline'">
+              <mat-form-field>
                 <mat-label attr.for="question-{{secEditIdx}}-{{qEditIdx}}-minLength">Minimum Length</mat-label>
                 <input matInput formControlName="minLength" id="question-{{secEditIdx}}-{{qEditIdx}}-minLength" type="number" />
               </mat-form-field>
@@ -93,7 +93,7 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
             <div *ngIf="dfeSvc.getQuestionCtrlType(s, secEditIdx, qEditIdx).getRawValue() === 'textbox'
               && dfeSvc.getQuestionType(s, secEditIdx, qEditIdx).getRawValue() === 'text'
               && !dfeSvc.getQuestionEmail(s, secEditIdx, qEditIdx).getRawValue()">
-              <mat-form-field [appearance]="'outline'">
+              <mat-form-field>
                 <mat-label attr.for="question-{{secEditIdx}}-{{qEditIdx}}-maxLength">Maximum Length</mat-label>
                 <input matInput formControlName="maxLength" id="question-{{secEditIdx}}-{{qEditIdx}}-maxLength" type="number" />
               </mat-form-field>
@@ -127,7 +127,7 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
             </div>
 
             <div *ngIf="dfeSvc.getQuestionCtrlType(s, secEditIdx, qEditIdx).getRawValue() === 'date'">
-            <mat-form-field [appearance]="'outline'">
+            <mat-form-field>
                 <mat-label attr.for="question-{{secEditIdx}}-{{qEditIdx}}-temporal">Type</mat-label>
                 <mat-select id="question-{{secEditIdx}}-{{qEditIdx}}-temporal" formControlName="temporal">
                   <mat-option value="past">Past</mat-option>

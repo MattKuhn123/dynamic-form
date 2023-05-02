@@ -25,13 +25,13 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
       </div>
       <div *ngFor="let conditions of secEditConditions.controls; let doi = index" formArrayName="conditions">
         <div [formGroupName]="doi">
-          <mat-form-field [appearance]="'outline'">
+          <mat-form-field>
             <mat-label attr.for="conditions-{{doi}}-section">Section</mat-label>
             <mat-select id="conditions-{{doi}}-section" formControlName="section">
               <mat-option *ngFor="let key of dfeSvc.getSectionsForSectionConditions(s)" [value]="key">{{ key }}</mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field [appearance]="'outline'">
+          <mat-form-field>
             <mat-label attr.for="conditions-{{doi}}-key">Question</mat-label>
             <mat-select id="conditions-{{doi}}-key" formControlName="key">
               <mat-option *ngFor="let conditionalQuestion of dfeSvc.getQuestionsForConditions(s, this.getSectionConditionsSection(doi).getRawValue())" [value]="conditionalQuestion">
@@ -39,7 +39,7 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field [appearance]="'outline'">
+          <mat-form-field>
             <mat-label attr.for="conditions-{{doi}}-key">Value</mat-label>
             <mat-select id="conditions-{{doi}}-value" formControlName="value">
               <mat-option *ngFor="let option of dfeSvc.getValuesForConditions(s, this.getSectionConditionsSection(doi).getRawValue(), this.getSectionConditionsQuestion(doi).getRawValue())" [value]="option.key">

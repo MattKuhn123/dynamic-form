@@ -25,7 +25,7 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
       </div>
       <div formArrayName="conditions">
         <div *ngFor="let questionConditions of dfeSvc.getQuestionConditions(s, secEditIdx, qEditIdx).controls; let qdoi = index" [formGroupName]="qdoi">
-          <mat-form-field [appearance]="'outline'">
+          <mat-form-field>
             <mat-label attr.for="question-conditions-{{secEditIdx}}-{{qdoi}}-key">Question</mat-label>
             <mat-select id="question-conditions-{{secEditIdx}}-{{qdoi}}-key" formControlName="key">
               <mat-option *ngFor="let conditionalQuestion of dfeSvc.getQuestionsForConditions(s, dfeSvc.getSectionKey(s, secEditIdx).getRawValue())" [value]="conditionalQuestion">
@@ -34,7 +34,7 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field [appearance]="'outline'">
+          <mat-form-field>
             <mat-label attr.for="question-conditions-{{secEditIdx}}-{{qdoi}}-value">Value</mat-label>
             <mat-select id="question-conditions-{{secEditIdx}}-{{qdoi}}-value" formControlName="value">
               <mat-option *ngFor="let option of dfeSvc.getValuesForConditions(s, dfeSvc.getSectionKey(s, secEditIdx).getRawValue(), dfeSvc.getQuestionConditionsQuestion(s, secEditIdx, qEditIdx, qdoi).value)" [value]="option.key">

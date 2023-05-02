@@ -12,7 +12,7 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
   <mat-card [formGroup]="secEdit">
     <mat-card-content>
       <div>
-        <mat-form-field [appearance]="'outline'">
+        <mat-form-field>
           <mat-label for="section-key">Key</mat-label>
           <input matInput formControlName="key" id="section-key" type="text"/>
           <mat-icon matSuffix color="primary" matTooltip="edit" (click)="onClickEditSectionKey()">edit</mat-icon>
@@ -31,7 +31,7 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
         </mat-label>
       </div>
       <div>
-        <mat-form-field [appearance]="'outline'">
+        <mat-form-field>
           <mat-label for="section-subtitle">Subtitle</mat-label>
           <textarea matInput formControlName="subtitle" id="section-subtitle" type="text"></textarea>
         </mat-form-field>
