@@ -24,14 +24,11 @@ import { ActivatedRoute } from '@angular/router';
         <p> {{ form.subtitle }} </p>
       </mat-card-content>
     </mat-card>
-
     <form (ngSubmit)="onPreSubmit()" [formGroup]="formGroup">
       <mat-stepper formArrayName="formArray" [linear]="true" [orientation]="(stepperOrientation | async)!">
-        
         <div *ngFor="let section of form.sections; let sctnIdx = index; let first = first; let last = last">
           <mat-step *ngIf="!hidden(section)" formGroupName="{{ sctnIdx }}" [stepControl]="getFormGroupInArray(sctnIdx)" [optional]="!section.required">
             <ng-template matStepLabel>{{section.key}}</ng-template>
-            
             <mat-card *ngIf="section.info"  appearance="outlined">
               <mat-card-content>
                 <div [innerHtml]="section.info"></div>
@@ -43,7 +40,6 @@ import { ActivatedRoute } from '@angular/router';
                   {{section.subtitle}}
                 </mat-card-title>
               </mat-card-header>
-              
               <mat-card-content>
                 <div *ngFor="let control of getFormArray(sctnIdx).controls; let ctrlIdx = index; let lastControl = last">
                   <div *ngFor="let question of section.questions; let qstnIdx = index">
@@ -52,7 +48,6 @@ import { ActivatedRoute } from '@angular/router';
                   <mat-divider [inset]="true" *ngIf="!lastControl"></mat-divider>
                 </div>
               </mat-card-content>
-
               <mat-card-actions align="start">
                 <button type="button" mat-button *ngIf="section.list" (click)="onClickAdd(sctnIdx)">Add another</button>
                 <button type="button" mat-button *ngIf="section.list"  [disabled]="getFormArray(sctnIdx).controls.length <= 1"(click)="onClickRemove(sctnIdx)">Remove Last</button>
@@ -66,7 +61,6 @@ import { ActivatedRoute } from '@angular/router';
       </mat-stepper>
     </form>
   </div>
-
   <mat-card>
     <mat-card-content>
       <mat-slide-toggle [formControl]="showJson">Show json</mat-slide-toggle>

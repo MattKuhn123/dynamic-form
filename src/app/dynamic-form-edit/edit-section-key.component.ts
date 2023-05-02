@@ -12,18 +12,18 @@ export interface EditSectionKeyData {
 @Component({
   selector: 'app-edit-section-key-dialog',
   template: `
-    <h2 mat-dialog-title>Rename {{ data.secKey }}</h2>
-    <div mat-dialog-content>
-      <mat-form-field>
-        <mat-label>Section Key</mat-label>
-        <input matInput [formControl]="fc">
-        <mat-error *ngIf="error">{{ getErrorMessage() }}</mat-error>
-      </mat-form-field>
-    </div>
-    <div mat-dialog-actions>
-      <button mat-button (click)="onClickCancel()">Cancel</button>
-      <button mat-button color="primary" (click)="onClickOk()" cdkFocusInitial>Ok</button>
-    </div>
+  <h2 mat-dialog-title>Rename {{ data.secKey }}</h2>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label>Section Key</mat-label>
+      <input matInput [formControl]="fc">
+      <mat-error *ngIf="error">{{ getErrorMessage() }}</mat-error>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onClickCancel()">Cancel</button>
+    <button mat-button color="primary" (click)="onClickOk()" cdkFocusInitial>Ok</button>
+  </div>
   `
 })
 export class EditSectionKeyDialog {

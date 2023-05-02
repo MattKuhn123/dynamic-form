@@ -6,58 +6,58 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
 @Component({
   selector: 'app-dynamic-question',
   template: `
-    <div *ngIf="!hidden" [formGroup]="form">
-      <div [ngSwitch]="question.controlType">
+  <div *ngIf="!hidden" [formGroup]="form">
+    <div [ngSwitch]="question.controlType">
 
-        <div *ngSwitchCase="'textarea'">
-          <mat-form-field appearance="fill">
-            <mat-label [attr.for]="question.key">{{ question.label }}</mat-label>
-            <textarea matInput [formControlName]="question.key" [id]="question.key" matInput></textarea>
-          </mat-form-field>
-        </div>
+      <div *ngSwitchCase="'textarea'">
+        <mat-form-field appearance="fill">
+          <mat-label [attr.for]="question.key">{{ question.label }}</mat-label>
+          <textarea matInput [formControlName]="question.key" [id]="question.key" matInput></textarea>
+        </mat-form-field>
+      </div>
 
-        <div *ngSwitchCase="'textbox'">
-          <mat-form-field appearance="fill">
-            <mat-label [attr.for]="question.key">{{ question.label }}</mat-label>
-            <input matInput [formControlName]="question.key" [id]="question.key" type="text" />
-          </mat-form-field>
-        </div>
+      <div *ngSwitchCase="'textbox'">
+        <mat-form-field appearance="fill">
+          <mat-label [attr.for]="question.key">{{ question.label }}</mat-label>
+          <input matInput [formControlName]="question.key" [id]="question.key" type="text" />
+        </mat-form-field>
+      </div>
 
-        <div *ngSwitchCase="'dropdown'">
-          <mat-form-field appearance="fill">
-            <mat-label [attr.for]="question.key">{{ question.label }}</mat-label>
-            <mat-select [id]="question.key" [formControlName]="question.key">
-              <mat-option *ngFor="let opt of question.options" [value]="opt.key"> {{ opt.value }} </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+      <div *ngSwitchCase="'dropdown'">
+        <mat-form-field appearance="fill">
+          <mat-label [attr.for]="question.key">{{ question.label }}</mat-label>
+          <mat-select [id]="question.key" [formControlName]="question.key">
+            <mat-option *ngFor="let opt of question.options" [value]="opt.key"> {{ opt.value }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-        <div *ngSwitchCase="'radio'">
-          <mat-label [attr.for]="question.key">{{ question.label }}</mat-label><br />
-          <mat-radio-group [id]="question.key" [formControlName]="question.key">
-            <mat-radio-button *ngFor="let opt of question.options" [value]="opt.key"> {{ opt.value }} </mat-radio-button>
-          </mat-radio-group>
-        </div>
+      <div *ngSwitchCase="'radio'">
+        <mat-label [attr.for]="question.key">{{ question.label }}</mat-label><br />
+        <mat-radio-group [id]="question.key" [formControlName]="question.key">
+          <mat-radio-button *ngFor="let opt of question.options" [value]="opt.key"> {{ opt.value }} </mat-radio-button>
+        </mat-radio-group>
+      </div>
 
-        <div *ngSwitchCase="'date'">
-          <mat-form-field appearance="fill">
-            <mat-label>{{ question.label }}</mat-label>
-            <input *ngIf="question.temporal === 'past'" [max]="today" [id]="question.key" [formControlName]="question.key" matInput [matDatepicker]="picker">
-            <input *ngIf="question.temporal === 'future'" [min]="today" [id]="question.key" [formControlName]="question.key" matInput [matDatepicker]="picker">
-            <input *ngIf="question.temporal === ''" [id]="question.key" [formControlName]="question.key" matInput [matDatepicker]="picker">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </div>
+      <div *ngSwitchCase="'date'">
+        <mat-form-field appearance="fill">
+          <mat-label>{{ question.label }}</mat-label>
+          <input *ngIf="question.temporal === 'past'" [max]="today" [id]="question.key" [formControlName]="question.key" matInput [matDatepicker]="picker">
+          <input *ngIf="question.temporal === 'future'" [min]="today" [id]="question.key" [formControlName]="question.key" matInput [matDatepicker]="picker">
+          <input *ngIf="question.temporal === ''" [id]="question.key" [formControlName]="question.key" matInput [matDatepicker]="picker">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
 
-        <div *ngSwitchCase="'file'">
-          <button type="button" mat-button (click)="fileInput.click()">{{ question.label }}</button>
-          <input [formControlName]="question.key" hidden (change)="onFileSelected(question.key)" #fileInput type="file" [id]="question.key">
-          <p *ngIf="fileName">{{ fileName }}</p>
-        </div>
+      <div *ngSwitchCase="'file'">
+        <button type="button" mat-button (click)="fileInput.click()">{{ question.label }}</button>
+        <input [formControlName]="question.key" hidden (change)="onFileSelected(question.key)" #fileInput type="file" [id]="question.key">
+        <p *ngIf="fileName">{{ fileName }}</p>
       </div>
     </div>
+  </div>
   `
 })
 export class DynamicFormQuestionComponent {

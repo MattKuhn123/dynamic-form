@@ -15,7 +15,6 @@ import { ActivatedRoute } from '@angular/router';
   template: `
     <form *ngIf="fg" [formGroup]="fg" (ngSubmit)="onSubmit()">      
       <app-dynamic-form-edit-form [fb]="fb" [fg]="fg"></app-dynamic-form-edit-form>
-
       <mat-sidenav-container>
         <footer>
           <button type="submit" mat-raised-button color="primary" *ngIf="fg" [cdkCopyToClipboard]="stringified">Submit</button>
