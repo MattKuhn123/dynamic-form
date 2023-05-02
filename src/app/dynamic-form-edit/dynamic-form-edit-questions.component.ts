@@ -6,7 +6,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
 
 @Component({
   selector: 'app-dynamic-form-edit-questions',
-  styles: [ ],
+  styles: [],
   template: `
   <div [formGroup]="secEdit">
     <mat-card formArrayName="questions">

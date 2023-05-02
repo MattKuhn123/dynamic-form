@@ -7,7 +7,7 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
 
 @Component({
   selector: 'app-dynamic-form-edit-section',
-  styles: [ ],
+  styles: [],
   template: `
   <mat-card [formGroup]="secEdit">
     <mat-card-content>

@@ -4,7 +4,7 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
 
 @Component({
   selector: 'app-dynamic-form-edit-question-options',
-  styles: [ ],
+  styles: [],
   template: `
   <mat-card [formGroup]="qEdit">
     <mat-card-header>

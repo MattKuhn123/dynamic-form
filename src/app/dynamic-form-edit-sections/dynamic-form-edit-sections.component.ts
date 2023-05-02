@@ -6,7 +6,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-dynamic-form-edit-sections',
-  styles: [ ],
+  styles: [],
   template: `
   <mat-card [formGroup]="fg">
     <mat-card-header>
