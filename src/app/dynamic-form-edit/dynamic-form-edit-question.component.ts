@@ -139,12 +139,12 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
         </mat-card-content>
       </mat-card>
 
-      <app-dynamic-form-edit-options *ngIf="dfeSvc.isQuestionOptionable(s, secEditIdx, qEditIdx)"
+      <app-dynamic-form-edit-question-options *ngIf="dfeSvc.isQuestionOptionable(s, secEditIdx, qEditIdx)"
         [fg]="fg"
         [fb]="fb"
         [secEditIdx]="secEditIdx"
         [qEditIdx]="qEditIdx"
-      ></app-dynamic-form-edit-options>
+      ></app-dynamic-form-edit-question-options>
 
       <app-dynamic-form-edit-question-conditions
         [fg]="fg"

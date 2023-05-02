@@ -79,7 +79,6 @@ export class DynamicFormEditQuestionsComponent {
   protected onClickAddQuestion(): void{ this.secEditQuestions.push(this.dfeSvc.questionToGroup(this.fb, new DynamicFormQuestion())); }
 
   protected onClickEditQuestion(qEditIdx: number): void {
-    debugger;
     this.qEditIdx = qEditIdx;
     this.raiseClickEditQuestion.emit(qEditIdx);
   }

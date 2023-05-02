@@ -49,7 +49,7 @@ import { DynamicFormEditListComponent } from './dynamic-form-list/dynamic-form-l
 import { DynamicFormEditQuestionsComponent } from './dynamic-form-edit/dynamic-form-edit-questions.component';
 import { DynamicFormEditSectionConditionsComponent } from './dynamic-form-edit/dynamic-form-edit-section-conditions.component';
 import { DynamicFormEditSectionComponent } from './dynamic-form-edit/dynamic-form-edit-section.component';
-import { DynamicFormEditOptionsComponent } from './dynamic-form-edit/dynamic-form-edit-options.component';
+import { DynamicFormEditQuestionOptionsComponent } from './dynamic-form-edit/dynamic-form-edit-question-options.component';
 import { DynamicFormEditQuestionConditionsComponent } from './dynamic-form-edit/dynamic-form-edit-question-conditions.component';
 
 export const appRoute: Routes = [
@@ -73,7 +73,7 @@ export const appRoute: Routes = [
     DynamicFormEditQuestionsComponent,
     DynamicFormEditSectionConditionsComponent,
     DynamicFormEditSectionComponent,
-    DynamicFormEditOptionsComponent,
+    DynamicFormEditQuestionOptionsComponent,
     DynamicFormEditQuestionConditionsComponent,
   ],
   imports: [

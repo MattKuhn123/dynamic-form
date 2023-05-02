@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
 
 @Component({
-  selector: 'app-dynamic-form-edit-options',
+  selector: 'app-dynamic-form-edit-question-options',
   styles: [ ],
   template: `
   <mat-card [formGroup]="qEdit">
@@ -49,7 +49,7 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
   </mat-card>
   `,
 })
-export class DynamicFormEditOptionsComponent {
+export class DynamicFormEditQuestionOptionsComponent {
   @Input() fg!: FormGroup;
   @Input() fb!: FormBuilder;
   @Input() secEditIdx!: number;
