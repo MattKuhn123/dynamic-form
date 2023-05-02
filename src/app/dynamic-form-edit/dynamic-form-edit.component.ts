@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { S3Service } from '../shared/s3.service';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
+import { DynamicFormEditService } from './dynamic-form-edit.service';
 import { DynamicForm } from '../shared/dynamic-form.model';
 import { ActivatedRoute } from '@angular/router';
 

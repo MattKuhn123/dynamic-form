@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DynamicFormQuestion } from './dynamic-form-question.model';
-import { DynamicFormSection } from './dynamic-form-section.model';
+import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
+import { DynamicFormSection } from '../shared/dynamic-form-section.model';
 import { keyRequiredValidator } from './key-required.validator';
 import { questionMinimum } from './question-minimum.validator';
 

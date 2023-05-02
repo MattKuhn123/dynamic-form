@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DynamicFormSection } from '../shared/dynamic-form-section.model';
 import { EditSectionKeyDialog } from './edit-section-key.component';
-import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
+import { DynamicFormEditService } from './dynamic-form-edit.service';
 
 @Component({
   selector: 'app-dynamic-form-edit-section',

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
+import { DynamicFormEditService } from './dynamic-form-edit.service';
 
 @Component({
   selector: 'app-dynamic-form-edit-form',

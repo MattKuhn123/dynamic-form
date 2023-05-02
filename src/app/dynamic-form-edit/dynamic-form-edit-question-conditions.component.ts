@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
-import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
+import { DynamicFormEditService } from './dynamic-form-edit.service';
 
 @Component({
   selector: 'app-dynamic-form-edit-question-conditions',

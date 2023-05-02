@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
-import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
+import { DynamicFormEditService } from './dynamic-form-edit.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DynamicFormSection } from '../shared/dynamic-form-section.model';
 import { EditQuestionKeyDialog } from './edit-question-key.component';

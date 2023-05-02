@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
-import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
+import { DynamicFormEditService } from './dynamic-form-edit.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
 
