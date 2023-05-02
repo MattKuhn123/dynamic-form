@@ -5,7 +5,7 @@ import { DynamicFormEditService } from '../shared/dynamic-form-edit.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'app-dynamic-form-edit-sections',
+  selector: 'app-dynamic-form-edit-form',
   styles: [
     'mat-panel-description { display: flex; gap: 5px; flex-wrap: wrap; }',
     'footer { position: fixed; bottom: 10px; text-align: center; width: 100%; }',
@@ -86,7 +86,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   </mat-tab-group>
   </div>`
 })
-export class DynamicFormEditSectionsComponent {
+export class DynamicFormEditFormComponent {
   @Input() fg!: FormGroup;
   @Input() fb!: FormBuilder;
   

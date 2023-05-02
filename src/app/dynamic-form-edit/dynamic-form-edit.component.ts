@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
   ],
   template: `
     <form *ngIf="fg" [formGroup]="fg" (ngSubmit)="onSubmit()">      
-      <app-dynamic-form-edit-sections [fb]="fb" [fg]="fg"></app-dynamic-form-edit-sections>
+      <app-dynamic-form-edit-form [fb]="fb" [fg]="fg"></app-dynamic-form-edit-form>
 
       <mat-sidenav-container>
         <footer>
