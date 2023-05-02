@@ -10,10 +10,10 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   template: `
   <mat-card [formGroup]="fg">
     <mat-card-header>
-        <mat-card-title>
-          Sections
-        </mat-card-title>
-      </mat-card-header>
+      <mat-card-title>
+        Sections
+      </mat-card-title>
+    </mat-card-header>
     <mat-card-content>
       <div *ngIf="s.controls.length === 0">
         <div>
