@@ -79,7 +79,7 @@ export class DynamicFormEditSectionComponent {
   constructor(protected dfeSvc: DynamicFormEditService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.secEdit = this.dfeSvc.getSection(this.s, 0);
+    this.secEdit = this.dfeSvc.getSection(this.s, this.secEditIdx);
   }
 
   protected onClickEditSectionKey(): void {

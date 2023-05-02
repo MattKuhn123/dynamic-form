@@ -139,48 +139,12 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
         </mat-card-content>
       </mat-card>
 
-      <mat-card *ngIf="dfeSvc.isQuestionOptionable(s, secEditIdx, qi)">
-        <mat-card-header>
-          <mat-card-title>
-            Options
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div formArrayName="options">
-            <div *ngIf="dfeSvc.getQuestionOptions(s, secEditIdx, qi).controls.length === 0">
-              <div>
-                <em>
-                  This question has no options.
-                </em>
-              </div>
-              <div>
-                <button type="button" mat-button color="primary" (click)="onClickAddQuestionOption(qi, 0)">
-                  Add option
-                </button>
-              </div>
-            </div>
-    
-            <div *ngFor="let questionOptions of dfeSvc.getQuestionOptions(s, secEditIdx, qi).controls; let qoi = index">
-              <div [formGroupName]="qoi">
-                <mat-form-field [appearance]="'outline'">
-                  <mat-label attr.for="question-option-{{secEditIdx}}-{{qi}}-key">Value</mat-label>
-                  <input matInput formControlName="key" id="question-option-{{secEditIdx}}-{{qoi}}-key" type="text" />
-                </mat-form-field>
-                <mat-form-field [appearance]="'outline'">
-                  <mat-label attr.for="question-option-{{secEditIdx}}-{{qi}}-value">Label</mat-label>
-                  <input matInput formControlName="value" id="question-option-{{secEditIdx}}-{{qoi}}-value" type="text" />
-                </mat-form-field>
-                <button type="button" mat-icon-button color="warn" (click)="onClickRemoveQuestionOption(qi, qoi)">
-                  <mat-icon>delete</mat-icon>
-                </button>
-                <button type="button" mat-icon-button color="primary" (click)="onClickAddQuestionOption(qi, qoi)">
-                  <mat-icon>add</mat-icon>
-                </button>
-              </div>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
+      <app-dynamic-form-edit-options *ngIf="dfeSvc.isQuestionOptionable(s, secEditIdx, qi)"
+        [fg]="fg"
+        [fb]="fb"
+        [secEditIdx]="secEditIdx"
+        [qi]="qi"
+      ></app-dynamic-form-edit-options>
 
       <mat-card>
         <mat-card-header>
@@ -247,9 +211,6 @@ export class DynamicFormEditQuestionComponent {
 
   protected onClickAddQuestionCondition(qIdx: number, dpdsIdx: number): void { this.dfeSvc.getQuestionConditions(this.s, this.secEditIdx, qIdx).insert(dpdsIdx, this.dfeSvc.questionConditionsToGroup(this.fb, {key: "", value: ""})); }
   protected onClickRemoveQuestionCondition(qIdx: number, dpdsIdx: number): void { this.dfeSvc.getQuestionConditions(this.s, this.secEditIdx, qIdx).removeAt(dpdsIdx); }
-
-  protected onClickAddQuestionOption(qIdx: number, qoIdx: number): void { this.dfeSvc.getQuestionOptions(this.s, this.secEditIdx, qIdx).insert(qoIdx, this.dfeSvc.questionOptionToGroup(this.fb, {key: "", value: ""})); }
-  protected onClickRemoveQuestionOption(qIdx: number, qoIdx: number): void { this.dfeSvc.getQuestionOptions(this.s, this.secEditIdx, qIdx).removeAt(qoIdx); }
 
   protected onClickEditQuestionKey(qIdx: number): void {
     const dialogRef = this.dialog.open(EditQuestionKeyDialog, { data: {
