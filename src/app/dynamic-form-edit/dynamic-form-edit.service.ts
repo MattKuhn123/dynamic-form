@@ -4,6 +4,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
 import { DynamicFormSection } from '../shared/dynamic-form-section.model';
 import { keyRequiredValidator } from './key-required.validator';
 import { questionMinimum } from './question-minimum.validator';
+import { DynamicFormQuestionOption } from '../shared/dynamic-form-question-option.model';
 
 @Injectable({
   providedIn: 'root'
@@ -61,7 +62,7 @@ export class DynamicFormEditService {
     });
   }
 
-  public questionOptionToGroup(fb: FormBuilder, option: { key: string, value: string }): FormGroup {
+  public questionOptionToGroup(fb: FormBuilder, option: DynamicFormQuestionOption): FormGroup {
     return fb.group({
       key: option.key,
       value: option.value
@@ -110,7 +111,7 @@ export class DynamicFormEditService {
     return sec.filter(question => ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === question.controlType) > -1).map(q => q.key);
   }
   
-  public getValuesForConditions(secs: FormArray, secKey: string, qKey: string): { key: string, value: string }[] {
+  public getValuesForConditions(secs: FormArray, secKey: string, qKey: string): DynamicFormQuestionOption[] {
     const secIdx = this.getIndexOfSection(secs, secKey);
     return this.getQuestionOptions(secs, secIdx, this.getIndexOfQuestionInSection(secs, secIdx, qKey)).value;
   }

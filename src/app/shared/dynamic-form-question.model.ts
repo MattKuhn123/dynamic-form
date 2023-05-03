@@ -1,10 +1,11 @@
+import { DynamicFormQuestionOption } from "./dynamic-form-question-option.model";
 
 export class DynamicFormQuestion {
   controlType: string;
   conditions: { key: string, value: string }[];
   key: string;
   label: string;
-  options: { key: string, value: string }[];
+  options: DynamicFormQuestionOption[];
   required: boolean;
   
   type: string; // text, number, date
@@ -23,7 +24,7 @@ export class DynamicFormQuestion {
     conditions?: { key: string, value: string }[];
     key?: string;
     label?: string;
-    options?: { key: string, value: string }[];
+    options?: DynamicFormQuestionOption[];
     required?: boolean;
 
     type?: string;
