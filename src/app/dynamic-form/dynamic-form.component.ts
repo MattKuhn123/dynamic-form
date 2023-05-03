@@ -34,7 +34,7 @@ import { ActivatedRoute } from '@angular/router';
               </mat-card-header>
               <mat-card-content>
                 <div *ngIf="section.info" [innerHtml]="section.info"></div>
-                <div *ngFor="let control of getSection(secIdx).controls; let secIdxIdx = index; let lastControl = last" style="display: flex" [style.flex-direction]="section.list ? 'row' : 'column'">
+                <div *ngFor="let control of getSection(secIdx).controls; let secIdxIdx = index; let lastControl = last" style="display: flex; flex-wrap: wrap;" [style.flex-direction]="section.list ? 'row' : 'column'">
                   <div *ngFor="let question of section.questions;">
                     <app-dynamic-question 
                       [question]="question" 
