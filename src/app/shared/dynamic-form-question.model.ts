@@ -1,8 +1,9 @@
 import { DynamicFormQuestionOption } from "./dynamic-form-question-option.model";
+import { DynamicFormQuestionCondition } from "./dynamic-form-question-condition.model";
 
 export class DynamicFormQuestion {
   controlType: string;
-  conditions: { key: string, value: string }[];
+  conditions: DynamicFormQuestionCondition[];
   key: string;
   label: string;
   options: DynamicFormQuestionOption[];
@@ -21,7 +22,7 @@ export class DynamicFormQuestion {
   
   constructor(options: {
     controlType?: string;
-    conditions?: { key: string, value: string }[];
+    conditions?: DynamicFormQuestionCondition[];
     key?: string;
     label?: string;
     options?: DynamicFormQuestionOption[];
