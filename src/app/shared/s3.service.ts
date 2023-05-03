@@ -31,7 +31,7 @@ export class S3Service {
     return this.bucket.send(command);
   }
 
-  public async getFormList(): Promise<string[]>  {
+  public async getFormList(): Promise<string[]> {
     const command = new ListObjectsV2Command({
       Bucket: environment.AWS_BUCKET,
       MaxKeys: 10,
@@ -54,8 +54,6 @@ export class S3Service {
   }
 
   public async getForm(key: string): Promise<DynamicForm> {
-    await this.getFormList();
-
     const command = new GetObjectCommand({
       Bucket: environment.AWS_BUCKET,
       Key: key
