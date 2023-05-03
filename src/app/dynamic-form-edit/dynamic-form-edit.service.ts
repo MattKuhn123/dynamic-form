@@ -6,6 +6,7 @@ import { keyRequiredValidator } from './key-required.validator';
 import { questionMinimum } from './question-minimum.validator';
 import { DynamicFormQuestionOption } from '../shared/dynamic-form-question-option.model';
 import { DynamicFormQuestionCondition } from '../shared/dynamic-form-question-condition.model';
+import { DynamicFormSectionCondition } from '../shared/dynamic-form-section-condition.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class DynamicFormEditService {
     }, { validators: [ questionMinimum, keyRequiredValidator ] });
   }
 
-  public sectionConditionsToGroup(fb: FormBuilder, condition: { key: string, section: string, value: string }): FormGroup {
+  public sectionConditionsToGroup(fb: FormBuilder, condition: DynamicFormSectionCondition): FormGroup {
     return fb.group({
       key: fb.control(condition.key || ""),
       section: fb.control(condition.section || 0),

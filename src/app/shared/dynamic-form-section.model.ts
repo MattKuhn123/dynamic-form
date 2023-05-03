@@ -1,7 +1,8 @@
 import { DynamicFormQuestion } from "./dynamic-form-question.model";
+import { DynamicFormSectionCondition } from "./dynamic-form-section-condition.model";
 
 export class DynamicFormSection {
-  conditions: { section: string, key: string, value: string }[];
+  conditions: DynamicFormSectionCondition[];
   subtitle: string;
   info: string;
   list: boolean;
@@ -10,7 +11,7 @@ export class DynamicFormSection {
   key: string;
 
   constructor(options: {
-    conditions?: { section: string, key: string, value: string }[];
+    conditions?: DynamicFormSectionCondition[];
     subtitle?: string;
     info?: string
     list?: boolean;
