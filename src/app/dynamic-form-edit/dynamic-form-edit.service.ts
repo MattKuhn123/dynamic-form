@@ -18,6 +18,7 @@ export class DynamicFormEditService {
       subtitle: fb.control(section.subtitle || "", [Validators.required]),
       info: fb.control(section.info || ""),
       list: fb.control(section.list || false, [Validators.required]),
+      requireAtLeastOne: fb.control(section.requireAtLeastOne || false, [Validators.required]),
       required: fb.control(section.required || false, [Validators.required]),
       conditions: fb.array(section.conditions.map((condition: any) => this.sectionConditionsToGroup(fb, condition))),
       questions: fb.array(section.questions.map(question => this.questionToGroup(fb, question)))

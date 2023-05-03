@@ -42,7 +42,7 @@ import { ActivatedRoute } from '@angular/router';
                     ></app-dynamic-question>
                   </div>
                   <mat-divider *ngIf="!lastControl"></mat-divider>
-                  <button type="button" *ngIf="section.list" mat-icon-button color="warn" (click)="onClickRemove(secIdx, secIdxIdx)">
+                  <button type="button" *ngIf="section.list && !(section.requireAtLeastOne && lastControl && secIdxIdx == 0)" mat-icon-button color="warn" (click)="onClickRemove(secIdx, secIdxIdx)">
                     <mat-icon>delete</mat-icon>
                   </button>
                 </div>

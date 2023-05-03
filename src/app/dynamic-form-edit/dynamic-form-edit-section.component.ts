@@ -19,6 +19,12 @@ import { DynamicFormEditService } from './dynamic-form-edit.service';
         </mat-form-field>
       </div>
       <div>
+        <mat-form-field>
+          <mat-label for="section-subtitle">Subtitle</mat-label>
+          <textarea matInput formControlName="subtitle" id="section-subtitle" type="text"></textarea>
+        </mat-form-field>
+      </div>
+      <div>
         <mat-label for="section-required">
           <mat-checkbox formControlName="required" id="section-required"></mat-checkbox>
           Required
@@ -30,11 +36,11 @@ import { DynamicFormEditService } from './dynamic-form-edit.service';
           List
         </mat-label>
       </div>
-      <div>
-        <mat-form-field>
-          <mat-label for="section-subtitle">Subtitle</mat-label>
-          <textarea matInput formControlName="subtitle" id="section-subtitle" type="text"></textarea>
-        </mat-form-field>
+      <div *ngIf="secEditList.getRawValue()">
+        <mat-label for="section-require-at-least-one">
+          <mat-checkbox formControlName="requireAtLeastOne" id="section-require-at-least-one"></mat-checkbox>
+          Require at least one
+        </mat-label>
       </div>
       <div>
         <mat-label for="section-info">
@@ -71,6 +77,7 @@ export class DynamicFormEditSectionComponent {
   protected get secEdit(): FormGroup { return this.dfeSvc.getSection(this.s, this.secEditIdx) as FormGroup; }
   protected get secEditConditions(): FormArray { return this.secEdit.get("conditions") as FormArray; }
   protected get secEditKey(): FormControl { return this.secEdit.get("key") as FormControl; }
+  protected get secEditList(): FormControl { return this.secEdit.get("list") as FormControl; }
   protected get secEditInfo(): FormControl { return this.secEdit.get("info") as FormControl; }
 
   constructor(protected dfeSvc: DynamicFormEditService, private dialog: MatDialog) { }

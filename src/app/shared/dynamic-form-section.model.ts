@@ -6,6 +6,7 @@ export class DynamicFormSection {
   subtitle: string;
   info: string;
   list: boolean;
+  requireAtLeastOne: boolean;
   questions: DynamicFormQuestion[];
   required: boolean;
   key: string;
@@ -15,6 +16,7 @@ export class DynamicFormSection {
     subtitle?: string;
     info?: string
     list?: boolean;
+    requireAtLeastOne?: boolean;
     questions?: DynamicFormQuestion[];
     required?: boolean;
     key?: string;
@@ -23,6 +25,7 @@ export class DynamicFormSection {
     this.subtitle = options.subtitle || "";
     this.info = options.info || "";
     this.list = !!options.list;
+    this.requireAtLeastOne = !!options.requireAtLeastOne;
     this.questions = options.questions || [];
     this.required = !!options.required;
     this.key = options.key || "";
