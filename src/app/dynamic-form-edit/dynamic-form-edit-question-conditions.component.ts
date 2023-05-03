@@ -47,11 +47,11 @@ import { DynamicFormQuestionCondition } from '../shared/dynamic-form-question-co
         </div>
       </div>
     </mat-card-content>
-    <mat-card-footer>
-    <button type="button" mat-button color="primary" (click)="onClickAddQuestionCondition(qEditIdx, 0)">
-      Add condition
-    </button>
-    </mat-card-footer>
+    <mat-card-actions>
+      <button type="button" mat-button color="primary" (click)="onClickAddQuestionCondition(qEditIdx)">
+        Add condition
+      </button>
+    </mat-card-actions>
   </mat-card>
   `,
 })
@@ -66,14 +66,14 @@ export class DynamicFormEditQuestionConditionsComponent {
 
   constructor(protected dfeSvc: DynamicFormEditService, private dialog: MatDialog) { }
 
-  protected onClickAddQuestionCondition(qIdx: number, dpdsIdx: number): void { this.dfeSvc.getQuestionConditions(this.s, this.secEditIdx, qIdx).insert(dpdsIdx, this.dfeSvc.questionConditionsToGroup(this.fb, new DynamicFormQuestionCondition())); }
-  protected onClickRemoveQuestionCondition(qIdx: number, dpdsIdx: number): void {
+  protected onClickAddQuestionCondition(qIdx: number): void { this.dfeSvc.getQuestionConditions(this.s, this.secEditIdx, qIdx).push(this.dfeSvc.questionConditionsToGroup(this.fb, new DynamicFormQuestionCondition())); }
+  protected onClickRemoveQuestionCondition(qIdx: number, cndIdx: number): void {
     const dialogRef = this.dialog.open(DeleteConfirmDialog, { data: { 
-      key: `Condition on ${this.dfeSvc.getQuestionConditionsQuestion(this.s, this.secEditIdx, this.qEditIdx, dpdsIdx).getRawValue()}`
+      key: `Condition on ${this.dfeSvc.getQuestionConditionsQuestion(this.s, this.secEditIdx, this.qEditIdx, cndIdx).getRawValue()}`
     } });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.dfeSvc.getQuestionConditions(this.s, this.secEditIdx, qIdx).removeAt(dpdsIdx);
+        this.dfeSvc.getQuestionConditions(this.s, this.secEditIdx, qIdx).removeAt(cndIdx);
       }
     });
   }

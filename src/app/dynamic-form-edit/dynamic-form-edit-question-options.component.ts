@@ -43,11 +43,11 @@ import { DynamicFormQuestionOption } from '../shared/dynamic-form-question-optio
         </mat-list-item>
       </mat-list>
     </mat-card-content>
-    <mat-card-footer>
-      <button type="button" mat-button color="primary" (click)="onClickAddQuestionOption(qEditIdx, 0)">
+    <mat-card-actions>
+      <button type="button" mat-button color="primary" (click)="onClickAddQuestionOption(qEditIdx)">
         Add option
       </button>
-    </mat-card-footer>
+    </mat-card-actions>
   </mat-card>
   `,
 })
@@ -64,7 +64,7 @@ export class DynamicFormEditQuestionOptionsComponent {
 
   constructor(protected dfeSvc: DynamicFormEditService, private dialog: MatDialog) { }
 
-  protected onClickAddQuestionOption(qIdx: number, qoIdx: number): void { this.dfeSvc.getQuestionOptions(this.s, this.secEditIdx, qIdx).insert(qoIdx, this.dfeSvc.questionOptionToGroup(this.fb, new DynamicFormQuestionOption())); }
+  protected onClickAddQuestionOption(qIdx: number): void { this.dfeSvc.getQuestionOptions(this.s, this.secEditIdx, qIdx).push(this.dfeSvc.questionOptionToGroup(this.fb, new DynamicFormQuestionOption())); }
   protected onClickRemoveQuestionOption(qIdx: number, qoIdx: number): void {
     const dialogRef = this.dialog.open(DeleteConfirmDialog, { data: { 
       key: `${this.dfeSvc.getQuestionOptionValue(this.s, this.secEditIdx, this.qEditIdx, qoIdx).getRawValue()}`

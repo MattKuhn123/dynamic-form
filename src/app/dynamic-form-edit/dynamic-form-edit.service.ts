@@ -77,10 +77,10 @@ export class DynamicFormEditService {
   public getSectionRequired(secs: FormArray, secIdx: number): FormControl { return this.getSection(secs, secIdx).get("required") as FormControl; }
   public getSectionList(secs: FormArray, secIdx: number): FormControl { return this.getSection(secs, secIdx).get("list") as FormControl; }
   public getSectionConditions(secs: FormArray, secIdx: number): FormArray { return (this.getSection(secs, secIdx)).get("conditions") as FormArray; }
-  public getSectionCondition(secs: FormArray, secIdx: number, dpdsIdx: number): FormGroup { return this.getSectionConditions(secs, secIdx).at(dpdsIdx) as FormGroup; }
-  public getSectionConditionsSection(secs: FormArray, secIdx: number, dpdsIdx: number): FormControl { return this.getSectionCondition(secs, secIdx, dpdsIdx).get("section") as FormControl; }
-  public getSectionConditionsQuestion(secs: FormArray, secIdx: number, dpdsIdx: number): FormControl { return this.getSectionCondition(secs, secIdx, dpdsIdx).get("key") as FormControl; }
-  public getSectionConditionsValue(secs: FormArray, secIdx: number, dpdsIdx: number): FormControl { return this.getSectionCondition(secs, secIdx, dpdsIdx).get("value") as FormControl; }
+  public getSectionCondition(secs: FormArray, secIdx: number, cndIdx: number): FormGroup { return this.getSectionConditions(secs, secIdx).at(cndIdx) as FormGroup; }
+  public getSectionConditionsSection(secs: FormArray, secIdx: number, cndIdx: number): FormControl { return this.getSectionCondition(secs, secIdx, cndIdx).get("section") as FormControl; }
+  public getSectionConditionsQuestion(secs: FormArray, secIdx: number, cndIdx: number): FormControl { return this.getSectionCondition(secs, secIdx, cndIdx).get("key") as FormControl; }
+  public getSectionConditionsValue(secs: FormArray, secIdx: number, cndIdx: number): FormControl { return this.getSectionCondition(secs, secIdx, cndIdx).get("value") as FormControl; }
   
   public getQuestions(secs: FormArray, secIdx: number): FormArray { return (this.getSection(secs, secIdx)).get("questions") as FormArray; }
   public getQuestion(secs: FormArray, secIdx: number, qIdx: number): FormGroup { return this.getQuestions(secs, secIdx).at(qIdx) as FormGroup; }
@@ -101,9 +101,9 @@ export class DynamicFormEditService {
   public getQuestionOptionValue(secs: FormArray, secIdx: number, qIdx: number, optIdx: number): FormControl { return (this.getQuestionOption(secs, secIdx, qIdx, optIdx)).get("value") as FormControl; }
   
   public getQuestionConditions(secs: FormArray, secIdx: number, qIdx: number): FormArray { return this.getQuestion(secs, secIdx, qIdx).get("conditions") as FormArray; }
-  public getQuestionCondition(secs: FormArray, secIdx: number, qIdx: number, dpdsIdx: number): FormControl { return this.getQuestionConditions(secs, secIdx, qIdx).at(dpdsIdx) as FormControl; }
-  public getQuestionConditionsQuestion(secs: FormArray, secIdx: number, qIdx: number, dpdsIdx: number): FormControl { return this.getQuestionCondition(secs, secIdx, qIdx, dpdsIdx).get("key") as FormControl; }
-  public getQuestionConditionsValue(secs: FormArray, secIdx: number, qIdx: number, dpdsIdx: number): FormControl { return this.getQuestionCondition(secs, secIdx, qIdx, dpdsIdx).get("value") as FormControl; }
+  public getQuestionCondition(secs: FormArray, secIdx: number, qIdx: number, cndIdx: number): FormControl { return this.getQuestionConditions(secs, secIdx, qIdx).at(cndIdx) as FormControl; }
+  public getQuestionConditionsQuestion(secs: FormArray, secIdx: number, qIdx: number, cndIdx: number): FormControl { return this.getQuestionCondition(secs, secIdx, qIdx, cndIdx).get("key") as FormControl; }
+  public getQuestionConditionsValue(secs: FormArray, secIdx: number, qIdx: number, cndIdx: number): FormControl { return this.getQuestionCondition(secs, secIdx, qIdx, cndIdx).get("value") as FormControl; }
   
   public getSectionsForSectionConditions(secs: FormArray): string[] {
     const sections: DynamicFormSection[] = secs.getRawValue() as DynamicFormSection[];

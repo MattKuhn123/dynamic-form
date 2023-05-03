@@ -20,45 +20,42 @@ import { DeleteConfirmDialog } from './delete-confirm.dialog';
         <div>
           <em>There are no conditions under which this section will be displayed, so it will always be displayed by default.</em>
         </div>
-        <div>
-          <button type="button" mat-button color="primary" (click)="onClickAddSectionCondition(0)">
-            Add condition
-          </button>
-        </div>
       </div>
-      <div *ngFor="let conditions of secEditConditions.controls; let doi = index" formArrayName="conditions">
-        <div [formGroupName]="doi">
+      <div *ngFor="let conditions of secEditConditions.controls; let cndIdx = index" formArrayName="conditions">
+        <div [formGroupName]="cndIdx">
           <mat-form-field>
-            <mat-label attr.for="conditions-{{doi}}-section">Section</mat-label>
-            <mat-select id="conditions-{{doi}}-section" formControlName="section">
+            <mat-label attr.for="conditions-{{cndIdx}}-section">Section</mat-label>
+            <mat-select id="conditions-{{cndIdx}}-section" formControlName="section">
               <mat-option *ngFor="let key of dfeSvc.getSectionsForSectionConditions(s)" [value]="key">{{ key }}</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field>
-            <mat-label attr.for="conditions-{{doi}}-key">Question</mat-label>
-            <mat-select id="conditions-{{doi}}-key" formControlName="key">
-              <mat-option *ngFor="let conditionalQuestion of dfeSvc.getQuestionsForConditions(s, this.getSectionConditionsSection(doi).getRawValue())" [value]="conditionalQuestion">
+            <mat-label attr.for="conditions-{{cndIdx}}-key">Question</mat-label>
+            <mat-select id="conditions-{{cndIdx}}-key" formControlName="key">
+              <mat-option *ngFor="let conditionalQuestion of dfeSvc.getQuestionsForConditions(s, this.getSectionConditionsSection(cndIdx).getRawValue())" [value]="conditionalQuestion">
                 {{ conditionalQuestion }}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field>
-            <mat-label attr.for="conditions-{{doi}}-key">Value</mat-label>
-            <mat-select id="conditions-{{doi}}-value" formControlName="value">
-              <mat-option *ngFor="let option of dfeSvc.getValuesForConditions(s, this.getSectionConditionsSection(doi).getRawValue(), this.getSectionConditionsQuestion(doi).getRawValue())" [value]="option.key">
+            <mat-label attr.for="conditions-{{cndIdx}}-key">Value</mat-label>
+            <mat-select id="conditions-{{cndIdx}}-value" formControlName="value">
+              <mat-option *ngFor="let option of dfeSvc.getValuesForConditions(s, this.getSectionConditionsSection(cndIdx).getRawValue(), this.getSectionConditionsQuestion(cndIdx).getRawValue())" [value]="option.key">
                 {{ option.value }}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <button type="button" mat-icon-button color="warn" (click)="onClickRemoveSectionCondition(doi)">
+          <button type="button" mat-icon-button color="warn" (click)="onClickRemoveSectionCondition(cndIdx)">
             <mat-icon>delete</mat-icon>
-          </button>
-          <button type="button" mat-icon-button color="primary" (click)="onClickAddSectionCondition(doi)">
-            <mat-icon>add</mat-icon>
           </button>
         </div>
       </div>
     </mat-card-content>
+    <mat-card-actions>
+      <button type="button" (click)="onClickAddSectionCondition()" mat-button color="primary">
+        Add condition
+      </button>
+    </mat-card-actions>
   </mat-card>`
 })
 export class DynamicFormEditSectionConditionsComponent {
@@ -71,17 +68,17 @@ export class DynamicFormEditSectionConditionsComponent {
 
   constructor(protected dfeSvc: DynamicFormEditService, private dialog: MatDialog) { }
 
-  protected getSectionConditionsSection(dpdsIdx: number): FormControl { return this.secEditConditions.at(dpdsIdx).get("section") as FormControl; }
-  protected getSectionConditionsQuestion(dpdsIdx: number): FormControl { return this.secEditConditions.at(dpdsIdx).get("key") as FormControl; }
+  protected getSectionConditionsSection(cndIdx: number): FormControl { return this.secEditConditions.at(cndIdx).get("section") as FormControl; }
+  protected getSectionConditionsQuestion(cndIdx: number): FormControl { return this.secEditConditions.at(cndIdx).get("key") as FormControl; }
 
-  protected onClickAddSectionCondition(doIdx: number): void { this.secEditConditions.insert(doIdx, this.dfeSvc.sectionConditionsToGroup(this.fb, new DynamicFormSectionCondition())); }
-  protected onClickRemoveSectionCondition(doi: number): void {
+  protected onClickAddSectionCondition(): void { this.secEditConditions.push(this.dfeSvc.sectionConditionsToGroup(this.fb, new DynamicFormSectionCondition())); }
+  protected onClickRemoveSectionCondition(cndIdx: number): void {
     const dialogRef = this.dialog.open(DeleteConfirmDialog, { data: { 
-      key: `Condition on ${this.getSectionConditionsSection(doi).getRawValue()}'s ${this.getSectionConditionsQuestion(doi).getRawValue()}`
+      key: `Condition on ${this.getSectionConditionsSection(cndIdx).getRawValue()}'s ${this.getSectionConditionsQuestion(cndIdx).getRawValue()}`
     } });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.secEditConditions.removeAt(doi);
+        this.secEditConditions.removeAt(cndIdx);
       }
     });
   }
