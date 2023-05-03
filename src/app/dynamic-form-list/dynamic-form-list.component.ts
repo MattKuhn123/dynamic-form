@@ -30,7 +30,7 @@ import { S3Service } from 'src/app/shared/s3.service';
   </mat-card>
   `,
 })
-export class DynamicFormEditListComponent implements OnInit {
+export class DynamicFormListComponent implements OnInit {
   formList!: string[];
 
   constructor(private s3: S3Service, private router: Router) { }

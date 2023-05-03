@@ -12,10 +12,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AppComponent } from './app.component';
-import { DynamicFormEditListComponent } from './dynamic-form-list/dynamic-form-list.component';
+import { DynamicFormListComponent } from './dynamic-form-list/dynamic-form-list.component';
 
 const appRoute: Routes = [
-  { path: '', component: DynamicFormEditListComponent },
+  { path: '', component: DynamicFormListComponent },
   { path: 'edit', loadChildren: () => import('./dynamic-form-edit/dynamic-form-edit.module').then(m => m.DynamicFormEditModule) },
   { path: 'run', loadChildren: () => import('./dynamic-form/dynamic-form.module').then(m => m.DynamicFormModule) },
 ]
@@ -23,7 +23,7 @@ const appRoute: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    DynamicFormEditListComponent,
+    DynamicFormListComponent,
   ],
   imports: [
     BrowserModule,
