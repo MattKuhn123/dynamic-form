@@ -16,8 +16,9 @@ import { DynamicFormEditQuestionConditionsComponent } from './dynamic-form-edit-
 import { DynamicFormEditSectionComponent } from './dynamic-form-edit-section.component';
 import { DynamicFormEditSectionsComponent } from './dynamic-form-edit-sections.component';
 import { DynamicFormEditSectionConditionsComponent } from './dynamic-form-edit-section-conditions.component';
-import { EditQuestionKeyDialog } from './edit-question-key.component';
-import { EditSectionKeyDialog } from './edit-section-key.component';
+import { DeleteConfirmDialog } from './delete-confirm.dialog';
+import { EditQuestionKeyDialog } from './edit-question-key.dialog';
+import { EditSectionKeyDialog } from './edit-section-key.dialog';
 
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -61,6 +62,7 @@ const appRoute: Routes = [
     DynamicFormEditSectionComponent,
     DynamicFormEditSectionConditionsComponent,
     DynamicFormEditSectionsComponent,
+    DeleteConfirmDialog,
     EditQuestionKeyDialog,
     EditSectionKeyDialog,
   ],

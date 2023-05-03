@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DynamicFormSection } from '../shared/dynamic-form-section.model';
-import { EditSectionKeyDialog } from './edit-section-key.component';
+import { EditSectionKeyDialog } from './edit-section-key.dialog';
 import { DynamicFormEditService } from './dynamic-form-edit.service';
 
 @Component({

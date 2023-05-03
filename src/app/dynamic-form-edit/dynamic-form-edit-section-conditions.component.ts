@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DynamicFormEditService } from './dynamic-form-edit.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DynamicFormSectionCondition } from '../shared/dynamic-form-section-condition.model';
+import { DeleteConfirmDialog } from './delete-confirm.dialog';
 
 @Component({
   selector: 'app-dynamic-form-edit-section-conditions',
@@ -66,11 +69,20 @@ export class DynamicFormEditSectionConditionsComponent {
   protected get s(): FormArray { return this.fg.get("sections") as FormArray; }
   protected get secEditConditions(): FormArray { return this.secEdit.get("conditions") as FormArray; }
 
-  constructor(protected dfeSvc: DynamicFormEditService) { }
+  constructor(protected dfeSvc: DynamicFormEditService, private dialog: MatDialog) { }
 
   protected getSectionConditionsSection(dpdsIdx: number): FormControl { return this.secEditConditions.at(dpdsIdx).get("section") as FormControl; }
   protected getSectionConditionsQuestion(dpdsIdx: number): FormControl { return this.secEditConditions.at(dpdsIdx).get("key") as FormControl; }
 
-  protected onClickAddSectionCondition(doIdx: number): void { this.secEditConditions.insert(doIdx, this.dfeSvc.sectionConditionsToGroup(this.fb, {key: "", section: "", value: ""})); }
-  protected onClickRemoveSectionCondition(doi: number): void { this.secEditConditions.removeAt(doi); }
+  protected onClickAddSectionCondition(doIdx: number): void { this.secEditConditions.insert(doIdx, this.dfeSvc.sectionConditionsToGroup(this.fb, new DynamicFormSectionCondition())); }
+  protected onClickRemoveSectionCondition(doi: number): void {
+    const dialogRef = this.dialog.open(DeleteConfirmDialog, { data: { 
+      key: `Condition on ${this.getSectionConditionsSection(doi).getRawValue()}'s ${this.getSectionConditionsQuestion(doi).getRawValue()}`
+    } });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.secEditConditions.removeAt(doi);
+      }
+    });
+  }
 }

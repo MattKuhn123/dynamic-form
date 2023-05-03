@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { DynamicFormEditService } from './dynamic-form-edit.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteConfirmDialog } from './delete-confirm.dialog';
+import { DynamicFormQuestionCondition } from '../shared/dynamic-form-question-condition.model';
 
 @Component({
   selector: 'app-dynamic-form-edit-question-conditions',
@@ -16,11 +19,6 @@ import { DynamicFormEditService } from './dynamic-form-edit.service';
       <div *ngIf="dfeSvc.getQuestionConditions(s, secEditIdx, qEditIdx).controls.length === 0">
         <div>
           <em>There are no conditions under which this question will be displayed, so it will always be displayed by default.</em>
-        </div>
-        <div>
-          <button mat-button color="primary" (click)="onClickAddQuestionCondition(qEditIdx, 0)">
-            Add condition
-          </button>
         </div>
       </div>
       <div formArrayName="conditions">
@@ -43,16 +41,17 @@ import { DynamicFormEditService } from './dynamic-form-edit.service';
             </mat-select>
           </mat-form-field>
 
-          <button mat-icon-button color="warn" (click)="onClickRemoveQuestionCondition(qEditIdx, qdoi)">
+          <button type="button" mat-icon-button color="warn" (click)="onClickRemoveQuestionCondition(qEditIdx, qdoi)">
             <mat-icon>delete</mat-icon>
-          </button>
-
-          <button mat-icon-button color="primary" (click)="onClickAddQuestionCondition(qEditIdx, qdoi)">
-            <mat-icon>add</mat-icon>
           </button>
         </div>
       </div>
     </mat-card-content>
+    <mat-card-footer>
+    <button type="button" mat-button color="primary" (click)="onClickAddQuestionCondition(qEditIdx, 0)">
+      Add condition
+    </button>
+    </mat-card-footer>
   </mat-card>
   `,
 })
@@ -65,8 +64,17 @@ export class DynamicFormEditQuestionConditionsComponent {
   protected get s(): FormArray { return this.fg.get("sections") as FormArray; }
   protected get qEdit(): FormGroup { return this.dfeSvc.getQuestion(this.s, this.secEditIdx, this.qEditIdx) as FormGroup; }
 
-  constructor(protected dfeSvc: DynamicFormEditService) { }
+  constructor(protected dfeSvc: DynamicFormEditService, private dialog: MatDialog) { }
 
-  protected onClickAddQuestionCondition(qIdx: number, dpdsIdx: number): void { this.dfeSvc.getQuestionConditions(this.s, this.secEditIdx, qIdx).insert(dpdsIdx, this.dfeSvc.questionConditionsToGroup(this.fb, {key: "", value: ""})); }
-  protected onClickRemoveQuestionCondition(qIdx: number, dpdsIdx: number): void { this.dfeSvc.getQuestionConditions(this.s, this.secEditIdx, qIdx).removeAt(dpdsIdx); }
+  protected onClickAddQuestionCondition(qIdx: number, dpdsIdx: number): void { this.dfeSvc.getQuestionConditions(this.s, this.secEditIdx, qIdx).insert(dpdsIdx, this.dfeSvc.questionConditionsToGroup(this.fb, new DynamicFormQuestionCondition())); }
+  protected onClickRemoveQuestionCondition(qIdx: number, dpdsIdx: number): void {
+    const dialogRef = this.dialog.open(DeleteConfirmDialog, { data: { 
+      key: `Condition on ${this.dfeSvc.getQuestionConditionsQuestion(this.s, this.secEditIdx, this.qEditIdx, dpdsIdx).getRawValue()}`
+    } });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dfeSvc.getQuestionConditions(this.s, this.secEditIdx, qIdx).removeAt(dpdsIdx);
+      }
+    });
+  }
 }

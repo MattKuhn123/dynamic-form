@@ -23,7 +23,7 @@ const appRoute: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    DynamicFormListComponent,
+    DynamicFormListComponent
   ],
   imports: [
     BrowserModule,

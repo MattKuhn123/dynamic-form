@@ -98,6 +98,7 @@ export class DynamicFormEditService {
   
   public getQuestionOptions(secs: FormArray, secIdx: number, qIdx: number): FormArray { return this.getQuestion(secs, secIdx, qIdx).get("options") as FormArray; }
   public getQuestionOption(secs: FormArray, secIdx: number, qIdx: number, optIdx: number): FormControl { return (this.getQuestion(secs, secIdx, qIdx).get("options") as FormArray).at(optIdx) as FormControl; }
+  public getQuestionOptionValue(secs: FormArray, secIdx: number, qIdx: number, optIdx: number): FormControl { return (this.getQuestionOption(secs, secIdx, qIdx, optIdx)).get("value") as FormControl; }
   
   public getQuestionConditions(secs: FormArray, secIdx: number, qIdx: number): FormArray { return this.getQuestion(secs, secIdx, qIdx).get("conditions") as FormArray; }
   public getQuestionCondition(secs: FormArray, secIdx: number, qIdx: number, dpdsIdx: number): FormControl { return this.getQuestionConditions(secs, secIdx, qIdx).at(dpdsIdx) as FormControl; }

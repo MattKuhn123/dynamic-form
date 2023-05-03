@@ -2,6 +2,9 @@ import { Component, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { DynamicFormEditService } from './dynamic-form-edit.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteConfirmDialog } from './delete-confirm.dialog';
+import { DynamicFormQuestionOption } from '../shared/dynamic-form-question-option.model';
 
 @Component({
   selector: 'app-dynamic-form-edit-question-options',
@@ -59,10 +62,19 @@ export class DynamicFormEditQuestionOptionsComponent {
 
   protected get qEditOptions(): FormArray { return this.qEdit.get("options") as FormArray; }
 
-  constructor(protected dfeSvc: DynamicFormEditService) { }
+  constructor(protected dfeSvc: DynamicFormEditService, private dialog: MatDialog) { }
 
-  protected onClickAddQuestionOption(qIdx: number, qoIdx: number): void { this.dfeSvc.getQuestionOptions(this.s, this.secEditIdx, qIdx).insert(qoIdx, this.dfeSvc.questionOptionToGroup(this.fb, {key: "", value: ""})); }
-  protected onClickRemoveQuestionOption(qIdx: number, qoIdx: number): void { this.dfeSvc.getQuestionOptions(this.s, this.secEditIdx, qIdx).removeAt(qoIdx); }
+  protected onClickAddQuestionOption(qIdx: number, qoIdx: number): void { this.dfeSvc.getQuestionOptions(this.s, this.secEditIdx, qIdx).insert(qoIdx, this.dfeSvc.questionOptionToGroup(this.fb, new DynamicFormQuestionOption())); }
+  protected onClickRemoveQuestionOption(qIdx: number, qoIdx: number): void {
+    const dialogRef = this.dialog.open(DeleteConfirmDialog, { data: { 
+      key: `${this.dfeSvc.getQuestionOptionValue(this.s, this.secEditIdx, this.qEditIdx, qoIdx).getRawValue()}`
+    } });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dfeSvc.getQuestionOptions(this.s, this.secEditIdx, qIdx).removeAt(qoIdx);
+      }
+    });
+  }
 
   protected handleDropListDropped(event: CdkDragDrop<string[]>) { moveItemInArray(this.qEditOptions.controls, event.previousIndex, event.currentIndex); }
 }

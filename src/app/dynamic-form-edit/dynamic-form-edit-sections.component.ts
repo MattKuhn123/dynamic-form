@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { DynamicFormSection } from '../shared/dynamic-form-section.model';
 import { DynamicFormEditService } from './dynamic-form-edit.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { DeleteConfirmDialog as DeleteConfirmDialog } from './delete-confirm.dialog';
 
 @Component({
   selector: 'app-dynamic-form-edit-sections',
@@ -60,7 +62,7 @@ export class DynamicFormEditSectionsComponent {
 
   get s(): FormArray { return this.fg.get("sections") as FormArray; }
 
-  constructor(protected dfeSvc: DynamicFormEditService) { }
+  constructor(protected dfeSvc: DynamicFormEditService, private dialog: MatDialog) { }
 
   protected onClickEditSection(secEditIdx: number): void {
     this.raiseClickEditSection.emit(secEditIdx);
@@ -91,7 +93,16 @@ export class DynamicFormEditSectionsComponent {
   }
 
   protected onClickAddSection(): void { this.s.push(this.dfeSvc.sectionToGroup(this.fb, new DynamicFormSection())); }
-  protected onClickRemoveSection(secIdx: number): void { this.s.removeAt(secIdx); }
+  protected onClickRemoveSection(secIdx: number): void {
+    const dialogRef = this.dialog.open(DeleteConfirmDialog, { data: { 
+      key: this.dfeSvc.getSectionKey(this.s, secIdx).getRawValue()
+    } });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.s.removeAt(secIdx);
+      }
+    });
+  }
 
   protected handleDropListDropped(event: CdkDragDrop<string[]>) { moveItemInArray(this.s.controls, event.previousIndex, event.currentIndex); }
 

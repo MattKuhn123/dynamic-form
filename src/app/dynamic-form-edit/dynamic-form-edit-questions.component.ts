@@ -3,6 +3,8 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors } from
 import { DynamicFormEditService } from './dynamic-form-edit.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteConfirmDialog } from './delete-confirm.dialog';
 
 @Component({
   selector: 'app-dynamic-form-edit-questions',
@@ -71,7 +73,7 @@ export class DynamicFormEditQuestionsComponent {
   protected get secEditQuestion(): FormGroup { return (this.secEditQuestions).at(this.qEditIdx) as FormGroup; }
   protected get secEditQuestionKey(): FormControl { return this.secEditQuestion.get("key") as FormControl; }
 
-  constructor(protected dfeSvc: DynamicFormEditService) { }
+  constructor(protected dfeSvc: DynamicFormEditService, private dialog: MatDialog) { }
 
   protected flatten(strings: string[]): string { return [... new Set(strings)].join(", "); }
 
@@ -82,7 +84,16 @@ export class DynamicFormEditQuestionsComponent {
     this.raiseClickEditQuestion.emit(qEditIdx);
   }
 
-  protected onClickRemoveQuestion(qIdx: number): void { this.secEditQuestions.removeAt(qIdx); }
+  protected onClickRemoveQuestion(qIdx: number): void {
+    const dialogRef = this.dialog.open(DeleteConfirmDialog, { data: { 
+      key: `${this.dfeSvc.getQuestionKey(this.s, this.secEditIdx, qIdx).getRawValue()}`
+    } });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.secEditQuestions.removeAt(qIdx);
+      }
+    });
+  }
 
   protected getQuestionErrors(qIdx: number): string[] {
     const errs: string[] = [];
