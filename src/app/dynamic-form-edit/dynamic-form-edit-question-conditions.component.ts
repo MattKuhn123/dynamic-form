@@ -22,10 +22,10 @@ import { DynamicFormQuestionCondition } from '../shared/dynamic-form-question-co
         </div>
       </div>
       <div formArrayName="conditions">
-        <div *ngFor="let questionConditions of dfeSvc.getQuestionConditions(s, secEditIdx, qEditIdx).controls; let qdoi = index" [formGroupName]="qdoi">
+        <div *ngFor="let questionConditions of dfeSvc.getQuestionConditions(s, secEditIdx, qEditIdx).controls; let qCndIdx = index" [formGroupName]="qCndIdx">
           <mat-form-field>
-            <mat-label attr.for="question-conditions-{{secEditIdx}}-{{qdoi}}-key">Question</mat-label>
-            <mat-select id="question-conditions-{{secEditIdx}}-{{qdoi}}-key" formControlName="key">
+            <mat-label attr.for="question-conditions-{{secEditIdx}}-{{qCndIdx}}-key">Question</mat-label>
+            <mat-select id="question-conditions-{{secEditIdx}}-{{qCndIdx}}-key" formControlName="key">
               <mat-option *ngFor="let conditionalQuestion of dfeSvc.getQuestionsForConditions(s, dfeSvc.getSectionKey(s, secEditIdx).getRawValue())" [value]="conditionalQuestion">
                 {{ conditionalQuestion }}
               </mat-option>
@@ -33,15 +33,15 @@ import { DynamicFormQuestionCondition } from '../shared/dynamic-form-question-co
           </mat-form-field>
 
           <mat-form-field>
-            <mat-label attr.for="question-conditions-{{secEditIdx}}-{{qdoi}}-value">Value</mat-label>
-            <mat-select id="question-conditions-{{secEditIdx}}-{{qdoi}}-value" formControlName="value">
-              <mat-option *ngFor="let option of dfeSvc.getValuesForConditions(s, dfeSvc.getSectionKey(s, secEditIdx).getRawValue(), dfeSvc.getQuestionConditionsQuestion(s, secEditIdx, qEditIdx, qdoi).value)" [value]="option.key">
+            <mat-label attr.for="question-conditions-{{secEditIdx}}-{{qCndIdx}}-value">Value</mat-label>
+            <mat-select id="question-conditions-{{secEditIdx}}-{{qCndIdx}}-value" formControlName="value">
+              <mat-option *ngFor="let option of dfeSvc.getValuesForConditions(s, dfeSvc.getSectionKey(s, secEditIdx).getRawValue(), dfeSvc.getQuestionConditionsQuestion(s, secEditIdx, qEditIdx, qCndIdx).value)" [value]="option.key">
                 {{ option.value }}
               </mat-option>
             </mat-select>
           </mat-form-field>
 
-          <button type="button" mat-icon-button color="warn" (click)="onClickRemoveQuestionCondition(qEditIdx, qdoi)">
+          <button type="button" mat-icon-button color="warn" (click)="onClickRemoveQuestionCondition(qEditIdx, qCndIdx)">
             <mat-icon>delete</mat-icon>
           </button>
         </div>

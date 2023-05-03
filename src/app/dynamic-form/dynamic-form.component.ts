@@ -24,8 +24,8 @@ import { ActivatedRoute } from '@angular/router';
     </mat-card>
     <form (ngSubmit)="onPreSubmit()" [formGroup]="formGroup">
       <mat-stepper formArrayName="formArray" [linear]="true" [orientation]="(stepperOrientation | async)!">
-        <div *ngFor="let section of form.sections; let sctnIdx = index; let first = first; let last = last">
-          <mat-step *ngIf="!hidden(section)" formGroupName="{{ sctnIdx }}" [stepControl]="getFormGroupInArray(sctnIdx)" [optional]="!section.required">
+        <div *ngFor="let section of form.sections; let secIdx = index; let first = first; let last = last">
+          <mat-step *ngIf="!hidden(section)" formGroupName="{{ secIdx }}" [stepControl]="getFormGroupInArray(secIdx)" [optional]="!section.required">
             <ng-template matStepLabel>{{section.key}}</ng-template>
             <mat-card>
               <mat-card-header>
@@ -34,19 +34,19 @@ import { ActivatedRoute } from '@angular/router';
               </mat-card-header>
               <mat-card-content>
                 <div *ngIf="section.info" [innerHtml]="section.info"></div>
-                <div *ngFor="let control of getFormArray(sctnIdx).controls; let ctrlIdx = index; let lastControl = last">
-                  <div *ngFor="let question of section.questions; let qstnIdx = index">
-                    <app-dynamic-question [question]="question" [form]="getCtrlFormGroupInArray(ctrlIdx, sctnIdx)"></app-dynamic-question>
+                <div *ngFor="let control of getFormArray(secIdx).controls; let ctrlIdx = index; let lastControl = last">
+                  <div *ngFor="let question of section.questions;">
+                    <app-dynamic-question [question]="question" [form]="getCtrlFormGroupInArray(ctrlIdx, secIdx)"></app-dynamic-question>
                   </div>
                   <mat-divider *ngIf="!lastControl"></mat-divider>
                 </div>
               </mat-card-content>
               <mat-card-actions>
-                <button type="button" mat-button *ngIf="section.list" (click)="onClickAdd(sctnIdx)">Add another</button>
-                <button type="button" mat-button *ngIf="section.list"  [disabled]="getFormArray(sctnIdx).controls.length <= 1"(click)="onClickRemove(sctnIdx)">Remove Last</button>
+                <button type="button" mat-button *ngIf="section.list" (click)="onClickAdd(secIdx)">Add another</button>
+                <button type="button" mat-button *ngIf="section.list"  [disabled]="getFormArray(secIdx).controls.length <= 1"(click)="onClickRemove(secIdx)">Remove Last</button>
                 <button type="button" mat-button *ngIf="!first" matStepperPrevious>Back</button>
-                <button type="button" mat-button color="primary" *ngIf="!last" [disabled]="!getFormGroupInArray(sctnIdx).valid && section.required" matStepperNext>Next</button>
-                <button type="submit" mat-raised-button color="primary" *ngIf="last" [disabled]="!getFormGroupInArray(sctnIdx).valid">Submit</button>
+                <button type="button" mat-button color="primary" *ngIf="!last" [disabled]="!getFormGroupInArray(secIdx).valid && section.required" matStepperNext>Next</button>
+                <button type="submit" mat-raised-button color="primary" *ngIf="last" [disabled]="!getFormGroupInArray(secIdx).valid">Submit</button>
               </mat-card-actions>
             </mat-card>
           </mat-step>
@@ -74,7 +74,7 @@ export class DynamicFormComponent implements OnInit {
   protected getFormArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
   protected getFormGroupInArray(index: number): FormGroup { return (this.formArray.at(index) as FormArray).at(0) as FormGroup; }
   protected getNamedFormGroupInArray(name: string): FormGroup { return (this.formArray.at((this.formArray.value as any[]).findIndex(sec => sec[0]._key === name)) as FormArray).at(0) as FormGroup; }
-  protected getCtrlFormGroupInArray(ctrlIdx: number, sctnIdx: number): FormGroup { return (this.formArray.at(sctnIdx) as FormArray).at(ctrlIdx) as FormGroup; }
+  protected getCtrlFormGroupInArray(ctrlIdx: number, secIdx: number): FormGroup { return (this.formArray.at(secIdx) as FormArray).at(ctrlIdx) as FormGroup; }
   protected getFormArrayInArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
 
   constructor(private s3: S3Service, private fb: FormBuilder, private dialog: MatDialog, private snackBar: MatSnackBar, private bo: BreakpointObserver, private route: ActivatedRoute) {
@@ -112,13 +112,13 @@ export class DynamicFormComponent implements OnInit {
     return section.conditions.findIndex(conditions => this.getNamedFormGroupInArray(conditions.section).controls[conditions.key].value === conditions.value) <= -1;
   }
 
-  protected onClickAdd(sctnIdx: number): void {
-    const newGroup = this.sectionToFormGroup(this.form.sections[sctnIdx]);
-    this.getFormArrayInArray(sctnIdx).push(newGroup);
+  protected onClickAdd(secIdx: number): void {
+    const newGroup = this.sectionToFormGroup(this.form.sections[secIdx]);
+    this.getFormArrayInArray(secIdx).push(newGroup);
   }
 
-  protected onClickRemove(sctnIdx: number): void {
-    this.getFormArrayInArray(sctnIdx).removeAt(this.getFormArrayInArray(sctnIdx).length - 1);
+  protected onClickRemove(secIdx: number): void {
+    this.getFormArrayInArray(secIdx).removeAt(this.getFormArrayInArray(secIdx).length - 1);
   }
 
   protected onPreSubmit(): void {
