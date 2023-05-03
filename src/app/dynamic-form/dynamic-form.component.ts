@@ -112,14 +112,8 @@ export class DynamicFormComponent implements OnInit {
     return section.conditions.findIndex(conditions => this.getNamedFormGroupInArray(conditions.section).controls[conditions.key].value === conditions.value) <= -1;
   }
 
-  protected onClickAdd(secIdx: number): void {
-    const newGroup = this.sectionToFormGroup(this.form.sections[secIdx]);
-    this.getFormArrayInArray(secIdx).push(newGroup);
-  }
-
-  protected onClickRemove(secIdx: number): void {
-    this.getFormArrayInArray(secIdx).removeAt(this.getFormArrayInArray(secIdx).length - 1);
-  }
+  protected onClickAdd(secIdx: number): void { this.getFormArrayInArray(secIdx).push(this.sectionToFormGroup(this.form.sections[secIdx])); }
+  protected onClickRemove(secIdx: number): void { this.getFormArrayInArray(secIdx).removeAt(this.getFormArrayInArray(secIdx).length - 1); }
 
   protected onPreSubmit(): void {
     const dialogRef = this.dialog.open(PresubmitDialogComponent);
@@ -136,8 +130,7 @@ export class DynamicFormComponent implements OnInit {
 
   private sectionToFormGroup(section: DynamicFormSection): FormGroup {
     const group: any = { _key: section.key };
-    const questions = section.questions
-    questions.forEach(question => {
+    section.questions.forEach(question => {
       const validators: ValidatorFn[] = [];
       if (question.required) {
         validators.push(Validators.required);
@@ -150,7 +143,7 @@ export class DynamicFormComponent implements OnInit {
           if (question.minLength) {
             validators.push(Validators.minLength(question.minLength));
           }
-    
+
           if (question.maxLength) {
             validators.push(Validators.maxLength(question.maxLength));
           }
@@ -163,7 +156,7 @@ export class DynamicFormComponent implements OnInit {
         if (question.min) {
           validators.push(Validators.min(question.min));
         }
-  
+
         if (question.max) {
           validators.push(Validators.min(question.max));
         }
@@ -171,7 +164,7 @@ export class DynamicFormComponent implements OnInit {
 
       group[question.key] = new FormControl('', validators);
     });
-    
+
     return this.fb.group(group);
   }
 }
