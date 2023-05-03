@@ -8,6 +8,7 @@ export class DynamicFormQuestion {
   label: string;
   options: DynamicFormQuestionOption[];
   required: boolean;
+  info: string;
   
   type: string; // text, number, date
   min: number; // for number
@@ -27,6 +28,7 @@ export class DynamicFormQuestion {
     label?: string;
     options?: DynamicFormQuestionOption[];
     required?: boolean;
+    info?: string;
 
     type?: string;
     min?: number;
@@ -45,6 +47,7 @@ export class DynamicFormQuestion {
     this.label = options.label || '';
     this.options = options.options || [];
     this.required = !!options.required;
+    this.info = options.info || '';
     
     this.type = options.type || '';
     this.min = options.min || 0; // for number

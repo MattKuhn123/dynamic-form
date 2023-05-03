@@ -40,6 +40,7 @@ export class DynamicFormEditService {
       label: fb.control(question.label || ""),
       options: fb.array(question.options.map(option => this.questionOptionToGroup(fb, option)) || []),
       required: fb.control(question.required || ""),
+      info: fb.control(question.info || ""),
       
       type: fb.control(question.type), // text, number
       min: fb.control(question.min), // for number

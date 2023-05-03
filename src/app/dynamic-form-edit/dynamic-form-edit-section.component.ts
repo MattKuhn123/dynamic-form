@@ -38,10 +38,9 @@ import { DynamicFormEditService } from './dynamic-form-edit.service';
       </div>
       <div>
         <mat-label for="section-info">
-          <mat-slide-toggle (change)="onInfoToggleChange($event)" [checked]="true" #additionalInfoToggle></mat-slide-toggle>
           Additional information
         </mat-label>
-        <ckeditor *ngIf="additionalInfoToggle.checked" id="section-info" formControlName="info" data=""></ckeditor>
+        <ckeditor id="section-info" formControlName="info" data=""></ckeditor>
       </div>
     </mat-card-content>
   </mat-card>
@@ -87,11 +86,5 @@ export class DynamicFormEditSectionComponent {
         this.secEditKey.patchValue(result);
       }
     });
-  }
-
-  protected onInfoToggleChange(event: any): void {
-    if (!event.checked) {
-      this.secEditInfo.patchValue("");
-    }
   }
 }

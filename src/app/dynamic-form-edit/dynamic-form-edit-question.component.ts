@@ -136,6 +136,13 @@ import { EditQuestionKeyDialog } from './edit-question-key.component';
                 </mat-select>
               </mat-form-field>
             </div>
+
+            <div>
+              <mat-label for="question-info">
+                Additional information
+              </mat-label>
+              <ckeditor id="question-info" formControlName="info" data=""></ckeditor>
+            </div>
           </mat-card-content>
         </mat-card>
 
