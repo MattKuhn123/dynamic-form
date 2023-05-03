@@ -44,5 +44,5 @@ export class DynamicFormEditListComponent implements OnInit {
   }
 
   protected onClickEdit(key: string): void { this.router.navigate(['/edit'], { queryParams: { key: key } }); }
-  protected onClickView(key: string): void { this.router.navigate(['/test'], { queryParams: { key: key } }); }
+  protected onClickView(key: string): void { this.router.navigate(['/run'], { queryParams: { key: key } }); }
 }
