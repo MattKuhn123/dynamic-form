@@ -32,23 +32,23 @@ import { ActivatedRoute } from '@angular/router';
                 <mat-card-title> {{section.key}} </mat-card-title>
                 <mat-card-subtitle> {{section.subtitle}} </mat-card-subtitle>
               </mat-card-header>
-              <mat-card-content *ngIf="section.info" >
-                <div [innerHtml]="section.info"></div>
+              <mat-card-content>
+                <div *ngIf="section.info" [innerHtml]="section.info"></div>
+                <div *ngFor="let control of getFormArray(sctnIdx).controls; let ctrlIdx = index; let lastControl = last">
+                  <div *ngFor="let question of section.questions; let qstnIdx = index">
+                    <app-dynamic-question [question]="question" [form]="getCtrlFormGroupInArray(ctrlIdx, sctnIdx)"></app-dynamic-question>
+                  </div>
+                  <mat-divider *ngIf="!lastControl"></mat-divider>
+                </div>
               </mat-card-content>
+              <mat-card-actions>
+                <button type="button" mat-button *ngIf="section.list" (click)="onClickAdd(sctnIdx)">Add another</button>
+                <button type="button" mat-button *ngIf="section.list"  [disabled]="getFormArray(sctnIdx).controls.length <= 1"(click)="onClickRemove(sctnIdx)">Remove Last</button>
+                <button type="button" mat-button *ngIf="!first" matStepperPrevious>Back</button>
+                <button type="button" mat-button color="primary" *ngIf="!last" [disabled]="!getFormGroupInArray(sctnIdx).valid && section.required" matStepperNext>Next</button>
+                <button type="submit" mat-raised-button color="primary" *ngIf="last" [disabled]="!getFormGroupInArray(sctnIdx).valid">Submit</button>
+              </mat-card-actions>
             </mat-card>
-            <div *ngFor="let control of getFormArray(sctnIdx).controls; let ctrlIdx = index; let lastControl = last">
-              <div *ngFor="let question of section.questions; let qstnIdx = index">
-                <app-dynamic-question [question]="question" [form]="getCtrlFormGroupInArray(ctrlIdx, sctnIdx)"></app-dynamic-question>
-              </div>
-              <mat-divider *ngIf="!lastControl"></mat-divider>
-            </div>
-            <div>
-              <button type="button" mat-button *ngIf="section.list" (click)="onClickAdd(sctnIdx)">Add another</button>
-              <button type="button" mat-button *ngIf="section.list"  [disabled]="getFormArray(sctnIdx).controls.length <= 1"(click)="onClickRemove(sctnIdx)">Remove Last</button>
-              <button type="button" mat-button *ngIf="!first" matStepperPrevious>Back</button>
-              <button type="button" mat-button color="primary" *ngIf="!last" [disabled]="!getFormGroupInArray(sctnIdx).valid && section.required" matStepperNext>Next</button>
-              <button type="submit" mat-raised-button color="primary" *ngIf="last" [disabled]="!getFormGroupInArray(sctnIdx).valid">Submit</button>
-            </div>
           </mat-step>
         </div>
       </mat-stepper>
