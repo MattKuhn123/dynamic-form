@@ -23,9 +23,9 @@ import { ActivatedRoute } from '@angular/router';
       </mat-card-header>
     </mat-card>
     <form (ngSubmit)="onPreSubmit()" [formGroup]="formGroup">
-      <mat-stepper formArrayName="formArray" [linear]="true" [orientation]="(stepperOrientation | async)!">
+      <mat-stepper formArrayName="sections" [linear]="true" [orientation]="(stepperOrientation | async)!">
         <div *ngFor="let section of form.sections; let secIdx = index; let first = first; let last = last">
-          <mat-step *ngIf="!hidden(section)" formGroupName="{{ secIdx }}" [stepControl]="getFormGroupInArray(secIdx)" [optional]="!section.required">
+          <mat-step *ngIf="!hidden(section)" formGroupName="{{ secIdx }}" [stepControl]="getSection(secIdx)" [optional]="!section.required">
             <ng-template matStepLabel>{{section.key}}</ng-template>
             <mat-card>
               <mat-card-header>
@@ -34,19 +34,24 @@ import { ActivatedRoute } from '@angular/router';
               </mat-card-header>
               <mat-card-content>
                 <div *ngIf="section.info" [innerHtml]="section.info"></div>
-                <div *ngFor="let control of getFormArray(secIdx).controls; let ctrlIdx = index; let lastControl = last">
+                <div *ngFor="let control of getSection(secIdx).controls; let secIdxIdx = index; let lastControl = last" style="display: flex" [style.flex-direction]="section.list ? 'row' : 'column'">
                   <div *ngFor="let question of section.questions;">
-                    <app-dynamic-question [question]="question" [form]="getCtrlFormGroupInArray(ctrlIdx, secIdx)"></app-dynamic-question>
+                    <app-dynamic-question 
+                      [question]="question" 
+                      [form]="getOccurrenceOfSection(secIdx, secIdxIdx)"
+                    ></app-dynamic-question>
                   </div>
                   <mat-divider *ngIf="!lastControl"></mat-divider>
+                  <button type="button" *ngIf="section.list" mat-icon-button color="warn" (click)="onClickRemove(secIdx, secIdxIdx)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
                 </div>
               </mat-card-content>
               <mat-card-actions>
-                <button type="button" mat-button *ngIf="section.list" (click)="onClickAdd(secIdx)">Add another</button>
-                <button type="button" mat-button *ngIf="section.list"  [disabled]="getFormArray(secIdx).controls.length <= 1"(click)="onClickRemove(secIdx)">Remove Last</button>
                 <button type="button" mat-button *ngIf="!first" matStepperPrevious>Back</button>
-                <button type="button" mat-button color="primary" *ngIf="!last" [disabled]="!getFormGroupInArray(secIdx).valid && section.required" matStepperNext>Next</button>
-                <button type="submit" mat-raised-button color="primary" *ngIf="last" [disabled]="!getFormGroupInArray(secIdx).valid">Submit</button>
+                <button type="button" mat-button *ngIf="section.list" (click)="onClickAdd(secIdx)">Add another</button>
+                <button type="button" mat-button color="primary" *ngIf="!last" [disabled]="!getSection(secIdx).valid && section.required" matStepperNext>Next</button>
+                <button type="submit" mat-raised-button color="primary" *ngIf="last" [disabled]="!getSection(secIdx).valid">Submit</button>
               </mat-card-actions>
             </mat-card>
           </mat-step>
@@ -63,7 +68,7 @@ import { ActivatedRoute } from '@angular/router';
   `,
 })
 export class DynamicFormComponent implements OnInit {
-  formArray!: FormArray;
+  sections!: FormArray;
   formGroup!: FormGroup;
   form!: DynamicForm;
   stepperOrientation: Observable<StepperOrientation>;
@@ -71,13 +76,17 @@ export class DynamicFormComponent implements OnInit {
 
   protected showJson: FormControl = new FormControl(false);
 
-  protected getFormArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
-  protected getFormGroupInArray(index: number): FormGroup { return (this.formArray.at(index) as FormArray).at(0) as FormGroup; }
-  protected getNamedFormGroupInArray(name: string): FormGroup { return (this.formArray.at((this.formArray.value as any[]).findIndex(sec => sec[0]._key === name)) as FormArray).at(0) as FormGroup; }
-  protected getCtrlFormGroupInArray(ctrlIdx: number, secIdx: number): FormGroup { return (this.formArray.at(secIdx) as FormArray).at(ctrlIdx) as FormGroup; }
-  protected getFormArrayInArray(index: number): FormArray { return this.formArray.at(index) as FormArray; }
+  protected getSection(secIdx: number): FormArray { return this.sections.at(secIdx) as FormArray; }
+  protected getOccurrencesOfSection(secIdx: number): FormArray { return this.sections.at(secIdx) as FormArray; }
+  protected getOccurrenceOfSection(secIdx: number, secIdxIdx: number): FormGroup { return this.getOccurrencesOfSection(secIdx).at(secIdxIdx) as FormGroup; }
+  private getFirstElementInSectionByKey(secKey: string): FormGroup { return (this.sections.at((this.sections.value as any[]).findIndex(sec => sec[0]._key === secKey)) as FormArray).at(0) as FormGroup; }
 
-  constructor(private s3: S3Service, private fb: FormBuilder, private dialog: MatDialog, private snackBar: MatSnackBar, private bo: BreakpointObserver, private route: ActivatedRoute) {
+  constructor(private s3: S3Service,
+    private fb: FormBuilder,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private bo: BreakpointObserver,
+    private route: ActivatedRoute) {
     this.stepperOrientation = this.bo
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
@@ -99,9 +108,9 @@ export class DynamicFormComponent implements OnInit {
     const formArrays: FormArray[] = this.form.sections.map(section => this.fb.array([this.sectionToFormGroup(section)]));
     const formArrayOfArrays: FormArray = this.fb.array(formArrays);
     this.formGroup = this.fb.group({
-      formArray: formArrayOfArrays
+      sections: formArrayOfArrays
     });
-    this.formArray = this.formGroup.get('formArray') as FormArray;
+    this.sections = this.formGroup.get('sections') as FormArray;
   }
 
   protected hidden(section: DynamicFormSection): boolean {
@@ -109,11 +118,11 @@ export class DynamicFormComponent implements OnInit {
       return false;
     }
 
-    return section.conditions.findIndex(conditions => this.getNamedFormGroupInArray(conditions.section).controls[conditions.key].value === conditions.value) <= -1;
+    return section.conditions.findIndex(conditions => this.getFirstElementInSectionByKey(conditions.section).controls[conditions.key].value === conditions.value) <= -1;
   }
 
-  protected onClickAdd(secIdx: number): void { this.getFormArrayInArray(secIdx).push(this.sectionToFormGroup(this.form.sections[secIdx])); }
-  protected onClickRemove(secIdx: number): void { this.getFormArrayInArray(secIdx).removeAt(this.getFormArrayInArray(secIdx).length - 1); }
+  protected onClickAdd(secIdx: number): void { this.getOccurrencesOfSection(secIdx).push(this.sectionToFormGroup(this.form.sections[secIdx])); }
+  protected onClickRemove(secIdx: number, secIdxIdx: number): void { this.getOccurrencesOfSection(secIdx).removeAt(secIdxIdx); }
 
   protected onPreSubmit(): void {
     const dialogRef = this.dialog.open(PresubmitDialogComponent);

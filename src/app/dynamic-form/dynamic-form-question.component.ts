@@ -63,9 +63,9 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
 export class DynamicFormQuestionComponent {
   @Input() question!: DynamicFormQuestion;
   @Input() form!: FormGroup;
+
   get isValid(): boolean { return this.form.controls[this.question.key].valid; }
   get hidden(): boolean { return this.question.conditions.findIndex(question => this.form.controls[question.key].value !== question.value) > -1; }
-
   get today(): Date { return new Date(); }
 
   protected fileName: string = "";
