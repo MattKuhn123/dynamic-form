@@ -46,6 +46,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { CKEditorModule } from 'ckeditor4-angular';
+import { DynamicFormEditService } from './dynamic-form-edit.service';
 
 const appRoute: Routes = [
   { path: '', component: DynamicFormEditComponent }
@@ -99,6 +100,9 @@ const appRoute: Routes = [
     MatToolbarModule,
     MatTooltipModule,
     ReactiveFormsModule,
+  ],
+  providers: [
+    DynamicFormEditService
   ]
 })
 export class DynamicFormEditModule { }

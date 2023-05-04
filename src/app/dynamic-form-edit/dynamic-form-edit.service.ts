@@ -8,9 +8,6 @@ import { DynamicFormQuestionOption } from '../shared/dynamic-form-question-optio
 import { DynamicFormQuestionCondition } from '../shared/dynamic-form-question-condition.model';
 import { DynamicFormSectionCondition } from '../shared/dynamic-form-section-condition.model';
 
-@Injectable({
-  providedIn: 'root'
-})
 export class DynamicFormEditService {
   public sectionToGroup(fb: FormBuilder, section: DynamicFormSection): FormGroup {
     return fb.group({
