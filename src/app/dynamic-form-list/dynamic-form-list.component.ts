@@ -35,14 +35,10 @@ export class DynamicFormListComponent implements OnInit {
 
   constructor(private s3: S3Service, private router: Router) { }
 
-  ngOnInit(): void {
-    this.init();
-  }
+  ngOnInit(): void { this.init(); }
   
-  private async init(): Promise<void> {
-    this.formList = await this.s3.getFormList();
-  }
-
   protected onClickEdit(key: string): void { this.router.navigate(['/edit'], { queryParams: { key: key } }); }
   protected onClickView(key: string): void { this.router.navigate(['/run'], { queryParams: { key: key } }); }
+  
+  private async init(): Promise<void> { this.formList = await this.s3.getFormList(); }
 }
