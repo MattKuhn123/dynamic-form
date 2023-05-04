@@ -13,8 +13,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home.component';
-import { GuardService } from './guard.service'
+import { HomeComponent } from './home.component.stub';
+import { GuardService } from './guard.service.stub'
 
 const appRoute: Routes = [
   {
