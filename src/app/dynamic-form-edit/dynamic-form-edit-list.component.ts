@@ -30,7 +30,7 @@ import { DynamicFormStorageService } from 'src/app/shared/dynamic-form-storage.s
   </mat-card>
   `,
 })
-export class DynamicFormListComponent implements OnInit {
+export class DynamicFormEditListComponent implements OnInit {
   formList!: string[];
 
   constructor(private dfss: DynamicFormStorageService, private router: Router) { }
