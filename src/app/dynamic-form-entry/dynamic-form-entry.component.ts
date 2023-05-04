@@ -22,7 +22,7 @@ import { ActivatedRoute } from '@angular/router';
         <mat-card-subtitle>{{ form.subtitle }}</mat-card-subtitle>
       </mat-card-header>
     </mat-card>
-    <form (ngSubmit)="onPreSubmit()" [formGroup]="formGroup">
+    <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
       <mat-stepper formArrayName="sections" [linear]="true" [orientation]="(stepperOrientation | async)!">
         <div *ngFor="let section of form.sections; let secIdx = index; let first = first; let last = last">
           <mat-step *ngIf="!hidden(section)" formGroupName="{{ secIdx }}" [stepControl]="getSection(secIdx)" [optional]="!section.required">
@@ -124,17 +124,13 @@ export class DynamicFormEntryComponent implements OnInit {
   protected onClickAdd(secIdx: number): void { this.getOccurrencesOfSection(secIdx).push(this.sectionToFormGroup(this.form.sections[secIdx])); }
   protected onClickRemove(secIdx: number, secIdxIdx: number): void { this.getOccurrencesOfSection(secIdx).removeAt(secIdxIdx); }
 
-  protected onPreSubmit(): void {
+  protected onSubmit(): void {
     const dialogRef = this.dialog.open(PresubmitDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.onSubmit();
+        this.snackBar.open("Submitted!", "OK");
       }
     });
-  }
-
-  private onSubmit(): void {
-    this.snackBar.open("Submitted!", "OK");
   }
 
   private sectionToFormGroup(section: DynamicFormSection): FormGroup {
