@@ -10,6 +10,7 @@ import { PresubmitDialogComponent } from './presubmit-dialog.component';
 import { DynamicFormEditStorageService } from '../shared/dynamic-form-edit-storage.service';
 import { DynamicFormEntryStorageService } from './dynamic-form-entry-storage.service';
 import { DynamicFormSection } from '../shared/dynamic-form-section.model';
+import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
 import { DynamicForm } from '../shared/dynamic-form.model';
 import { AuthService } from '../auth.service.stub';
 import { DynamicFormEntry } from '../shared/dynamic-form-entry.model';
@@ -17,7 +18,7 @@ import { DynamicFormEntry } from '../shared/dynamic-form-entry.model';
 @Component({
   selector: 'app-dynamic-form',
   template: `
-  <div *ngIf="form">
+  <div *ngIf="formGroup">
     <mat-card>
       <mat-card-header>
         <mat-card-title>{{ form.title }}</mat-card-title>
@@ -104,7 +105,7 @@ export class DynamicFormEntryComponent implements OnInit {
     this.form = await this.editStorage.getForm(editKey);
     const formEntry = await this.entryStorage.getForm(entryKey);
 
-    const formArrays: FormArray[] = this.form.sections.map(section => this.fb.array([this.sectionToFormGroup(section)]));
+    const formArrays: FormArray[] = this.form.sections.map(section => this.fb.array([this.sectionToFormGroup(section, formEntry)]));
     const formArrayOfArrays: FormArray = this.fb.array(formArrays);
     this.formGroup = this.fb.group({
       editUUID: this.fb.control(this.form.editUUID),
@@ -121,7 +122,7 @@ export class DynamicFormEntryComponent implements OnInit {
     return section.conditions.findIndex(conditions => this.getFirstElementInSectionByKey(conditions.section).controls[conditions.key].value === conditions.value) <= -1;
   }
 
-  protected onClickAdd(secIdx: number): void { this.getOccurrencesOfSection(secIdx).push(this.sectionToFormGroup(this.form.sections[secIdx])); }
+  protected onClickAdd(secIdx: number): void { this.getOccurrencesOfSection(secIdx).push(this.sectionToFormGroup(this.form.sections[secIdx], null)); }
   protected onClickRemove(secIdx: number, secIdxIdx: number): void { this.getOccurrencesOfSection(secIdx).removeAt(secIdxIdx); }
 
   protected async onClickSave(): Promise<void> {
@@ -143,7 +144,7 @@ export class DynamicFormEntryComponent implements OnInit {
     });
   }
 
-  private sectionToFormGroup(section: DynamicFormSection): FormGroup {
+  private sectionToFormGroup(section: DynamicFormSection, formEntry: DynamicFormEntry | null): FormGroup {
     const group: any = { _key: section.key };
     section.questions.forEach(question => {
       const validators: ValidatorFn[] = [];
@@ -177,9 +178,33 @@ export class DynamicFormEntryComponent implements OnInit {
         }
       }
 
-      group[question.key] = new FormControl('', validators);
+      const value = this.getValueFromFormEntry(section, question, formEntry);
+      group[question.key] = new FormControl(value, validators);
     });
 
     return this.fb.group(group);
+  }
+
+  private getValueFromFormEntry(s: DynamicFormSection, 
+    q: DynamicFormQuestion, 
+    fe: DynamicFormEntry | null,
+    sIdx: number = 0): any {
+    try {
+      if (!fe) {
+        return '';
+      }
+  
+      const value = fe.sections.find((fes: any[]) => {
+        if (fes.length === 0) {
+          return false;
+        }
+  
+        return fes[0]['_key'] === s.key;
+      })[sIdx];
+  
+      return value[q.key];
+    } catch (error) {
+      return '';
+    }
   }
 }
