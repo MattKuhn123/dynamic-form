@@ -93,15 +93,8 @@ export class DynamicFormEntryComponent implements OnInit {
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
   }
   
-  ngOnInit(): void {
-    this.init();
-  }
-  
-  private async init(): Promise<void> {
-    this.route.queryParams.subscribe((params: any) => {
-      this.initForm(params.key)
-    });
-  }
+  ngOnInit(): void { this.init();  }
+  private async init(): Promise<void> { this.route.queryParams.subscribe(params => this.initForm(params['key'])); }
   
   private async initForm(key: string): Promise<void> {
     this.form = await this.dfss.getForm(key);
