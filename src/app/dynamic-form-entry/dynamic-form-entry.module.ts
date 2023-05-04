@@ -24,6 +24,7 @@ import { DynamicFormEntryQuestionComponent } from './dynamic-form-entry-question
 import { DynamicFormEntryComponent } from './dynamic-form-entry.component';
 import { PresubmitDialogComponent } from './presubmit-dialog.component';
 import { DynamicFormEntryListComponent } from './dynamic-form-entry-list.component';
+import { DynamicFormEntryStorageService } from './dynamic-form-entry-storage.service';
 
 const appRoute: Routes = [
   { path: 'list', component: DynamicFormEntryListComponent },
@@ -60,6 +61,7 @@ const appRoute: Routes = [
     MatStepperModule,
   ],
   providers: [
+    DynamicFormEntryStorageService,
     {
       provide: MAT_CARD_CONFIG,
       useValue: {

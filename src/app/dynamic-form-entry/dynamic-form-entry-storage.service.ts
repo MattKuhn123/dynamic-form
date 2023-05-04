@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GetObjectTaggingCommand, ListObjectsV2Command, PutObjectCommand, PutObjectCommandOutput, S3Client } from '@aws-sdk/client-s3';
+import { GetObjectCommand, GetObjectTaggingCommand, ListObjectsV2Command, PutObjectCommand, PutObjectCommandOutput, S3Client } from '@aws-sdk/client-s3';
 import { environment } from 'src/environments/environment';
 import { DynamicForm } from '../shared/dynamic-form.model';
 import { AuthService } from '../auth.service.stub';
@@ -18,7 +18,7 @@ export class DynamicFormEntryStorageService {
     });
   }
 
-  public async putForm(dynamicForm: DynamicForm): Promise<PutObjectCommandOutput> {
+  public async putForm(dynamicForm: any): Promise<PutObjectCommandOutput> {
     const command = new PutObjectCommand({
       Bucket: environment.AWS_BUCKET_ENTRIES,
       Key: dynamicForm.entryUUID,
@@ -66,5 +66,21 @@ export class DynamicFormEntryStorageService {
     }
 
     return contents;
+  }
+
+  public async getForm(key: string): Promise<any> {
+    if (!key) {
+      return new DynamicForm({});
+    }
+
+    const command = new GetObjectCommand({
+      Bucket: environment.AWS_BUCKET_ENTRIES,
+      Key: key
+    });
+
+    const output = await this.bucket.send(command);
+    const jzon = await output.Body?.transformToString();
+    const json: any = JSON.parse(jzon || "{}");
+    return new DynamicForm(json);
   }
 }

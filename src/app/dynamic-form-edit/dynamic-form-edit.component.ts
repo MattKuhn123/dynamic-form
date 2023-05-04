@@ -57,7 +57,6 @@ export class DynamicFormEditComponent implements OnInit {
         title: this.fb.control(form.title || ""),
         subtitle: this.fb.control(form.subtitle || ""),
         editUUID: this.fb.control(form.editUUID || ""),
-        entryUUID: this.fb.control(form.entryUUID || ""),
         sections: this.fb.array(form.sections.map(section => this.dfeSvc.sectionToGroup(this.fb, section)) || [])
       });
     } catch (error) {

@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-
-import { DynamicFormSection } from '../shared/dynamic-form-section.model';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms';
-import { DynamicForm } from '../shared/dynamic-form.model';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { StepperOrientation } from '@angular/cdk/stepper';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Observable, map } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { PresubmitDialogComponent } from './presubmit-dialog.component';
 import { DynamicFormEditStorageService } from '../shared/dynamic-form-edit-storage.service';
-import { ActivatedRoute } from '@angular/router';
+import { DynamicFormEntryStorageService } from './dynamic-form-entry-storage.service';
+import { DynamicFormSection } from '../shared/dynamic-form-section.model';
+import { DynamicForm } from '../shared/dynamic-form.model';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -82,7 +82,8 @@ export class DynamicFormEntryComponent implements OnInit {
   protected getOccurrenceOfSection(secIdx: number, secIdxIdx: number): FormGroup { return this.getOccurrencesOfSection(secIdx).at(secIdxIdx) as FormGroup; }
   private getFirstElementInSectionByKey(secKey: string): FormGroup { return (this.sections.at((this.sections.value as any[]).findIndex(sec => sec[0]._key === secKey)) as FormArray).at(0) as FormGroup; }
 
-  constructor(private dfss: DynamicFormEditStorageService,
+  constructor(private editStorage: DynamicFormEditStorageService,
+    private entryStorage: DynamicFormEntryStorageService,
     private fb: FormBuilder,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -94,10 +95,11 @@ export class DynamicFormEntryComponent implements OnInit {
   }
   
   ngOnInit(): void { this.init();  }
-  private async init(): Promise<void> { this.route.queryParams.subscribe(params => this.initForm(params['key'])); }
+  private async init(): Promise<void> { this.route.queryParams.subscribe(params => this.initForm(params['key'], params['entryKey'])); }
   
-  private async initForm(key: string): Promise<void> {
-    this.form = await this.dfss.getForm(key);
+  private async initForm(editKey: string, entryKey: string): Promise<void> {
+    this.form = await this.editStorage.getForm(editKey);
+    const formEntry = await this.entryStorage.getForm(entryKey);
     const formArrays: FormArray[] = this.form.sections.map(section => this.fb.array([this.sectionToFormGroup(section)]));
     const formArrayOfArrays: FormArray = this.fb.array(formArrays);
     this.formGroup = this.fb.group({
