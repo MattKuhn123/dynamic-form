@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, users } from './auth.service.stub';
 import { FormControl } from '@angular/forms';
+import { AuthService, users } from './auth.service.stub';
 
 @Component({
   selector: 'app-home',
@@ -34,9 +34,5 @@ export class HomeComponent implements OnInit {
 
   constructor(protected auth: AuthService) { }
 
-  ngOnInit(): void {
-    this.user.valueChanges.subscribe(change => {
-      this.auth.signIn(change);
-    });
-  }
+  ngOnInit(): void { this.user.valueChanges.subscribe(change => this.auth.signIn(change)); }
 }
