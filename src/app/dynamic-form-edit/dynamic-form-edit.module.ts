@@ -53,7 +53,7 @@ import { CKEditorModule } from 'ckeditor4-angular';
 
 const appRoute: Routes = [
   { path: 'list', component: DynamicFormListComponent },
-  { path: '', component: DynamicFormEditComponent }
+  { path: 'single', component: DynamicFormEditComponent }
 ]
 
 @NgModule({

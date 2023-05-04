@@ -4,28 +4,46 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AppComponent } from './app.component';
+import { HomeComponent } from './home.component';
+import { GuardService } from './guard.service'
 
 const appRoute: Routes = [
-  { path: 'edit', loadChildren: () => import('./dynamic-form-edit/dynamic-form-edit.module').then(m => m.DynamicFormEditModule) },
-  { path: 'run', loadChildren: () => import('./dynamic-form/dynamic-form.module').then(m => m.DynamicFormModule) },
+  {
+    path: '',
+    component: HomeComponent,
+  },
+  {
+    path: 'edit',
+    loadChildren: () => import('./dynamic-form-edit/dynamic-form-edit.module').then(m => m.DynamicFormEditModule),
+    canActivate: [GuardService]
+  },
+  {
+    path: 'run',
+    loadChildren: () => import('./dynamic-form/dynamic-form.module').then(m => m.DynamicFormModule),
+    canActivate: [GuardService]
+  },
 ]
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(appRoute),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
@@ -34,8 +52,8 @@ const appRoute: Routes = [
 
     MatButtonModule,
     MatCardModule,
-    MatIconModule,
-    MatListModule,
+    MatFormFieldModule,
+    MatSelectModule,
     MatToolbarModule
   ],
   providers: [],
