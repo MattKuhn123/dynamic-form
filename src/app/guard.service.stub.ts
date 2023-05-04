@@ -19,6 +19,6 @@ export class GuardService {
       return true;
     }
 
-    return state.url.startsWith("run");
+    return state.url.startsWith("/entry");
   }
 }

@@ -27,7 +27,7 @@ const appRoute: Routes = [
     canActivate: [GuardService]
   },
   {
-    path: 'run',
+    path: 'entry',
     loadChildren: () => import('./dynamic-form-entry/dynamic-form-entry.module').then(m => m.DynamicFormEntryModule),
     canActivate: [GuardService]
   },

@@ -12,6 +12,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -22,9 +23,11 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { DynamicFormEntryQuestionComponent } from './dynamic-form-entry-question.component';
 import { DynamicFormEntryComponent } from './dynamic-form-entry.component';
 import { PresubmitDialogComponent } from './presubmit-dialog.component';
+import { DynamicFormEntryListComponent } from './dynamic-form-entry-list.component';
 
 const appRoute: Routes = [
-  { path: '', component: DynamicFormEntryComponent }
+  { path: 'list', component: DynamicFormEntryListComponent },
+  { path: 'single', component: DynamicFormEntryComponent },
 ];
 
 @NgModule({
@@ -32,6 +35,7 @@ const appRoute: Routes = [
     DynamicFormEntryComponent,
     DynamicFormEntryQuestionComponent,
     PresubmitDialogComponent,
+    DynamicFormEntryListComponent,
   ],
   imports: [
     CommonModule,
@@ -47,6 +51,7 @@ const appRoute: Routes = [
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatListModule,
     MatNativeDateModule,
     MatRadioModule,
     MatSelectModule,

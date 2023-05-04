@@ -23,7 +23,7 @@ import { AuthService, users } from './auth.service.stub';
     </mat-card-content>
     <mat-card-actions>
       <button *ngIf="auth.isAdmin" mat-button [routerLink]="['/edit/list']">Go</button>
-      <button *ngIf="auth.isSignedIn && !auth.isAdmin" mat-button [routerLink]="['/edit/list']">Go</button>
+      <button *ngIf="auth.isSignedIn && !auth.isAdmin" mat-button [routerLink]="['/entry/list']">Go</button>
     </mat-card-actions>
   </mat-card>
   `
