@@ -1,3 +1,5 @@
+import { v4 as uuid } from 'uuid';
+
 export class DynamicFormEntryListItem {
   private _entryUUID: string;
   public get entryUUID(): string { return this._entryUUID; }
@@ -20,6 +22,6 @@ export class DynamicFormEntryListItem {
     this.user = options.user || '';
     this.date = options.date || new Date();
     this._editUUID = options.editUUID || '';
-    this._entryUUID = options.entryUUID || self.crypto.randomUUID();
+    this._entryUUID = options.entryUUID || uuid();
   }
 }

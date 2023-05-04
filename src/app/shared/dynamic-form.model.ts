@@ -1,4 +1,5 @@
 import { DynamicFormSection } from "./dynamic-form-section.model";
+import { v4 as uuid } from 'uuid';
 
 export class DynamicForm {
   private _editUUID: string;
@@ -17,6 +18,6 @@ export class DynamicForm {
     this.subtitle = options.subtitle || "";
     this.sections = options.sections || [];
     this.title = options.title || "";
-    this._editUUID = options.editUUID || self.crypto.randomUUID();
+    this._editUUID = options.editUUID || uuid();
   }
 }
