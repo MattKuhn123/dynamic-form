@@ -9,7 +9,7 @@ import { StepperOrientation } from '@angular/cdk/stepper';
 import { Observable, map } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PresubmitDialogComponent } from './presubmit-dialog.component';
-import { DynamicFormStorageService } from '../shared/dynamic-form-storage.service';
+import { DynamicFormEditStorageService } from '../shared/dynamic-form-edit-storage.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -82,7 +82,7 @@ export class DynamicFormEntryComponent implements OnInit {
   protected getOccurrenceOfSection(secIdx: number, secIdxIdx: number): FormGroup { return this.getOccurrencesOfSection(secIdx).at(secIdxIdx) as FormGroup; }
   private getFirstElementInSectionByKey(secKey: string): FormGroup { return (this.sections.at((this.sections.value as any[]).findIndex(sec => sec[0]._key === secKey)) as FormArray).at(0) as FormGroup; }
 
-  constructor(private dfss: DynamicFormStorageService,
+  constructor(private dfss: DynamicFormEditStorageService,
     private fb: FormBuilder,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,

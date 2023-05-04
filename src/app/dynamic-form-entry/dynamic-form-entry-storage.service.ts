@@ -5,7 +5,7 @@ import { DynamicForm } from '../shared/dynamic-form.model';
 import { AuthService } from '../auth.service.stub';
 
 @Injectable()
-export class DynamicFormEntryService {
+export class DynamicFormEntryStorageService {
   private bucket: S3Client;
 
   constructor(private auth: AuthService) {

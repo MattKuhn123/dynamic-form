@@ -6,7 +6,7 @@ import { DynamicForm } from './dynamic-form.model';
 @Injectable({
   providedIn: 'root'
 })
-export class DynamicFormStorageService {
+export class DynamicFormEditStorageService {
   private bucket: S3Client;
 
   constructor() {
@@ -20,7 +20,6 @@ export class DynamicFormStorageService {
   }
 
   public async putForm(dynamicForm: DynamicForm): Promise<PutObjectCommandOutput> {
-    debugger;
     const command = new PutObjectCommand({
       Bucket: environment.AWS_BUCKET,
       Key: dynamicForm.editUUID,

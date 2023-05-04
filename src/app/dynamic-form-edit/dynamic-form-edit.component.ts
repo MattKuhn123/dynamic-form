@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DynamicFormStorageService } from '../shared/dynamic-form-storage.service';
+import { DynamicFormEditStorageService } from '../shared/dynamic-form-edit-storage.service';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DynamicFormEditService } from './dynamic-form-edit.service';
@@ -38,7 +38,7 @@ export class DynamicFormEditComponent implements OnInit {
 
   protected showJson: FormControl = new FormControl(false);
   
-  constructor(private dfss: DynamicFormStorageService, private dfeSvc: DynamicFormEditService, protected fb: FormBuilder, private snackBar: MatSnackBar, private route: ActivatedRoute) { }
+  constructor(private dfss: DynamicFormEditStorageService, private dfeSvc: DynamicFormEditService, protected fb: FormBuilder, private snackBar: MatSnackBar, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.init();

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DynamicFormStorageService } from 'src/app/shared/dynamic-form-storage.service';
+import { DynamicFormEditStorageService } from 'src/app/shared/dynamic-form-edit-storage.service';
 
 @Component({
   selector: 'app-dynamic-form-edit-list',
@@ -33,7 +33,7 @@ import { DynamicFormStorageService } from 'src/app/shared/dynamic-form-storage.s
 export class DynamicFormEditListComponent implements OnInit {
   formList!: string[];
 
-  constructor(private dfss: DynamicFormStorageService, private router: Router) { }
+  constructor(private dfss: DynamicFormEditStorageService, private router: Router) { }
 
   ngOnInit(): void { this.init(); }
   

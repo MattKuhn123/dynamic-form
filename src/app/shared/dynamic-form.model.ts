@@ -21,7 +21,6 @@ export class DynamicForm {
     this.subtitle = options.subtitle || "";
     this.sections = options.sections || [];
     this.title = options.title || "";
-    debugger;
     this._entryUUID = options.entryUUID || self.crypto.randomUUID();
     this._editUUID = options.editUUID || self.crypto.randomUUID();
   }
