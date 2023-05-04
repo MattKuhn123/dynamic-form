@@ -20,12 +20,14 @@ export class DynamicFormStorageService {
   }
 
   public async putForm(dynamicForm: DynamicForm): Promise<PutObjectCommandOutput> {
+    debugger;
     const command = new PutObjectCommand({
       Bucket: environment.AWS_BUCKET,
-      Key: dynamicForm.title,
+      Key: dynamicForm.editUUID,
       Body: JSON.stringify(dynamicForm),
       ACL: 'public-read',
-      ContentType: 'json'
+      ContentType: 'json',
+      Tagging: `form=${dynamicForm.title}`
     });
 
     return this.bucket.send(command);
