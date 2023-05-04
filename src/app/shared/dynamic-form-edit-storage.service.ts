@@ -25,8 +25,7 @@ export class DynamicFormEditStorageService {
       Key: dynamicForm.editUUID,
       Body: JSON.stringify(dynamicForm),
       ACL: 'public-read',
-      ContentType: 'json',
-      Tagging: `form=${dynamicForm.title}`
+      ContentType: 'json'
     });
 
     return this.bucket.send(command);

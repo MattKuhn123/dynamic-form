@@ -11,6 +11,8 @@ import { DynamicFormEditStorageService } from '../shared/dynamic-form-edit-stora
 import { DynamicFormEntryStorageService } from './dynamic-form-entry-storage.service';
 import { DynamicFormSection } from '../shared/dynamic-form-section.model';
 import { DynamicForm } from '../shared/dynamic-form.model';
+import { AuthService } from '../auth.service.stub';
+import { DynamicFormEntry } from '../shared/dynamic-form-entry.model';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -84,6 +86,7 @@ export class DynamicFormEntryComponent implements OnInit {
 
   constructor(private editStorage: DynamicFormEditStorageService,
     private entryStorage: DynamicFormEntryStorageService,
+    private auth: AuthService,
     private fb: FormBuilder,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -100,9 +103,12 @@ export class DynamicFormEntryComponent implements OnInit {
   private async initForm(editKey: string, entryKey: string): Promise<void> {
     this.form = await this.editStorage.getForm(editKey);
     const formEntry = await this.entryStorage.getForm(entryKey);
+
     const formArrays: FormArray[] = this.form.sections.map(section => this.fb.array([this.sectionToFormGroup(section)]));
     const formArrayOfArrays: FormArray = this.fb.array(formArrays);
     this.formGroup = this.fb.group({
+      editUUID: this.fb.control(this.form.editUUID),
+      entryUUID: this.fb.control(formEntry.entryUUID),
       sections: formArrayOfArrays
     });
   }
@@ -118,8 +124,14 @@ export class DynamicFormEntryComponent implements OnInit {
   protected onClickAdd(secIdx: number): void { this.getOccurrencesOfSection(secIdx).push(this.sectionToFormGroup(this.form.sections[secIdx])); }
   protected onClickRemove(secIdx: number, secIdxIdx: number): void { this.getOccurrencesOfSection(secIdx).removeAt(secIdxIdx); }
 
-  protected onClickSave(): void {
-    this.snackBar.open("Saved!", "OK");
+  protected async onClickSave(): Promise<void> {
+    try {
+      const result = await this.entryStorage.putForm(this.formGroup.getRawValue());
+      this.snackBar.open("Saved!", "OK");
+    } catch (error) {
+      this.snackBar.open("Error!", "OK");
+    }
+
   }
 
   protected onSubmit(): void {
