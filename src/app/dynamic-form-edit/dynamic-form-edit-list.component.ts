@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DynamicFormEditStorageService } from 'src/app/shared/dynamic-form-edit-storage.service';
+import { DynamicFormEditListItem } from '../shared/dynamic-form-edit-list-item.model';
 
 @Component({
   selector: 'app-dynamic-form-edit-list',
@@ -16,11 +17,11 @@ import { DynamicFormEditStorageService } from 'src/app/shared/dynamic-form-edit-
       <mat-list *ngIf="formList">
         <mat-list-item role="listitem" *ngFor="let form of formList">
           <span matListItemTitle>
-            {{ form }}
-            <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEdit(form)">
+            {{ form.title }}
+            <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEdit(form.editUUID)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button type="button" mat-button matTooltip="view" color="primary" (click)="onClickView(form)">
+            <button type="button" mat-button matTooltip="view" color="primary" (click)="onClickView(form.editUUID)">
               <mat-icon>visibility</mat-icon>
             </button>
           </span>
@@ -31,7 +32,7 @@ import { DynamicFormEditStorageService } from 'src/app/shared/dynamic-form-edit-
   `,
 })
 export class DynamicFormEditListComponent implements OnInit {
-  formList!: string[];
+  formList!: DynamicFormEditListItem[];
 
   constructor(private dfss: DynamicFormEditStorageService, private router: Router) { }
 

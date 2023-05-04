@@ -4,6 +4,7 @@ import { DynamicFormEditStorageService } from 'src/app/shared/dynamic-form-edit-
 import { DynamicFormEntryListItem } from './dynamic-form-entry-list-item.model';
 import { DynamicFormEntryStorageService } from './dynamic-form-entry-storage.service';
 import { AuthService } from '../auth.service.stub';
+import { DynamicFormEditListItem } from '../shared/dynamic-form-edit-list-item.model';
 
 @Component({
   selector: 'app-dynamic-form-entry-list',
@@ -19,8 +20,8 @@ import { AuthService } from '../auth.service.stub';
       <mat-list *ngIf="formList">
         <mat-list-item role="listitem" *ngFor="let form of formList">
           <span matListItemTitle>
-            {{ form }}
-            <button type="button" mat-button matTooltip="view" color="primary" (click)="onClickView(form)">
+            {{ form.title }}
+            <button type="button" mat-button matTooltip="view" color="primary" (click)="onClickView(form.editUUID)">
               <mat-icon>visibility</mat-icon>
             </button>
           </span>
@@ -58,7 +59,7 @@ import { AuthService } from '../auth.service.stub';
   `
 })
 export class DynamicFormEntryListComponent implements OnInit {
-  formList!: string[];
+  formList!: DynamicFormEditListItem[];
   formUUID: string = "";
   formEntryList!: DynamicFormEntryListItem[];
 
@@ -78,7 +79,5 @@ export class DynamicFormEntryListComponent implements OnInit {
     this.router.navigate(['/entry/single'], { queryParams: { key: this.formUUID, entryKey: entry?.entryUUID } });
   }
   
-  private async init(): Promise<void> {
-    this.formList = await this.editStorage.getFormList();
-  }
+  private async init(): Promise<void> { this.formList = await this.editStorage.getFormList(); }
 }

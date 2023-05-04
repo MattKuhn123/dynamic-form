@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { GetObjectCommand, ListObjectsV2Command, PutObjectCommand, PutObjectCommandOutput, S3Client } from '@aws-sdk/client-s3';
 import { environment } from 'src/environments/environment';
 import { DynamicForm } from './dynamic-form.model';
+import { DynamicFormEditListItem } from './dynamic-form-edit-list-item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,20 +32,27 @@ export class DynamicFormEditStorageService {
     return this.bucket.send(command);
   }
 
-  public async getFormList(): Promise<string[]> {
+  public async getFormList(): Promise<DynamicFormEditListItem[]> {
     const command = new ListObjectsV2Command({
       Bucket: environment.AWS_BUCKET,
       MaxKeys: 10,
     });
 
     let isTruncated: any = true;
-    let contents: string[] = [];
+    let contents: DynamicFormEditListItem[] = [];
 
     while (isTruncated) {
       const { Contents, IsTruncated, NextContinuationToken } = await this.bucket.send(command);
       if (Contents) {
-        const keys: string[] = Contents.map(c => c.Key || "");
-        keys.forEach(key => contents.push(key));
+        Contents.forEach(async (content) => {
+          if (content.Key) {
+            const form: DynamicForm = await this.getForm(content.Key);
+            contents.push(new DynamicFormEditListItem({
+              editUUID: content.Key,
+              title: form.title
+            }));
+          }
+        });
         isTruncated = IsTruncated;
         command.input.ContinuationToken = NextContinuationToken;
       }

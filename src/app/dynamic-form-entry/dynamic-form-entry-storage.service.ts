@@ -5,6 +5,7 @@ import { AuthService } from '../auth.service.stub';
 import { DynamicFormEntry } from '../shared/dynamic-form-entry.model';
 import { DynamicFormEntryListItem } from './dynamic-form-entry-list-item.model';
 import { DynamicFormEditStorageService } from '../shared/dynamic-form-edit-storage.service';
+import { DynamicForm } from '../shared/dynamic-form.model';
 
 @Injectable()
 export class DynamicFormEntryStorageService {
@@ -59,7 +60,7 @@ export class DynamicFormEntryStorageService {
             const isUser: boolean = user === entryUser;
             const isForm: boolean = formUUID === entryForm;
             if (entryUser && entryForm && isUser && isForm) {
-              const dynamicForm = await this.editStorage.getForm(entryForm);
+              const dynamicForm: DynamicForm = await this.editStorage.getForm(entryForm);
               contents.push(new DynamicFormEntryListItem({
                 title: dynamicForm.title,
                 user: entryUser,
