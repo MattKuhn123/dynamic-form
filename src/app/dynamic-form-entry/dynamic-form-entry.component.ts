@@ -51,6 +51,7 @@ import { ActivatedRoute } from '@angular/router';
                 <button type="button" mat-button *ngIf="!first" matStepperPrevious>Back</button>
                 <button type="button" mat-button *ngIf="section.list" (click)="onClickAdd(secIdx)">Add another</button>
                 <button type="button" mat-button color="primary" *ngIf="!last" [disabled]="!getSection(secIdx).valid && section.required" matStepperNext>Next</button>
+                <button type="button" mat-button color="accent" (click)="onClickSave()">Save</button>
                 <button type="submit" mat-raised-button color="primary" *ngIf="last" [disabled]="!getSection(secIdx).valid">Submit</button>
               </mat-card-actions>
             </mat-card>
@@ -102,9 +103,8 @@ export class DynamicFormEntryComponent implements OnInit {
     });
   }
   
-  private async initForm(key: string): Promise<void> {    
-    const form: DynamicForm = await this.dfss.getForm(key);
-    this.form = form;
+  private async initForm(key: string): Promise<void> {
+    this.form = await this.dfss.getForm(key);
     const formArrays: FormArray[] = this.form.sections.map(section => this.fb.array([this.sectionToFormGroup(section)]));
     const formArrayOfArrays: FormArray = this.fb.array(formArrays);
     this.formGroup = this.fb.group({
@@ -123,6 +123,10 @@ export class DynamicFormEntryComponent implements OnInit {
 
   protected onClickAdd(secIdx: number): void { this.getOccurrencesOfSection(secIdx).push(this.sectionToFormGroup(this.form.sections[secIdx])); }
   protected onClickRemove(secIdx: number, secIdxIdx: number): void { this.getOccurrencesOfSection(secIdx).removeAt(secIdxIdx); }
+
+  protected onClickSave(): void {
+    this.snackBar.open("Saved!", "OK");
+  }
 
   protected onSubmit(): void {
     const dialogRef = this.dialog.open(PresubmitDialogComponent);
