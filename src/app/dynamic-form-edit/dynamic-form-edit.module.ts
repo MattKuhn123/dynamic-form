@@ -16,6 +16,10 @@ import { DynamicFormEditQuestionConditionsComponent } from './dynamic-form-edit-
 import { DynamicFormEditSectionComponent } from './dynamic-form-edit-section.component';
 import { DynamicFormEditSectionsComponent } from './dynamic-form-edit-sections.component';
 import { DynamicFormEditSectionConditionsComponent } from './dynamic-form-edit-section-conditions.component';
+
+import { DynamicFormListComponent } from './dynamic-form-list.component';
+
+import { DynamicFormEditService } from './dynamic-form-edit.service';
 import { DeleteConfirmDialog } from './delete-confirm.dialog';
 import { EditQuestionKeyDialog } from './edit-question-key.dialog';
 import { EditSectionKeyDialog } from './edit-section-key.dialog';
@@ -46,9 +50,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { CKEditorModule } from 'ckeditor4-angular';
-import { DynamicFormEditService } from './dynamic-form-edit.service';
 
 const appRoute: Routes = [
+  { path: 'list', component: DynamicFormListComponent },
   { path: '', component: DynamicFormEditComponent }
 ]
 
@@ -63,6 +67,9 @@ const appRoute: Routes = [
     DynamicFormEditSectionComponent,
     DynamicFormEditSectionConditionsComponent,
     DynamicFormEditSectionsComponent,
+    
+    DynamicFormListComponent,
+
     DeleteConfirmDialog,
     EditQuestionKeyDialog,
     EditSectionKeyDialog,
