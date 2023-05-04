@@ -38,7 +38,7 @@ export class DynamicFormEditComponent implements OnInit {
 
   protected showJson: FormControl = new FormControl(false);
   
-  constructor(private s3: DynamicFormStorageService, private dfeSvc: DynamicFormEditService, protected fb: FormBuilder, private snackBar: MatSnackBar, private route: ActivatedRoute) { }
+  constructor(private dfss: DynamicFormStorageService, private dfeSvc: DynamicFormEditService, protected fb: FormBuilder, private snackBar: MatSnackBar, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.init();
@@ -52,7 +52,7 @@ export class DynamicFormEditComponent implements OnInit {
 
   private async initForm(key: string): Promise<void> {
     try {
-      const form: DynamicForm = await this.s3.getForm(key);
+      const form: DynamicForm = await this.dfss.getForm(key);
       this.fg = this.fb.group({
         title: this.fb.control(form.title || ""),
         subtitle: this.fb.control(form.subtitle || ""),
@@ -69,7 +69,7 @@ export class DynamicFormEditComponent implements OnInit {
       return;
     }
 
-    this.s3.putForm(this.fg.getRawValue());
+    this.dfss.putForm(this.fg.getRawValue());
     this.snackBar.open("Submitted!", "OK");
   }
 }

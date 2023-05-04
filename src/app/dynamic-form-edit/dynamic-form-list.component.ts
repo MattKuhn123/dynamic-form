@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DynamicFormStorageService } from 'src/app/shared/dynamic-form-edit.service';
+import { DynamicFormStorageService } from 'src/app/shared/dynamic-form-storage.service';
 
 @Component({
   selector: 'app-dynamic-form-edit-list',
@@ -33,12 +33,12 @@ import { DynamicFormStorageService } from 'src/app/shared/dynamic-form-edit.serv
 export class DynamicFormListComponent implements OnInit {
   formList!: string[];
 
-  constructor(private s3: DynamicFormStorageService, private router: Router) { }
+  constructor(private dfss: DynamicFormStorageService, private router: Router) { }
 
   ngOnInit(): void { this.init(); }
   
   protected onClickEdit(key: string): void { this.router.navigate(['/edit/single'], { queryParams: { key: key } }); }
   protected onClickView(key: string): void { this.router.navigate(['/run'], { queryParams: { key: key } }); }
   
-  private async init(): Promise<void> { this.formList = await this.s3.getFormList(); }
+  private async init(): Promise<void> { this.formList = await this.dfss.getFormList(); }
 }

@@ -81,7 +81,7 @@ export class DynamicFormEntryComponent implements OnInit {
   protected getOccurrenceOfSection(secIdx: number, secIdxIdx: number): FormGroup { return this.getOccurrencesOfSection(secIdx).at(secIdxIdx) as FormGroup; }
   private getFirstElementInSectionByKey(secKey: string): FormGroup { return (this.sections.at((this.sections.value as any[]).findIndex(sec => sec[0]._key === secKey)) as FormArray).at(0) as FormGroup; }
 
-  constructor(private s3: DynamicFormStorageService,
+  constructor(private dfss: DynamicFormStorageService,
     private fb: FormBuilder,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -103,7 +103,7 @@ export class DynamicFormEntryComponent implements OnInit {
   }
   
   private async initForm(key: string): Promise<void> {    
-    const form: DynamicForm = await this.s3.getForm(key);
+    const form: DynamicForm = await this.dfss.getForm(key);
     this.form = form;
     const formArrays: FormArray[] = this.form.sections.map(section => this.fb.array([this.sectionToFormGroup(section)]));
     const formArrayOfArrays: FormArray = this.fb.array(formArrays);
