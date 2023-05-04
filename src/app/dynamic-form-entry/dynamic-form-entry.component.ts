@@ -69,7 +69,7 @@ import { ActivatedRoute } from '@angular/router';
   `,
 })
 export class DynamicFormEntryComponent implements OnInit {
-  sections!: FormArray;
+  get sections(): FormArray { return this.formGroup.get('sections') as FormArray; };
   formGroup!: FormGroup;
   form!: DynamicForm;
   stepperOrientation: Observable<StepperOrientation>;
@@ -103,7 +103,6 @@ export class DynamicFormEntryComponent implements OnInit {
     this.formGroup = this.fb.group({
       sections: formArrayOfArrays
     });
-    this.sections = this.formGroup.get('sections') as FormArray;
   }
 
   protected hidden(section: DynamicFormSection): boolean {
