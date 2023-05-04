@@ -9,7 +9,7 @@ import { StepperOrientation } from '@angular/cdk/stepper';
 import { Observable, map } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PresubmitDialogComponent } from './presubmit-dialog.component';
-import { S3Service } from '../shared/s3.service';
+import { DynamicFormStorageService } from '../shared/dynamic-form-storage.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -67,7 +67,7 @@ import { ActivatedRoute } from '@angular/router';
   </mat-card>
   `,
 })
-export class DynamicFormComponent implements OnInit {
+export class DynamicFormEntryComponent implements OnInit {
   sections!: FormArray;
   formGroup!: FormGroup;
   form!: DynamicForm;
@@ -81,7 +81,7 @@ export class DynamicFormComponent implements OnInit {
   protected getOccurrenceOfSection(secIdx: number, secIdxIdx: number): FormGroup { return this.getOccurrencesOfSection(secIdx).at(secIdxIdx) as FormGroup; }
   private getFirstElementInSectionByKey(secKey: string): FormGroup { return (this.sections.at((this.sections.value as any[]).findIndex(sec => sec[0]._key === secKey)) as FormArray).at(0) as FormGroup; }
 
-  constructor(private s3: S3Service,
+  constructor(private s3: DynamicFormStorageService,
     private fb: FormBuilder,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,

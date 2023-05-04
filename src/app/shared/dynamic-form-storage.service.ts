@@ -6,7 +6,7 @@ import { DynamicForm } from './dynamic-form.model';
 @Injectable({
   providedIn: 'root'
 })
-export class S3Service {
+export class DynamicFormStorageService {
   private bucket: S3Client;
 
   constructor() {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { S3Service } from 'src/app/shared/s3.service';
+import { DynamicFormStorageService } from 'src/app/shared/dynamic-form-edit.service';
 
 @Component({
   selector: 'app-dynamic-form-edit-list',
@@ -33,7 +33,7 @@ import { S3Service } from 'src/app/shared/s3.service';
 export class DynamicFormListComponent implements OnInit {
   formList!: string[];
 
-  constructor(private s3: S3Service, private router: Router) { }
+  constructor(private s3: DynamicFormStorageService, private router: Router) { }
 
   ngOnInit(): void { this.init(); }
   

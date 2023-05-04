@@ -19,18 +19,18 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 
-import { DynamicFormQuestionComponent } from './dynamic-form-question.component';
-import { DynamicFormComponent } from './dynamic-form.component';
+import { DynamicFormEntryQuestionComponent } from './dynamic-form-entry-question.component';
+import { DynamicFormEntryComponent } from './dynamic-form-entry.component';
 import { PresubmitDialogComponent } from './presubmit-dialog.component';
 
 const appRoute: Routes = [
-  { path: '', component: DynamicFormComponent }
+  { path: '', component: DynamicFormEntryComponent }
 ];
 
 @NgModule({
   declarations: [
-    DynamicFormComponent,
-    DynamicFormQuestionComponent,
+    DynamicFormEntryComponent,
+    DynamicFormEntryQuestionComponent,
     PresubmitDialogComponent,
   ],
   imports: [
@@ -69,4 +69,4 @@ const appRoute: Routes = [
     }
   ]
 })
-export class DynamicFormModule { }
+export class DynamicFormEntryModule { }

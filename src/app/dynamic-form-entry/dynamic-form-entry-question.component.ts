@@ -60,7 +60,7 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
   </div>
   `
 })
-export class DynamicFormQuestionComponent {
+export class DynamicFormEntryQuestionComponent {
   @Input() question!: DynamicFormQuestion;
   @Input() form!: FormGroup;
 

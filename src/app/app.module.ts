@@ -28,7 +28,7 @@ const appRoute: Routes = [
   },
   {
     path: 'run',
-    loadChildren: () => import('./dynamic-form/dynamic-form.module').then(m => m.DynamicFormModule),
+    loadChildren: () => import('./dynamic-form-entry/dynamic-form-entry.module').then(m => m.DynamicFormEntryModule),
     canActivate: [GuardService]
   },
 ]

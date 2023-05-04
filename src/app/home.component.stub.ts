@@ -18,13 +18,13 @@ import { AuthService, users } from './auth.service.stub';
             <mat-option *ngFor="let userOption of userOptions" [value]="userOption">{{ userOption }}</mat-option>
           </mat-select>
         </mat-form-field>
-      </div>
-      <div>
-        <button *ngIf="auth.isAdmin" mat-button [routerLink]="['/edit/list']">Go</button>
-        <button *ngIf="auth.isSignedIn && !auth.isAdmin" mat-button [routerLink]="['/edit/list']">Go</button>
         <p *ngIf="!auth.isSignedIn">Please sign in</p>
       </div>
     </mat-card-content>
+    <mat-card-actions>
+      <button *ngIf="auth.isAdmin" mat-button [routerLink]="['/edit/list']">Go</button>
+      <button *ngIf="auth.isSignedIn && !auth.isAdmin" mat-button [routerLink]="['/edit/list']">Go</button>
+    </mat-card-actions>
   </mat-card>
   `
 })
