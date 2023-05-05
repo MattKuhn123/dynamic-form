@@ -59,6 +59,10 @@ export class DynamicFormEditComponent implements OnInit {
         editUUID: this.fb.control(form.editUUID || ""),
         sections: this.fb.array(form.sections.map(section => this.dfeSvc.sectionToGroup(this.fb, section)) || [])
       });
+
+      this.fg.valueChanges.subscribe(anything => {
+        this.snackBar.dismiss();
+      });
     } catch (error) {
       console.log("ERROR", error);
     }
