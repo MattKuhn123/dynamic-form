@@ -14,10 +14,15 @@ import { ActivatedRoute } from '@angular/router';
   ],
   template: `
     <form *ngIf="fg" [formGroup]="fg" (ngSubmit)="onSubmit()">      
-      <app-dynamic-form-edit-form [fb]="fb" [fg]="fg"></app-dynamic-form-edit-form>
+      <app-dynamic-form-edit-form 
+        [fb]="fb" 
+        [fg]="fg"
+      ></app-dynamic-form-edit-form>
       <mat-sidenav-container>
         <footer>
-          <button type="submit" mat-raised-button color="primary" *ngIf="fg" [cdkCopyToClipboard]="stringified">Submit</button>
+          <button type="submit" mat-raised-button color="primary" *ngIf="fg">
+            Save
+          </button>
         </footer>
       </mat-sidenav-container>
     </form>
@@ -40,16 +45,9 @@ export class DynamicFormEditComponent implements OnInit {
   
   constructor(private dfss: DynamicFormEditStorageService, private dfeSvc: DynamicFormEditService, protected fb: FormBuilder, private snackBar: MatSnackBar, private route: ActivatedRoute) { }
 
-  ngOnInit(): void {
-    this.init();
-  }
+  ngOnInit(): void { this.init(); }
   
-  private async init(): Promise<void> {
-    this.route.queryParams.subscribe((params: any) => {
-      this.initForm(params.key)
-    });
-  }
-
+  private async init(): Promise<void> { this.route.queryParams.subscribe((params: any) => this.initForm(params.key));}
   private async initForm(key: string): Promise<void> {
     try {
       const form: DynamicForm = await this.dfss.getForm(key);
@@ -60,9 +58,7 @@ export class DynamicFormEditComponent implements OnInit {
         sections: this.fb.array(form.sections.map(section => this.dfeSvc.sectionToGroup(this.fb, section)) || [])
       });
 
-      this.fg.valueChanges.subscribe(anything => {
-        this.snackBar.dismiss();
-      });
+      this.fg.valueChanges.subscribe(_ => this.snackBar.dismiss());
     } catch (error) {
       console.log("ERROR", error);
     }
