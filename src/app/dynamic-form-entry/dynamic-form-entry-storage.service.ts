@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GetObjectCommand, GetObjectTaggingCommand, ListObjectsV2Command, PutObjectCommand, PutObjectCommandOutput, S3Client } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, DeleteObjectCommandOutput, GetObjectCommand, GetObjectTaggingCommand, ListObjectsV2Command, PutObjectCommand, PutObjectCommandOutput, S3Client } from '@aws-sdk/client-s3';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth.service.stub';
 import { DynamicFormEntry } from '../shared/dynamic-form-entry.model';
@@ -93,5 +93,15 @@ export class DynamicFormEntryStorageService {
     const jzon = await output.Body?.transformToString();
     const json: any = JSON.parse(jzon || "{}");
     return new DynamicFormEntry(json);
+  }
+
+  public async deleteForm(key: string) : Promise<DeleteObjectCommandOutput> {
+    const command = new DeleteObjectCommand({
+      Bucket: environment.AWS_BUCKET_ENTRIES,
+      Key: key
+    });
+
+    const response = await this.bucket.send(command);
+    return response;
   }
 }

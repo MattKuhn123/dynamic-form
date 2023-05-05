@@ -21,7 +21,7 @@ export interface DeleteConfirmData {
 })
 export class DeleteConfirmDialog {
 
-  constructor(public dialogRef: MatDialogRef<DeleteConfirmData>, @Inject(MAT_DIALOG_DATA) protected data: DeleteConfirmData) {}
+  constructor(protected dialogRef: MatDialogRef<DeleteConfirmData>, @Inject(MAT_DIALOG_DATA) protected data: DeleteConfirmData) {}
   
   protected onClickCancel(): void { this.dialogRef.close(false); }
   protected onClickOk(): void { this.dialogRef.close(true); }
