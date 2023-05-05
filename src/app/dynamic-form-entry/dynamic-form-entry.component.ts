@@ -174,7 +174,7 @@ export class DynamicFormEntryComponent implements OnInit {
         }
 
         if (question.max) {
-          validators.push(Validators.min(question.max));
+          validators.push(Validators.max(question.max));
         }
       }
 
