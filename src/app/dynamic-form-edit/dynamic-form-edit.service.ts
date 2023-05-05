@@ -118,7 +118,7 @@ export class DynamicFormEditService {
     return this.getQuestionOptions(secs, secIdx, this.getIndexOfQuestionInSection(secs, secIdx, qKey)).value;
   }
 
-  public isQuestionOptionable(secs: FormArray, secIdx: number, qIdx: number): boolean { return ["radio", "dropdown"].findIndex(ctrlType => ctrlType === this.getQuestionCtrlType(secs, secIdx, qIdx).value) > -1; }
+  public isQuestionOptionable(secs: FormArray, secIdx: number, qIdx: number): boolean { return ["radio", "dropdown", "checkbox"].findIndex(ctrlType => ctrlType === this.getQuestionCtrlType(secs, secIdx, qIdx).value) > -1; }
   
   public getIndexOfQuestionInSection(secs: FormArray, secIdx: number, qKey: string): number { return (this.getQuestions(secs, secIdx).getRawValue() as DynamicFormQuestion[]).findIndex(question => question.key === qKey); }
   public getIndexOfSection(secs: FormArray, sKey: string): number { return (secs.getRawValue() as DynamicFormSection[]).findIndex(section => section.key === sKey); }

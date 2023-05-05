@@ -1,9 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { DynamicFormEditService } from './dynamic-form-edit.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DynamicFormSection } from '../shared/dynamic-form-section.model';
 import { EditQuestionKeyDialog } from './edit-question-key.dialog';
+import { DynamicFormQuestionOption } from '../shared/dynamic-form-question-option.model';
+import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
 
 @Component({
   selector: 'app-dynamic-form-edit-question',
@@ -31,6 +33,7 @@ import { EditQuestionKeyDialog } from './edit-question-key.dialog';
               <mat-form-field>
                 <mat-label attr.for="question-{{secEditIdx}}-{{qEditIdx}}-controlType">Control type</mat-label>
                 <mat-select id="question-{{secEditIdx}}-{{qEditIdx}}-controlType" formControlName="controlType">
+                  <mat-option value="checkbox">checkbox</mat-option>
                   <mat-option value="textarea">textarea</mat-option>
                   <mat-option value="textbox">textbox</mat-option>
                   <mat-option value="dropdown">dropdown</mat-option>
@@ -164,7 +167,7 @@ import { EditQuestionKeyDialog } from './edit-question-key.dialog';
   </div>
   `
 })
-export class DynamicFormEditQuestionComponent {
+export class DynamicFormEditQuestionComponent implements OnInit {
   @Input() fg!: FormGroup;
   @Input() fb!: FormBuilder;
   @Input() secEditIdx!: number;
@@ -174,6 +177,27 @@ export class DynamicFormEditQuestionComponent {
   protected get secEdit(): FormGroup { return this.s.at(this.secEditIdx) as FormGroup; }
 
   constructor(protected dfeSvc: DynamicFormEditService, private dialog: MatDialog) { }
+
+  ngOnInit(): void {
+    this.dfeSvc.getQuestionCtrlType(this.s, this.secEditIdx, this.qEditIdx).valueChanges.subscribe(ctrlType => {
+      const optionable: boolean = this.dfeSvc.isQuestionOptionable(this.s, this.secEditIdx, this.qEditIdx);
+      const options: FormArray<any> = this.dfeSvc.getQuestionOptions(this.s, this.secEditIdx, this.qEditIdx);
+      if (!optionable) {
+        options.clear();
+      }
+
+      
+      if (ctrlType !== 'checkbox') {
+        return;
+      }
+
+      options.clear();
+      const troo: FormGroup = this.dfeSvc.questionOptionToGroup(this.fb, new DynamicFormQuestionOption({ key: "true", value: "true" }));
+      const falze: FormGroup = this.dfeSvc.questionOptionToGroup(this.fb, new DynamicFormQuestionOption({ key: "false", value: "false" }));
+      options.push(troo);
+      options.push(falze);
+    });
+  }
 
   protected onClickEditQuestionKey(qIdx: number): void {
     const dialogRef = this.dialog.open(EditQuestionKeyDialog, { data: {

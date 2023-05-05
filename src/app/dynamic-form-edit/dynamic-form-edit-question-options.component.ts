@@ -24,17 +24,17 @@ import { DynamicFormQuestionOption } from '../shared/dynamic-form-question-optio
           </em>
         </div>
       </div>
-      <mat-list cdkDropList (cdkDropListDropped)="handleDropListDropped($event)">
+      <mat-list cdkDropList (cdkDropListDropped)="handleDropListDropped($event)" *ngIf="!isCheckbox">
         <mat-list-item role="listitem" *ngFor="let questionOptions of dfeSvc.getQuestionOptions(s, secEditIdx, qEditIdx).controls; let qoi = index" cdkDrag>
           <mat-icon matListItemIcon>drag_indicator</mat-icon>
           <div [formGroupName]="qoi">
             <mat-form-field>
               <mat-label attr.for="question-option-{{secEditIdx}}-{{qEditIdx}}-key">Value</mat-label>
-              <input matInput formControlName="key" id="question-option-{{secEditIdx}}-{{qoi}}-key" type="text" />
+              <input matInput formControlName="key" id="question-option-{{secEditIdx}}-{{qoi}}-key" type="text"/>
             </mat-form-field>
             <mat-form-field>
               <mat-label attr.for="question-option-{{secEditIdx}}-{{qEditIdx}}-value">Label</mat-label>
-              <input matInput formControlName="value" id="question-option-{{secEditIdx}}-{{qoi}}-value" type="text" />
+              <input matInput formControlName="value" id="question-option-{{secEditIdx}}-{{qoi}}-value" type="text"/>
             </mat-form-field>
             <button type="button" mat-icon-button color="warn" (click)="onClickRemoveQuestionOption(qEditIdx, qoi)">
               <mat-icon>delete</mat-icon>
@@ -42,9 +42,12 @@ import { DynamicFormQuestionOption } from '../shared/dynamic-form-question-optio
           </div>
         </mat-list-item>
       </mat-list>
+      <div *ngIf="isCheckbox">
+        <em>checkbox may be true or false</em>
+      </div>
     </mat-card-content>
     <mat-card-actions>
-      <button type="button" mat-button color="primary" (click)="onClickAddQuestionOption(qEditIdx)">
+      <button type="button" mat-button color="primary" (click)="onClickAddQuestionOption(qEditIdx)" *ngIf="!isCheckbox">
         Add option
       </button>
     </mat-card-actions>
@@ -59,7 +62,7 @@ export class DynamicFormEditQuestionOptionsComponent {
 
   protected get s(): FormArray { return this.fg.get("sections") as FormArray; }
   protected get qEdit(): FormGroup { return this.dfeSvc.getQuestion(this.s, this.secEditIdx, this.qEditIdx) as FormGroup; }
-
+  protected get isCheckbox(): boolean { return this.dfeSvc.getQuestionCtrlType(this.s, this.secEditIdx, this.qEditIdx).getRawValue() === 'checkbox'; }
   protected get qEditOptions(): FormArray { return this.qEdit.get("options") as FormArray; }
 
   constructor(protected dfeSvc: DynamicFormEditService, private dialog: MatDialog) { }

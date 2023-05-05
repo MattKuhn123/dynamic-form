@@ -36,6 +36,7 @@ import { DeleteConfirmDialog } from './delete-confirm.dialog';
               </button>
               <button type="button" mat-button [matTooltip]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qEditIdx).getRawValue()" [ngSwitch]="dfeSvc.getQuestionCtrlType(s, secEditIdx, qEditIdx).getRawValue()">
                 <mat-icon *ngSwitchCase="'textarea'">notes</mat-icon>
+                <mat-icon *ngSwitchCase="'checkbox'">check</mat-icon>
                 <mat-icon *ngSwitchCase="'textbox'">short_text</mat-icon>
                 <mat-icon *ngSwitchCase="'dropdown'">list</mat-icon>
                 <mat-icon *ngSwitchCase="'radio'">radio</mat-icon>

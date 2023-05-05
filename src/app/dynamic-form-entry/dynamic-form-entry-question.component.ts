@@ -12,8 +12,15 @@ import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
       <div *ngSwitchCase="'textarea'">
         <mat-form-field>
           <mat-label [attr.for]="question.key" *ngIf="question.label">{{ question.label }}</mat-label>
-          <textarea matInput [formControlName]="question.key" [id]="question.key" matInput></textarea>
+          <textarea matInput [formControlName]="question.key" [id]="question.key"></textarea>
         </mat-form-field>
+      </div>
+
+      <div *ngSwitchCase="'checkbox'">
+        <mat-slide-toggle [formControlName]="question.key" [id]="question.key"></mat-slide-toggle>
+        <mat-label [attr.for]="question.key" *ngIf="question.label">
+          {{ question.label }}
+        </mat-label>
       </div>
 
       <div *ngSwitchCase="'textbox'">
@@ -65,7 +72,7 @@ export class DynamicFormEntryQuestionComponent {
   @Input() form!: FormGroup;
 
   get isValid(): boolean { return this.form.controls[this.question.key].valid; }
-  get hidden(): boolean { return this.question.conditions.findIndex(question => this.form.controls[question.key].value !== question.value) > -1; }
+  get hidden(): boolean { return this.question.conditions.findIndex(question => `${this.form.controls[question.key].value}` !== question.value) > -1; }
   get today(): Date { return new Date(); }
 
   protected fileName: string = "";

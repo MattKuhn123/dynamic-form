@@ -9,7 +9,7 @@ export interface DeleteConfirmData {
   selector: 'app-delete-confirm',
   styles: [],
   template: `
-  <h2 mat-dialog-title>Delete {{ data.key }}'</h2>
+  <h2 mat-dialog-title>Delete '{{ data.key }}'</h2>
   <div mat-dialog-content>
     Are you sure you want to delete '{{ data.key }}'?
   </div>
