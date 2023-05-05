@@ -4,10 +4,7 @@ import { DynamicFormEditService } from './dynamic-form-edit.service';
 
 @Component({
   selector: 'app-dynamic-form-edit-form',
-  styles: [
-    'mat-panel-description { display: flex; gap: 5px; flex-wrap: wrap; }',
-    'footer { position: fixed; bottom: 10px; text-align: center; width: 100%; }',
-  ],
+  styles: [],
   template: `
   <div [formGroup]="fg">
     <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="selectedTabIndex = $event">
