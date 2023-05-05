@@ -43,7 +43,11 @@ export class DynamicFormEditComponent implements OnInit {
 
   protected showJson: FormControl = new FormControl(false);
   
-  constructor(private dfss: DynamicFormEditStorageService, private dfeSvc: DynamicFormEditService, protected fb: FormBuilder, private snackBar: MatSnackBar, private route: ActivatedRoute) { }
+  constructor(private dfss: DynamicFormEditStorageService,
+    private dfeSvc: DynamicFormEditService,
+    protected fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void { this.init(); }
   
