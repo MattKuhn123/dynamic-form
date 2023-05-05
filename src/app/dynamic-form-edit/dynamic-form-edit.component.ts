@@ -26,7 +26,6 @@ import { ActivatedRoute } from '@angular/router';
         </footer>
       </mat-sidenav-container>
     </form>
-
     <mat-card>
       <mat-card-content>
         <mat-slide-toggle [formControl]="showJson">Show json</mat-slide-toggle>
