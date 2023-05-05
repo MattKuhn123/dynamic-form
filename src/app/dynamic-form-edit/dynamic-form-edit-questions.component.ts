@@ -24,13 +24,21 @@ import { DeleteConfirmDialog } from './delete-confirm.dialog';
           </div>
         </div>
         <mat-list cdkDropList (cdkDropListDropped)="handleDropListDropped($event)">
-          <mat-list-item role="listitem" *ngFor="let question of secEditQuestions.controls; let qEditIdx = index" [formGroupName]="qEditIdx" cdkDrag>
+          <mat-list-item role="listitem" *ngFor="let question of secEditQuestions.controls; let qEditIdx = index; last as last" [formGroupName]="qEditIdx" cdkDrag>
             <mat-icon matListItemIcon>drag_indicator</mat-icon>
             <span matListItemTitle>
-              <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditQuestion(qEditIdx)"><mat-icon>edit</mat-icon></button>
-              <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveQuestion(qEditIdx)"><mat-icon>delete</mat-icon></button>
               {{ dfeSvc.getQuestionKey(s, secEditIdx, qEditIdx).getRawValue() }}
-              <button type="button" mat-button [matTooltip]="flatten(getQuestionErrors(qEditIdx))" color="warn" *ngIf="dfeSvc.getQuestion(s, secEditIdx, qEditIdx).invalid" ><mat-icon>error</mat-icon></button>
+              <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditQuestion(qEditIdx)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveQuestion(qEditIdx)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </span>
+            <span matListItemMeta>
+              <button type="button" mat-button [matTooltip]="flatten(getQuestionErrors(qEditIdx))" color="warn" *ngIf="dfeSvc.getQuestion(s, secEditIdx, qEditIdx).invalid">
+                <mat-icon>error</mat-icon>
+              </button>
               <button type="button" mat-button matTooltip="required" *ngIf="dfeSvc.getQuestionRequired(s, secEditIdx, qEditIdx).getRawValue()">
                 <mat-icon>emergency</mat-icon>
               </button>
@@ -47,6 +55,7 @@ import { DeleteConfirmDialog } from './delete-confirm.dialog';
                 <mat-icon [matBadge]="dfeSvc.getQuestionConditions(s, secEditIdx, qEditIdx).length" matBadgeColor="primary" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
               </button>
             </span>
+            <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
           </mat-list-item>
         </mat-list>
       </mat-card-content>

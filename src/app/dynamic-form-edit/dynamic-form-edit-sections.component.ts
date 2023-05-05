@@ -23,12 +23,14 @@ import { DeleteConfirmDialog as DeleteConfirmDialog } from './delete-confirm.dia
         </div>
       </div>
       <mat-list formArrayName="sections" cdkDropList (cdkDropListDropped)="handleDropListDropped($event)">
-        <mat-list-item role="listitem" *ngFor="let section of s.controls; let i = index" [formGroupName]="i" cdkDrag>
+        <mat-list-item role="listitem" *ngFor="let section of s.controls; let i = index; last as last" [formGroupName]="i" cdkDrag>
           <mat-icon matListItemIcon>drag_indicator</mat-icon>
           <span matListItemTitle>
+            {{ dfeSvc.getSectionKey(s, i).getRawValue() }}
             <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEditSection(i)"><mat-icon>edit</mat-icon></button>
             <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveSection(i)"><mat-icon>delete</mat-icon></button>
-              {{ dfeSvc.getSectionKey(s, i).getRawValue() }}
+          </span>
+          <span matListItemMeta>
             <button type="button" mat-button [matTooltip]="flatten(getSectionErrors(i))" color="warn" *ngIf="dfeSvc.getSection(s, i).invalid" ><mat-icon>error</mat-icon></button>
             <button type="button" mat-button matTooltip="list" *ngIf="dfeSvc.getSectionList(s, i).getRawValue()">
               <mat-icon>list_alt</mat-icon>
@@ -43,6 +45,7 @@ import { DeleteConfirmDialog as DeleteConfirmDialog } from './delete-confirm.dia
               <mat-icon [matBadge]="dfeSvc.getSectionConditions(s, i).length" matBadgeColor="primary" matBadgeOverlap="false" matBadgeSize="small">rule</mat-icon>
             </button>
           </span>
+          <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
         </mat-list-item>
       </mat-list>
     </mat-card-content>

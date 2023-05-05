@@ -21,13 +21,14 @@ import { DeleteConfirmDialog } from '../dynamic-form-edit/delete-confirm.dialog'
     </mat-card-header>
     <mat-card-content>
       <mat-list *ngIf="formList">
-        <mat-list-item role="listitem" *ngFor="let form of formList">
+        <mat-list-item role="listitem" *ngFor="let form of formList; last as last">
           <span matListItemTitle>
             {{ form.title }}
             <button type="button" mat-button matTooltip="view" color="primary" (click)="onClickView(form.editUUID)">
               <mat-icon>visibility</mat-icon>
             </button>
           </span>
+          <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
         </mat-list-item>
       </mat-list>
     </mat-card-content>
@@ -41,10 +42,9 @@ import { DeleteConfirmDialog } from '../dynamic-form-edit/delete-confirm.dialog'
     </mat-card-header>
     <mat-card-content >
       <mat-list>
-        <mat-list-item role="listitem" *ngFor="let form of formEntryList">
+        <mat-list-item role="listitem" *ngFor="let form of formEntryList; last as last">
           <span matListItemTitle>
             {{ form.title }}
-            {{ form.date.toLocaleDateString() }}
             <button type="button" mat-icon-button matTooltip="edit" color="primary" (click)="onClickEdit(form)">
               <mat-icon>edit</mat-icon>
             </button>
@@ -52,6 +52,10 @@ import { DeleteConfirmDialog } from '../dynamic-form-edit/delete-confirm.dialog'
               <mat-icon>delete</mat-icon>
             </button>
           </span>
+          <span matListItemMeta>
+            {{ form.date.toLocaleDateString() }}
+          </span>
+          <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
         </mat-list-item>
       </mat-list>
       <p *ngIf="formUUID && formEntryList && formEntryList.length === 0">You have not started any forms of this type</p>

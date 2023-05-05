@@ -25,7 +25,7 @@ import { DynamicFormQuestionOption } from '../shared/dynamic-form-question-optio
         </div>
       </div>
       <mat-list cdkDropList (cdkDropListDropped)="handleDropListDropped($event)" *ngIf="!isCheckbox">
-        <mat-list-item role="listitem" *ngFor="let questionOptions of dfeSvc.getQuestionOptions(s, secEditIdx, qEditIdx).controls; let qoi = index" cdkDrag>
+        <mat-list-item role="listitem" *ngFor="let questionOptions of dfeSvc.getQuestionOptions(s, secEditIdx, qEditIdx).controls; let qoi = index; last as last" cdkDrag>
           <mat-icon matListItemIcon>drag_indicator</mat-icon>
           <div [formGroupName]="qoi">
             <mat-form-field>
@@ -40,6 +40,7 @@ import { DynamicFormQuestionOption } from '../shared/dynamic-form-question-optio
               <mat-icon>delete</mat-icon>
             </button>
           </div>
+          <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
         </mat-list-item>
       </mat-list>
       <div *ngIf="isCheckbox">

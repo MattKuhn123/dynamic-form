@@ -18,7 +18,7 @@ import { DeleteConfirmDialog } from './delete-confirm.dialog';
     </mat-card-header>
     <mat-card-content>
       <mat-list *ngIf="formList">
-        <mat-list-item role="listitem" *ngFor="let form of formList">
+        <mat-list-item role="listitem" *ngFor="let form of formList; last as last">
           <span matListItemTitle>
             {{ form.title }}
             <button type="button" mat-icon-button matTooltip="edit" color="primary" (click)="onClickEdit(form.editUUID)">
@@ -31,6 +31,7 @@ import { DeleteConfirmDialog } from './delete-confirm.dialog';
               <mat-icon>delete</mat-icon>
             </button>
           </span>
+          <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
         </mat-list-item>
       </mat-list>
     </mat-card-content>
