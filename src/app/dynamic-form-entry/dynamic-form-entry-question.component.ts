@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
+import { DynamicFormEntryStorageService } from './dynamic-form-entry-storage.service';
 
 @Component({
   selector: 'app-dynamic-question',
@@ -71,6 +72,8 @@ export class DynamicFormEntryQuestionComponent {
   @Input() question!: DynamicFormQuestion;
   @Input() form!: FormGroup;
 
+  constructor(private entryStorage: DynamicFormEntryStorageService) { }
+
   get isValid(): boolean { return this.form.controls[this.question.key].valid; }
   get hidden(): boolean { return this.question.conditions.findIndex(question => `${this.form.controls[question.key].value}` !== question.value) > -1; }
   get today(): Date { return new Date(); }
@@ -79,13 +82,20 @@ export class DynamicFormEntryQuestionComponent {
 
   protected onFileSelected(id: string): void {
     const inputNode: any = document.querySelector(`#${id}`);
-    if (typeof (FileReader) === 'undefined') {
+    this.fileName = inputNode.files[0].name;
+    if (typeof(FileReader) === 'undefined') {
       return;
     }
 
     const reader = new FileReader();
-    reader.onload = (e: any) => { console.log(e.target.result); };
+    reader.onload = (e: any) => {
+      console.log(e.target.result);
+    };
+
+    reader.onprogress = (p: any) => {
+      console.log(p);
+    };
+
     reader.readAsArrayBuffer(inputNode.files[0]);
-    this.fileName = inputNode.files[0].name;
   }
 }
