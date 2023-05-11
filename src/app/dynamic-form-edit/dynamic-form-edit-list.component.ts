@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DynamicFormEditStorageService } from 'src/app/shared/dynamic-form-edit-storage.service';
 import { DynamicFormEditListItem } from '../shared/dynamic-form-edit-list-item.model';
 import { DeleteConfirmDialog } from './delete-confirm.dialog';
+import { DynamicForm } from '../shared/dynamic-form.model';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-dynamic-form-edit-list',
@@ -34,7 +36,13 @@ import { DeleteConfirmDialog } from './delete-confirm.dialog';
           <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
         </mat-list-item>
       </mat-list>
+      <div *ngIf="!formList"> Please wait... </div>
     </mat-card-content>
+    <mat-card-actions>
+    <button type="button" mat-button color="primary" (click)="onClickAdd()">
+        Add form
+      </button>
+    </mat-card-actions>
   </mat-card>
   `,
 })
@@ -65,6 +73,15 @@ export class DynamicFormEditListComponent implements OnInit {
         }
       }
     });
+  }
+
+  protected onClickAdd(): void {
+    this.editStorage.putForm(new DynamicForm({
+      editUUID: uuid(),
+      title: 'My new form',
+      subtitle: '',
+      sections: []
+    }))
   }
 
   private async init(): Promise<void> { this.formList = await this.editStorage.getFormList(); }

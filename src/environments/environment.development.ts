@@ -4,4 +4,6 @@ export const environment = {
   AWS_REGION: "us-east-1",
   AWS_BUCKET: "dynamic-form-renderer-forms",
   AWS_BUCKET_ENTRIES: "dynamic-form-renderer-entries",
+  AWS_API_GATEWAY: "https://af8cubf90j.execute-api.us-east-1.amazonaws.com/default",
+  FORM_EDIT: "FormEdit"
 };
