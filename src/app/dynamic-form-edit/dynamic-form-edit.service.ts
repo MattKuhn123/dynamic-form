@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicFormQuestion } from '../shared/dynamic-form-question.model';
 import { DynamicFormSection } from '../shared/dynamic-form-section.model';
 import { keyRequiredValidator } from './key-required.validator';
-import { questionMinimum } from './question-minimum.validator';
 import { DynamicFormQuestionOption } from '../shared/dynamic-form-question-option.model';
 import { DynamicFormQuestionCondition } from '../shared/dynamic-form-question-condition.model';
 import { DynamicFormSectionCondition } from '../shared/dynamic-form-section-condition.model';
@@ -19,7 +17,9 @@ export class DynamicFormEditService {
       required: fb.control(section.required || false, [Validators.required]),
       conditions: fb.array(section.conditions.map((condition: any) => this.sectionConditionsToGroup(fb, condition))),
       questions: fb.array(section.questions.map(question => this.questionToGroup(fb, question)))
-    }, { validators: [ questionMinimum, keyRequiredValidator ] });
+    }, {
+      validators: [ keyRequiredValidator ]
+    });
   }
 
   public sectionConditionsToGroup(fb: FormBuilder, condition: DynamicFormSectionCondition): FormGroup {
@@ -52,8 +52,9 @@ export class DynamicFormEditService {
       allowPunctuation: fb.control(question.allowPunctuation), // for text
 
       temporal: fb.control(question.temporal) // past, future, implied for date
-
-    }, { validators: keyRequiredValidator });
+    }, {
+      validators: [ keyRequiredValidator ]
+    });
   }
 
   public questionConditionsToGroup(fb: FormBuilder, condition: DynamicFormQuestionCondition): FormGroup {
