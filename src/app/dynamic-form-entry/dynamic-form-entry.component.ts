@@ -110,7 +110,9 @@ export class DynamicFormEntryComponent implements OnInit {
     this.formGroup = this.fb.group({
       editUUID: this.fb.control(this.form.editUUID),
       entryUUID: this.fb.control(formEntry.entryUUID),
-      sections: formArrayOfArrays
+      sections: formArrayOfArrays,
+      lastAccessedDate: formEntry.lastAccessedDate,
+      user: formEntry.user
     });
   }
 

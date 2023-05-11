@@ -8,13 +8,19 @@ export class DynamicFormEntry {
   public get editUUID(): string { return this._editUUID; }
 
   sections: any[];
+  user: string;
+  lastAccessedDate: Date;
 
   constructor(options: {
     sections?: any[];
     entryUUID?: string;
     editUUID?: string;
+    user?: string;
+    lastAccessedDate?: Date;
   } = {}) {
     this.sections = options.sections || [];
+    this.user = options.user || '';
+    this.lastAccessedDate = options.lastAccessedDate || new Date();
     this._editUUID = options.editUUID || '';
     this._entryUUID = options.entryUUID || uuid();
   }

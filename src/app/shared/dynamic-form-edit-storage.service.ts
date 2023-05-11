@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { DynamicForm } from './dynamic-form.model';
 import { DynamicFormEditListItem } from './dynamic-form-edit-list-item.model';
-import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
@@ -10,13 +10,14 @@ import { firstValueFrom } from 'rxjs';
 })
 export class DynamicFormEditStorageService {
   private forms: DynamicForm[] = [];
+  get tableName(): string { return 'FormEdit'; }
 
   constructor(private http: HttpClient) { }
 
   public async putForm(dynamicForm: DynamicForm): Promise<Object> {
     try {
-      const result: Object = await firstValueFrom(this.http.post(`${environment.AWS_API_GATEWAY}/${environment.FORM_EDIT}`, {
-        TableName: 'FormEdit', 
+      const result: Object = await firstValueFrom(this.http.post(`${environment.FORMEDIT_API}`, {
+        TableName: this.tableName, 
         Item: dynamicForm
       }, {
         headers: {
@@ -37,10 +38,14 @@ export class DynamicFormEditStorageService {
     }
   }
 
-  public async getFormList(): Promise<DynamicFormEditListItem[]> {
+  public async getFormList(forceRefresh: boolean = false): Promise<DynamicFormEditListItem[]> {
     try {
+      if (forceRefresh) {
+        this.forms = [];
+      }
+
       if (this.forms.length === 0) {
-        const result: any = await firstValueFrom(this.http.get(`${environment.AWS_API_GATEWAY}/${environment.FORM_EDIT}?TableName=FormEdit`));
+        const result: any = await firstValueFrom(this.http.get(`${environment.FORMEDIT_API}?TableName=${this.tableName}`));
         this.forms = result.Items as DynamicForm[];
       }
   
@@ -63,13 +68,12 @@ export class DynamicFormEditStorageService {
 
   public async deleteForm(key: string) : Promise<void> {
     try {
-      debugger;
-      await firstValueFrom(this.http.delete(`${environment.AWS_API_GATEWAY}/${environment.FORM_EDIT}`, {
+      await firstValueFrom(this.http.delete(`${environment.FORMEDIT_API}`, {
         headers: {
           'Content-Type': 'application/json'
         },
         body: {
-          TableName: 'FormEdit',
+          TableName: this.tableName,
           Key: { editUUID: key }
         }
       }));

@@ -31,7 +31,9 @@ import { DeleteConfirmDialog as DeleteConfirmDialog } from './delete-confirm.dia
             <button type="button" mat-button matTooltip="delete" color="warn" (click)="onClickRemoveSection(i)"><mat-icon>delete</mat-icon></button>
           </span>
           <span matListItemMeta>
-            <button type="button" mat-button [matTooltip]="flatten(getSectionErrors(i))" color="warn" *ngIf="dfeSvc.getSection(s, i).invalid" ><mat-icon>error</mat-icon></button>
+            <button type="button" mat-button [matTooltip]="flatten(getSectionErrors(i))" color="warn" *ngIf="dfeSvc.getSection(s, i).invalid" >
+              <mat-icon>error</mat-icon>
+            </button>
             <button type="button" mat-button matTooltip="list" *ngIf="dfeSvc.getSectionList(s, i).getRawValue()">
               <mat-icon>list_alt</mat-icon>
             </button>

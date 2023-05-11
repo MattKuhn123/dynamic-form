@@ -31,16 +31,17 @@ import { DeleteConfirmDialog } from '../dynamic-form-edit/delete-confirm.dialog'
           <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
         </mat-list-item>
       </mat-list>
+      <p *ngIf="!formList">Please wait...</p>
     </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="formUUID">
+  <mat-card *ngIf="editUUID">
     <mat-card-header>
       <mat-card-title>
         Your entries
       </mat-card-title>
     </mat-card-header>
-    <mat-card-content >
+    <mat-card-content>
       <mat-list>
         <mat-list-item role="listitem" *ngFor="let form of formEntryList; last as last">
           <span matListItemTitle>
@@ -53,12 +54,18 @@ import { DeleteConfirmDialog } from '../dynamic-form-edit/delete-confirm.dialog'
             </button>
           </span>
           <span matListItemMeta>
-            {{ form.date.toLocaleDateString() }}
+            <button type="button" mat-icon-button [matTooltip]="form.entryUUID">
+              <mat-icon>list_alt</mat-icon>
+            </button>
+            <button type="button" mat-icon-button [matTooltip]="form.date.toString()">
+              <mat-icon>edit_calendar</mat-icon>
+            </button>
           </span>
           <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
         </mat-list-item>
       </mat-list>
-      <p *ngIf="formUUID && formEntryList && formEntryList.length === 0">You have not started any forms of this type</p>
+      <p *ngIf="!formEntryList">Please wait...</p>
+      <p *ngIf="formEntryList && formEntryList.length === 0">You have not started any forms of this type</p>
     </mat-card-content>
     <mat-card-actions>
       <button type="button" mat-button matTooltip="edit" color="primary" (click)="onClickEdit(null)">
@@ -70,7 +77,7 @@ import { DeleteConfirmDialog } from '../dynamic-form-edit/delete-confirm.dialog'
 })
 export class DynamicFormEntryListComponent implements OnInit {
   formList!: DynamicFormEditListItem[];
-  formUUID: string = "";
+  editUUID: string = "";
   formEntryList!: DynamicFormEntryListItem[];
 
   constructor(private editStorage: DynamicFormEditStorageService,
@@ -82,13 +89,13 @@ export class DynamicFormEntryListComponent implements OnInit {
 
   ngOnInit(): void { this.init(); }
   
-  protected async onClickView(key: string): Promise<void> {
-    this.formUUID = key;
-    this.formEntryList = await this.entryStorage.getFormList(this.auth.user, this.formUUID);
+  protected async onClickView(editUUID: string): Promise<void> {
+    this.editUUID = editUUID;
+    this.formEntryList = await this.entryStorage.getFormList(this.editUUID, true);
   }
   
   protected onClickEdit(entry: DynamicFormEntryListItem | null): void {
-    this.router.navigate(['/entry/single'], { queryParams: { key: this.formUUID, entryKey: entry?.entryUUID } });
+    this.router.navigate(['/entry/single'], { queryParams: { key: this.editUUID, entryKey: entry?.entryUUID } });
   }
 
   protected async onClickDelete(entry: DynamicFormEntryListItem | null): Promise<void> {
@@ -100,7 +107,7 @@ export class DynamicFormEntryListComponent implements OnInit {
         try {
           if (entry?.entryUUID) {
             await this.entryStorage.deleteForm(entry?.entryUUID);
-            this.formEntryList = await this.entryStorage.getFormList(this.auth.user, this.formUUID);
+            this.formEntryList = await this.entryStorage.getFormList(this.editUUID);
             this.snackBar.open("Deleted!", "Ok");
           }
         } catch(error) {

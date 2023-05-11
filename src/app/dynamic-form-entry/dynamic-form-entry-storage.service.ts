@@ -1,107 +1,105 @@
 import { Injectable } from '@angular/core';
-import { DeleteObjectCommand, DeleteObjectCommandOutput, GetObjectCommand, GetObjectTaggingCommand, ListObjectsV2Command, PutObjectCommand, PutObjectCommandOutput, S3Client } from '@aws-sdk/client-s3';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth.service.stub';
 import { DynamicFormEntry } from '../shared/dynamic-form-entry.model';
 import { DynamicFormEntryListItem } from './dynamic-form-entry-list-item.model';
 import { DynamicFormEditStorageService } from '../shared/dynamic-form-edit-storage.service';
-import { DynamicForm } from '../shared/dynamic-form.model';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class DynamicFormEntryStorageService {
-  private bucket: S3Client;
+  private forms: DynamicFormEntry[] = [];
+  get tableName(): string { return 'FormEntry'; }
 
-  constructor(private auth: AuthService, private editStorage: DynamicFormEditStorageService) {
-    this.bucket = new S3Client({
-      credentials: {
-        accessKeyId: environment.AWS_ACCESS_KEY_ID,
-        secretAccessKey: environment.AWS_SECRET_ACCESS_KEY,
-      },
-      region: environment.AWS_REGION,
-    });
-  }
+  constructor(private auth: AuthService,
+    private editStorage: DynamicFormEditStorageService,
+    private http: HttpClient) { }
 
-  public async putForm(dynamicFormEntry: DynamicFormEntry): Promise<PutObjectCommandOutput> {
-    const command = new PutObjectCommand({
-      Bucket: environment.AWS_BUCKET_ENTRIES,
-      Key: dynamicFormEntry.entryUUID,
-      Body: JSON.stringify(dynamicFormEntry),
-      ACL: 'public-read',
-      ContentType: 'json',
-      Tagging: `user=${this.auth.user}&form=${dynamicFormEntry.editUUID}`,
-    });
+  public async putForm(dynamicFormEntry: DynamicFormEntry): Promise<Object> {
+    try {
+      dynamicFormEntry.lastAccessedDate = new Date();
+      const result: Object = await firstValueFrom(this.http.post(`${environment.FORMENTRY_API}`, {
+        TableName: this.tableName, 
+        Item: dynamicFormEntry
+      }, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }));
 
-    return this.bucket.send(command);
-  }
-
-  public async getFormList(user: string | undefined, formUUID: string): Promise<DynamicFormEntryListItem[]> {
-    const command = new ListObjectsV2Command({
-      Bucket: environment.AWS_BUCKET_ENTRIES,
-      MaxKeys: 100,
-    });
-
-    let isTruncated: any = true;
-    let contents: DynamicFormEntryListItem[] = [];
-
-    while (isTruncated) {
-      const { Contents, IsTruncated, NextContinuationToken } = await this.bucket.send(command);
-      if (Contents) {
-        Contents.forEach(async (content) => {
-          const command = new GetObjectTaggingCommand({
-            Bucket: environment.AWS_BUCKET_ENTRIES,
-            Key: content.Key,
-          });
-
-          const tagResponse = await this.bucket.send(command);
-          if (!!tagResponse.TagSet) {
-            const entryUser = tagResponse.TagSet?.find(tag => tag.Key === 'user')?.Value;
-            const entryForm = tagResponse.TagSet?.find(tag => tag.Key === 'form')?.Value;
-  
-            const isUser: boolean = user === entryUser;
-            const isForm: boolean = formUUID === entryForm;
-            if (entryUser && entryForm && isUser && isForm) {
-              const dynamicForm: DynamicForm = await this.editStorage.getForm(entryForm);
-              contents.push(new DynamicFormEntryListItem({
-                title: dynamicForm.title,
-                user: entryUser,
-                date: content.LastModified,
-                editUUID: entryForm,
-                entryUUID: content.Key
-              }));
-            }
-          }
-        });
-        isTruncated = IsTruncated;
-        command.input.ContinuationToken = NextContinuationToken;
+      const idx: number = this.forms.findIndex(form => form.entryUUID === dynamicFormEntry.entryUUID);
+      if (idx > -1) {
+        this.forms[idx] = dynamicFormEntry;
+      } else {
+        this.forms.push(dynamicFormEntry)
       }
+      return result;
+    } catch (err) {
+      console.log(err);
+      throw err;
     }
+  }
 
-    return contents;
+  public async getFormList(editUUID: string, forceRefresh: boolean = false): Promise<DynamicFormEntryListItem[]> {
+    try {
+      if (forceRefresh) {
+        this.forms = [];
+      }
+
+      if (this.forms.length === 0) {
+        const result: any = await firstValueFrom(this.http.get(`${environment.FORMENTRY_API}?TableName=${this.tableName}&User=${this.auth.user}`));
+        this.forms = result.Items as DynamicFormEntry[];
+      }
+  
+      const result: DynamicFormEntryListItem[] = await Promise.all(this.forms.map(async (form)=> {
+        const title: string = (await this.editStorage.getFormList()).find(f => f.editUUID == editUUID)!.title;
+        return new DynamicFormEntryListItem({
+          editUUID: form.editUUID,
+          entryUUID: form.entryUUID,
+          title: title,
+          user: this.auth.user,
+          date: form.lastAccessedDate
+        });
+      }));
+
+      return result;
+    } catch (err) {
+      console.log(err);
+      return [];
+    }
   }
 
   public async getForm(key: string): Promise<DynamicFormEntry> {
-    if (!key) {
-      return new DynamicFormEntry({});
+    const form: DynamicFormEntry | undefined = this.forms.find(f => f.entryUUID === key);
+    if (form) {
+      return form;
     }
 
-    const command = new GetObjectCommand({
-      Bucket: environment.AWS_BUCKET_ENTRIES,
-      Key: key
+    const newForm: DynamicFormEntry = new DynamicFormEntry({
+      user: this.auth.user,
+      lastAccessedDate: new Date()
     });
-
-    const output = await this.bucket.send(command);
-    const jzon = await output.Body?.transformToString();
-    const json: any = JSON.parse(jzon || "{}");
-    return new DynamicFormEntry(json);
+    this.forms.push(newForm);
+    return newForm;
   }
 
-  public async deleteForm(key: string) : Promise<DeleteObjectCommandOutput> {
-    const command = new DeleteObjectCommand({
-      Bucket: environment.AWS_BUCKET_ENTRIES,
-      Key: key
-    });
-
-    const response = await this.bucket.send(command);
-    return response;
+  public async deleteForm(key: string) : Promise<void> {
+    try {
+      await firstValueFrom(this.http.delete(`${environment.FORMENTRY_API}`, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: {
+          TableName: this.tableName,
+          Key: { entryUUID: key }
+        }
+      }));
+      const idx: number = this.forms.findIndex(form => form.entryUUID === key);
+      this.forms.splice(idx, 1);
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
   }
 }
