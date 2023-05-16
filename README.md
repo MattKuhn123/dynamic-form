@@ -1,4 +1,4 @@
-# Dynamic Form Renderer
+# Dynamic Form
 
 Create your own custom forms!
 
