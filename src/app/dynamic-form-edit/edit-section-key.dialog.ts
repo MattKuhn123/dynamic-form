@@ -7,7 +7,7 @@ export interface EditSectionKeyData {
   secIdx: string;
   secKey: string;
   invalid: string[];
-};
+}
 
 @Component({
   selector: 'app-edit-section-key-dialog',

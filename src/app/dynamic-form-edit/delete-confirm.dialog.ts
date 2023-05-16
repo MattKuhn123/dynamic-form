@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 export interface DeleteConfirmData {
   key: string;
-};
+}
 
 @Component({
   selector: 'app-delete-confirm',

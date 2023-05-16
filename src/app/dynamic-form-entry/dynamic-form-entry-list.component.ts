@@ -110,7 +110,7 @@ export class DynamicFormEntryListComponent implements OnInit {
             this.formEntryList = await this.entryStorage.getFormList(this.editUUID);
             this.snackBar.open("Deleted!", "Ok");
           }
-        } catch(error) {
+        } catch (error) {
           this.snackBar.open("Failed!", "Ok");
         }
       }

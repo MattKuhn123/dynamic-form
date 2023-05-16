@@ -68,7 +68,7 @@ export class DynamicFormEditListComponent implements OnInit {
           await this.editStorage.deleteForm(key);
           await this.init();
           this.snackBar.open("Deleted!", "Ok");
-        } catch(error) {
+        } catch (error) {
           this.snackBar.open("Failed!", "Ok");
         }
       }

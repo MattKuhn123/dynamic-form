@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   template: `
   <mat-toolbar color="primary">
     <mat-toolbar-row>
-      <button mat-button [routerLink]="['']">Tennessee Valley Authority</button>
+      <button mat-button [routerLink]="['']">Dynamic Form</button>
     </mat-toolbar-row>
   </mat-toolbar>
 

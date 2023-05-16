@@ -72,11 +72,11 @@ import { DynamicFormEntry } from '../shared/dynamic-form-entry.model';
   `,
 })
 export class DynamicFormEntryComponent implements OnInit {
-  get sections(): FormArray { return this.formGroup.get('sections') as FormArray; };
+  get sections(): FormArray { return this.formGroup.get('sections') as FormArray; }
   formGroup!: FormGroup;
   form!: DynamicForm;
   stepperOrientation: Observable<StepperOrientation>;
-  protected get stringified(): string { return JSON.stringify(this.formGroup.getRawValue(), null, 4) };
+  protected get stringified(): string { return JSON.stringify(this.formGroup.getRawValue(), null, 4) }
 
   protected showJson: FormControl = new FormControl(false);
 

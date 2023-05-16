@@ -9,7 +9,7 @@ export interface EditQuestionKeyData {
   qIdx: string;
   qKey: string;
   invalid: string[];
-};
+}
 
 @Component({
   selector: 'app-edit-question-key-dialog',
